@@ -4,27 +4,83 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proxecto Trasnoca</title>
+  
+  <!-- Cargar o estilo de Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  
   <style>
-    body { margin: 0; padding: 0; font-family: system-ui, sans-serif; }
-    header { background-color: #2c3e50; color: white; padding: 12px 20px; text-align: center; }
-    #map { height: calc(100vh - 55px); width: 100vw; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 12px 20px;
+      text-align: center;
+    }
+    #map {
+      height: calc(100vh - 55px);
+      width: 100vw;
+    }
   </style>
 </head>
 <body>
+
   <header>
     <h1 style="margin:0; font-size: 1.4rem;">Proxecto Trasnoca</h1>
   </header>
+
+  <!-- Caixa onde se amosará o mapa -->
   <div id="map"></div>
+
+  <!-- Cargar o motor do mapa (Leaflet JS) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    const map = L.map('map').setView([42.8782, -7.8644], 8);
-
-    // Esri World Street Map (A color, clásico e sen API Key)
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    // 1. Definir as distintas capas a color (sen necesidade de API Key)
+    
+    // Opción A: Humanitario (Pastel cálido, tons crema e salmón suave)
+    const hotLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors, Humanitarian OpenStreetMap Team'
+    });
+
+    // Opción B: Esri Terreo (Fondo beixe neutro con relevo suave)
+    const esriTerrain = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 13,
       attribution: 'Tiles &copy; Esri'
-    }).addTo(map);
+    });
+
+    // Opción C: National Geographic (Beixe editorial clásico)
+    const esriNatGeo = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 16,
+      attribution: 'Tiles &copy; Esri &mdash; National Geographic'
+    });
+
+    // Opción D: OSM Estilo Suave (Cartografía a color con tons máis suaves)
+    const osmFr = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+      maxZoom: 20,
+      attribution: '&copy; OpenStreetMap France'
+    });
+
+    // 2. Inicializar o mapa coa capa Humanitario por defecto
+    const map = L.map('map', {
+      center: [42.8782, -7.8644],
+      zoom: 8,
+      layers: [hotLayer]
+    });
+
+    // 3. Crear o menú selector arriba á dereita
+    const baseMaps = {
+      "Pastel cálido (Humanitario)": hotLayer,
+      "Beixe neutro (Esri Terreo)": esriTerrain,
+      "Estilo NatGeo (Editorial)": esriNatGeo,
+      "Mapa suave a color (OSM FR)": osmFr
+    };
+
+    L.control.layers(baseMaps).addTo(map);
   </script>
+
 </body>
 </html>
