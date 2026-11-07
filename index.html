@@ -52,12 +52,11 @@
       gap: 12px;
     }
 
+    /* Logo no seu formato orixinal */
     .header-brand img {
-      height: 42px;
-      width: 42px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 2px solid var(--trasnoca-gold);
+      height: 46px;
+      width: auto;
+      object-fit: contain;
     }
 
     .header-brand h1 {
@@ -68,22 +67,26 @@
       color: #ffffff;
     }
 
+    /* Botón hamburguesa cun fondo escurecido e sombra sutil */
     .menu-toggle {
-      background: none;
-      border: 2px solid var(--trasnoca-gold);
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       color: white;
-      font-size: 1.3rem;
-      padding: 5px 12px;
-      border-radius: 6px;
+      font-size: 1.25rem;
+      padding: 6px 12px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .menu-toggle:hover {
-      background: rgba(223, 154, 5, 0.25);
+      background: rgba(0, 0, 0, 0.38);
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
     }
 
     #map-container {
@@ -307,7 +310,7 @@
       box-sizing: border-box;
     }
 
-    /* Reposicionamento do zoom debaixo do panel */
+    /* Zoom debaixo do buscador */
     .leaflet-top.leaflet-left {
       top: 395px !important;
       left: 18px !important;
