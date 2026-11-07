@@ -5,54 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proxecto Trasnoca - Atlas Lingüístico</title>
   
-  <!-- Tipografía Google Fonts (Inter) -->
+  <!-- Tipografía elegante Google Fonts (Merriweather para títulos + Inter para textos) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Estilos de Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   
   <style>
     :root {
-      --primary-color: #1e293b;
-      --accent-color: #0284c7;
-      --bg-glass: rgba(255, 255, 255, 0.88);
-      --border-glass: rgba(255, 255, 255, 0.5);
-      --shadow-soft: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      --trasnoca-maroon: #6d1420;   /* Granate principal do cabeceiro */
+      --trasnoca-gold: #df9a05;     /* Dourado/mostaza das seccións */
+      --trasnoca-cream: #f7f2df;    /* Fondo crema suave */
+      --trasnoca-dark: #3a221b;     /* Texto escuro cálido */
+      --bg-glass: rgba(247, 242, 223, 0.94);
+      --shadow-soft: 0 10px 25px -5px rgba(109, 20, 32, 0.15), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
     }
 
     body {
       margin: 0;
       padding: 0;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color: #334155;
-      background-color: #f8fafc;
+      color: var(--trasnoca-dark);
+      background-color: var(--trasnoca-cream);
     }
 
-    /* Cabeceiro principal */
+    /* Cabeceiro idéntico ao do Forms */
     header {
-      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      background-color: var(--trasnoca-maroon);
       color: white;
       padding: 12px 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+      gap: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border-bottom: 4px solid var(--trasnoca-gold);
+    }
+
+    header img {
+      height: 48px;
+      width: auto;
+      object-fit: contain;
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.35rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      font-family: 'Merriweather', serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #ffffff;
     }
 
     #map-container {
       position: relative;
       width: 100vw;
-      height: calc(100vh - 53px);
+      height: calc(100vh - 75px);
     }
 
     #map {
@@ -60,18 +70,18 @@
       height: 100%;
     }
 
-    /* Panel flotante de filtros (Efecto cristal) */
+    /* Panel flotante de busca e filtros coa estética Trasnoca */
     .filter-panel {
       position: absolute;
       top: 18px;
       left: 18px;
       z-index: 1000;
       background: var(--bg-glass);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border-glass);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid var(--trasnoca-gold);
       padding: 18px 20px;
-      border-radius: 14px;
+      border-radius: 12px;
       box-shadow: var(--shadow-soft);
       max-width: 310px;
       width: calc(100% - 64px);
@@ -79,14 +89,15 @@
     
     .filter-panel h3 {
       margin: 0 0 14px 0;
-      font-size: 0.95rem;
+      font-family: 'Merriweather', serif;
+      font-size: 1rem;
       font-weight: 700;
-      color: var(--primary-color);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+      color: var(--trasnoca-maroon);
       display: flex;
       align-items: center;
       gap: 6px;
+      border-bottom: 2px solid var(--trasnoca-gold);
+      padding-bottom: 6px;
     }
 
     .filter-group {
@@ -96,28 +107,28 @@
     .filter-group label {
       display: block;
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 4px;
-      color: #64748b;
+      color: var(--trasnoca-maroon);
     }
 
     .filter-group select, .filter-group input {
       width: 100%;
       padding: 9px 12px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      border: 1px solid #d4cbb3;
+      border-radius: 6px;
       font-size: 0.88rem;
       font-family: inherit;
-      background-color: white;
-      color: #1e293b;
+      background-color: #ffffff;
+      color: var(--trasnoca-dark);
       box-sizing: border-box;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .filter-group select:focus, .filter-group input:focus {
       outline: none;
-      border-color: var(--accent-color);
-      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
+      border-color: var(--trasnoca-gold);
+      box-shadow: 0 0 0 3px rgba(223, 154, 5, 0.25);
     }
 
     /* Lenda de cores */
@@ -127,11 +138,11 @@
       right: 18px;
       z-index: 1000;
       background: var(--bg-glass);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--border-glass);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid var(--trasnoca-gold);
       padding: 12px 16px;
-      border-radius: 12px;
+      border-radius: 10px;
       box-shadow: var(--shadow-soft);
       max-height: 220px;
       overflow-y: auto;
@@ -139,36 +150,43 @@
     }
 
     .legend-title {
+      font-family: 'Merriweather', serif;
       font-weight: 700;
-      color: var(--primary-color);
+      color: var(--trasnoca-maroon);
       margin-bottom: 8px;
       font-size: 0.85rem;
+      border-bottom: 1px solid var(--trasnoca-gold);
+      padding-bottom: 4px;
     }
 
     .legend-item {
       display: flex;
       align-items: center;
       margin-bottom: 5px;
-      font-weight: 500;
+      font-weight: 600;
+      color: var(--trasnoca-dark);
     }
 
     .legend-color {
-      width: 11px;
-      height: 11px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
       display: inline-block;
       margin-right: 9px;
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.8);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.9);
     }
 
-    /* Globos informativos (Popups) */
+    /* Popups estilizados */
     .leaflet-popup-content-wrapper {
-      border-radius: 12px;
+      background: var(--trasnoca-cream);
+      border-radius: 10px;
+      border: 2px solid var(--trasnoca-maroon);
       padding: 4px;
       box-shadow: var(--shadow-soft);
     }
 
     .popup-title {
+      font-family: 'Merriweather', serif;
       font-weight: 700;
       font-size: 1.15rem;
       margin-bottom: 6px;
@@ -176,21 +194,21 @@
 
     .popup-detail {
       font-size: 0.85rem;
-      color: #475569;
+      color: var(--trasnoca-dark);
       margin: 3px 0;
       line-height: 1.4;
     }
 
     .popup-detail strong {
-      color: #1e293b;
+      color: var(--trasnoca-maroon);
     }
   </style>
 </head>
 <body>
 
   <header>
-    <!-- Cando teñas o logo, desenterras a seguinte liña: -->
-    <!-- <img src="logo.png" alt="Logo" style="height: 32px; width: auto;"> -->
+    <!-- Logo do Trasnoca (asegúrate de que o ficheiro se chame logo.png) -->
+    <img src="logo.png" alt="Logo Proxecto Trasnoca" onerror="this.style.display='none'">
     <h1>Proxecto Trasnoca</h1>
   </header>
 
@@ -245,7 +263,8 @@
 
     const markersGroup = L.layerGroup().addTo(map);
 
-    const palette = ['#e11d48', '#0284c7', '#16a34a', '#9333ea', '#ca8a04', '#ea580c', '#0d9488', '#475569'];
+    // Paleta de cores viva para os puntos no mapa
+    const palette = ['#6d1420', '#df9a05', '#0284c7', '#16a34a', '#9333ea', '#ea580c', '#0d9488', '#475569'];
     let variantColorMap = {};
     let allData = [];
 
@@ -297,7 +316,7 @@
             <div class="popup-title" style="color: ${color};">${variante}</div>
             <div class="popup-detail"><strong>Variable:</strong> ${row['Variable'] || '-'}</div>
             <div class="popup-detail"><strong>Lugar:</strong> ${row['Localidade'] || ''} (${row['Parroquia'] || ''}), ${row['Concello'] || ''}</div>
-            <hr style="margin: 8px 0; border: 0; border-top: 1px solid #e2e8f0;">
+            <hr style="margin: 8px 0; border: 0; border-top: 1px solid var(--trasnoca-gold);">
             <div class="popup-detail"><strong>Informante:</strong> ${row['ID do Informante'] || '-'} (${row['Xénero'] || '-'}, ${row['Idade'] || '-'} anos)</div>
           `;
 
@@ -307,7 +326,7 @@
             color: '#ffffff',
             weight: 2,
             opacity: 1,
-            fillOpacity: 0.88
+            fillOpacity: 0.9
           }).bindPopup(popupContent).addTo(markersGroup);
         }
       });
