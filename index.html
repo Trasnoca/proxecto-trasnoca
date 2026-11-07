@@ -64,23 +64,22 @@
 </head>
 <body>
 
-  <header>
+  <header style="display: flex; align-items: center; justify-content: center; gap: 12px; background-color: #2c3e50; color: white; padding: 10px 20px;">
     <h1 style="margin:0; font-size: 1.4rem;">Proxecto Trasnoca</h1>
   </header>
 
   <div id="map-container">
-    <!-- Panel de busca e filtros -->
     <div class="filter-panel">
-      <h3>🔍 Filtros do Atlas</h3>
-      <div class="filter-group">
-        <label for="searchInput">Buscar palabra ou lugar:</label>
-        <input type="text" id="searchInput" placeholder="Ex: 'ghato', 'Vigo'...">
-      </div>
+      <h3>🔍 Buscador do Atlas</h3>
       <div class="filter-group">
         <label for="variableFilter">Variable Lingüística:</label>
         <select id="variableFilter">
-          <option value="">-- Todas as variables --</option>
+          <option value="">-- Escolle unha variable --</option>
         </select>
+      </div>
+      <div class="filter-group">
+        <label for="searchInput">Buscar palabra ou lugar:</label>
+        <input type="text" id="searchInput" placeholder="Ex: 'ghato', 'Vigo'...">
       </div>
       <div class="filter-group">
         <label for="concelloFilter">Concello:</label>
@@ -90,10 +89,7 @@
       </div>
     </div>
 
-    <!-- Mapa -->
     <div id="map"></div>
-
-    <!-- Lenda de cores -->
     <div id="legend" class="legend" style="display: none;"></div>
   </div>
 
@@ -101,7 +97,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
   <script>
-    // 1. Configurar capas do mapa
     const hotLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '&copy; OpenStreetMap'
     });
@@ -112,18 +107,15 @@
     const map = L.map('map', { center: [42.8782, -7.8644], zoom: 8, layers: [hotLayer] });
     L.control.layers({ "Pastel cálido": hotLayer, "Estilo NatGeo": esriNatGeo }).addTo(map);
 
-    // Grupo para xestionar os marcadores
     const markersGroup = L.layerGroup().addTo(map);
 
-    // Paleta de cores para as distintas variantes lingüísticas
     const palette = ['#e74c3c', '#3498db', '#2ecc71', '#9b59b6', '#f1c40f', '#e67e22', '#1abc9c', '#34495e'];
     let variantColorMap = {};
     let allData = [];
 
-    // URL DO SEU CSV DE GOOGLE SHEETS
+    // PEGA AQUÍ A TÚA LIGAZÓN CSV DE GOOGLE SHEETS
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/1C6sUUmKd1YCgIoyV1UgVD0CkLfNMZE_Fl_T9Ue4gaio/export?format=csv';
 
-    // Función para asignarlle unha cor a cada variante de xeito consistente
     function getColorForVariant(variant) {
       if (!variant) return '#95a5a6';
       if (!variantColorMap[variant]) {
@@ -133,14 +125,19 @@
       return variantColorMap[variant];
     }
 
-    // Renderizar os puntos no mapa segundo os filtros aplicados
     function renderMap() {
       markersGroup.clearLayers();
       variantColorMap = {};
 
-      const searchText = document.getElementById('searchInput').value.toLowerCase();
+      const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
       const selectedVariable = document.getElementById('variableFilter').value;
       const selectedConcello = document.getElementById('concelloFilter').value;
+
+      // Se non se escolleu ningunha busca, variable nin concello, mantense o mapa sen puntos
+      if (!searchText && !selectedVariable && !selectedConcello) {
+        updateLegend();
+        return;
+      }
 
       const filtered = allData.filter(row => {
         const matchesSearch = !searchText || 
@@ -166,7 +163,6 @@
             <div class="popup-detail"><strong>Informante:</strong> ${row['ID do Informante'] || '-'} (${row['Xénero'] || '-'}, ${row['Idade'] || '-'} anos)</div>
           `;
 
-          // Marcador circular de tipo Atlas
           L.circleMarker([lat, lng], {
             radius: 8,
             fillColor: color,
@@ -181,7 +177,6 @@
       updateLegend();
     }
 
-    // Actualizar lenda de cores
     function updateLegend() {
       const legendDiv = document.getElementById('legend');
       const variants = Object.keys(variantColorMap);
@@ -203,7 +198,6 @@
       });
     }
 
-    // Encher despregables de filtros
     function populateFilters() {
       const variables = [...new Set(allData.map(r => r['Variable']).filter(Boolean))].sort();
       const concellos = [...new Set(allData.map(r => r['Concello']).filter(Boolean))].sort();
@@ -215,12 +209,10 @@
       concellos.forEach(c => concSelect.add(new Option(c, c)));
     }
 
-    // Escoitadores de eventos nos filtros
     document.getElementById('searchInput').addEventListener('input', renderMap);
     document.getElementById('variableFilter').addEventListener('change', renderMap);
     document.getElementById('concelloFilter').addEventListener('change', renderMap);
 
-    // Cargar datos CSV
     if (URL_CSV && URL_CSV !== 'PEGA_AQUI_A_TUA_LIGAZON_CSV') {
       Papa.parse(URL_CSV, {
         download: true,
