@@ -4,50 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proxecto Trasnoca</title>
-  
-  <!-- Cargar o estilo de Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    header {
-      background-color: #2c3e50;
-      color: white;
-      padding: 12px 20px;
-      text-align: center;
-    }
-    #map {
-      height: calc(100vh - 55px);
-      width: 100vw;
-    }
+    body { margin: 0; padding: 0; font-family: system-ui, sans-serif; }
+    header { background-color: #2c3e50; color: white; padding: 12px 20px; text-align: center; }
+    #map { height: calc(100vh - 55px); width: 100vw; }
   </style>
 </head>
 <body>
-
   <header>
     <h1 style="margin:0; font-size: 1.4rem;">Proxecto Trasnoca</h1>
   </header>
-
-  <!-- Caixa onde se amosará o mapa -->
   <div id="map"></div>
-
-  <!-- Cargar o motor do mapa (Leaflet JS) -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // Inicializar o mapa centrado en Galicia
     const map = L.map('map').setView([42.8782, -7.8644], 8);
 
-    // Capa estilo National Geographic (Beixe cálido, sen necesidade de API Key)
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
-      maxZoom: 16,
-      attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
+    // Esri World Street Map (A color, clásico e sen API Key)
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 19,
+      attribution: 'Tiles &copy; Esri'
     }).addTo(map);
   </script>
-
 </body>
 </html>
-
