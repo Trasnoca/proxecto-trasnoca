@@ -77,14 +77,14 @@
       gap: 12px;
     }
 
- .header-brand img {
-  height: 44px;
-  width: 44px;
-  object-fit: cover;
-  border-radius: 50%; /* Recorta o fondo negro exterior en círculo perfecto */
-  border: 2px solid var(--trasnoca-gold); /* Borde dourado para resaltar sobre o granate */
-}
-
+    /* Estilos do logo recortado en círculo co bordo dourado */
+    .header-brand img {
+      height: 44px;
+      width: 44px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid var(--trasnoca-gold);
+    }
 
     .header-brand h1 {
       margin: 0;
@@ -172,7 +172,7 @@
       margin: 0;
     }
 
-    /* Redes Sociais */
+    /* Redes Sociais - Estilo Instagram */
     .social-links {
       display: flex;
       flex-direction: column;
@@ -181,16 +181,15 @@
 
     .social-link {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
       text-decoration: none;
       color: var(--trasnoca-dark);
-      font-size: 0.88rem;
-      font-weight: 600;
-      padding: 8px 12px;
-      background: rgba(255, 255, 255, 0.6);
+      padding: 10px 14px;
+      background: rgba(255, 255, 255, 0.7);
       border: 1px solid #d4cbb3;
-      border-radius: 6px;
+      border-radius: 8px;
       transition: all 0.2s;
     }
 
@@ -198,6 +197,17 @@
       background: var(--trasnoca-maroon);
       color: white;
       border-color: var(--trasnoca-maroon);
+    }
+
+    .social-link .social-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .social-link .social-handle {
+      font-weight: 400;
+      font-size: 0.8rem;
+      opacity: 0.85;
     }
 
     /* Formulario de Contacto */
@@ -344,19 +354,20 @@
 
     <!-- Sección 1: Que é Trasnoca? -->
     <div class="sidebar-section">
-      <h3>¿Que é Trasnoca?</h3>
+      <h3>Que é Trasnoca?</h3>
       <p>
-        Trasnoca é un proxecto de divulgación lingüística que pretende darlle visibilidade á riqueza dialectal da nosa terra mediante a cartografía dixital e o estudo do seu léxico en tempo real.
+        Trasnoca é un proxecto de divulgación lingüística que busca dar visibilidade ás diversas falas da nosa terra. A riqueza da nosa lingua amosa unha diversidade da que non sempre somos conscientes, pero que é parte esencial da nosa identidade.
       </p>
     </div>
 
     <!-- Sección 2: Redes Sociais -->
     <div class="sidebar-section">
-      <h3>Séguenos</h3>
+      <h3>Redes sociais</h3>
       <div class="social-links">
-        <a href="https://instagram.com" target="_blank" class="social-link">📸 Instagram</a>
-        <a href="https://twitter.com" target="_blank" class="social-link">🐤 X / Twitter</a>
-        <a href="https://tiktok.com" target="_blank" class="social-link">🎵 TikTok</a>
+        <a href="https://instagram.com/trasnoca" target="_blank" class="social-link">
+          <span class="social-name">Instagram</span>
+          <span class="social-handle">trasnoca</span>
+        </a>
       </div>
     </div>
 
