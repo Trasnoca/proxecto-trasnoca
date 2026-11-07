@@ -32,53 +32,29 @@
       overflow-x: hidden;
     }
 
-    /* Cabeceiro centrado */
+    /* Cabeceiro equilibrado */
     header {
       background-color: var(--trasnoca-maroon);
       color: white;
-      padding: 10px 20px;
+      padding: 10px 24px;
       display: flex;
       align-items: center;
-      justify-content: center; /* Centrado absoluto do bloque central */
+      justify-content: space-between;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       border-bottom: 4px solid var(--trasnoca-gold);
       position: relative;
       z-index: 1001;
-      min-height: 48px;
     }
 
-    /* Botón do menú hamburguesa ☰ fixado á esquerda */
-    .menu-toggle {
-      position: absolute;
-      left: 18px;
-      background: none;
-      border: 2px solid var(--trasnoca-gold);
-      color: white;
-      font-size: 1.4rem;
-      padding: 4px 10px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .menu-toggle:hover {
-      background: rgba(223, 154, 5, 0.2);
-    }
-
-    /* Bloque central de logo + título */
     .header-brand {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    /* Estilos do logo recortado en círculo co bordo dourado */
     .header-brand img {
-      height: 44px;
-      width: 44px;
+      height: 42px;
+      width: 42px;
       object-fit: cover;
       border-radius: 50%;
       border: 2px solid var(--trasnoca-gold);
@@ -90,6 +66,24 @@
       font-size: 1.35rem;
       font-weight: 700;
       color: #ffffff;
+    }
+
+    .menu-toggle {
+      background: none;
+      border: 2px solid var(--trasnoca-gold);
+      color: white;
+      font-size: 1.3rem;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-toggle:hover {
+      background: rgba(223, 154, 5, 0.25);
     }
 
     #map-container {
@@ -246,7 +240,6 @@
       background: #500e17;
     }
 
-    /* Capa oscura ao abrir o menú */
     .overlay {
       position: fixed;
       top: 0;
@@ -270,6 +263,7 @@
       z-index: 1000;
       background: var(--bg-glass);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: 2px solid var(--trasnoca-gold);
       padding: 18px 20px;
       border-radius: 12px;
@@ -309,6 +303,7 @@
       z-index: 1000;
       background: var(--bg-glass);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: 2px solid var(--trasnoca-gold);
       padding: 12px 16px;
       border-radius: 10px;
@@ -331,24 +326,22 @@
 
   <!-- Cabeceiro principal -->
   <header>
-    <button class="menu-toggle" id="openMenu" aria-label="Abrir menú">☰</button>
     <div class="header-brand">
       <img src="logo.png" alt="Logo Proxecto Trasnoca" onerror="this.style.display='none'">
       <h1>Proxecto Trasnoca</h1>
     </div>
+    <button class="menu-toggle" id="openMenu" aria-label="Abrir menú">☰</button>
   </header>
 
-  <!-- Capa de fondo para pechar menú -->
   <div class="overlay" id="overlay"></div>
 
-  <!-- Menú lateral deslizable -->
+  <!-- Menú lateral -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <h2>Proxecto Trasnoca</h2>
       <button class="close-btn" id="closeMenu">&times;</button>
     </div>
 
-    <!-- Sección 1: Que é Trasnoca? -->
     <div class="sidebar-section">
       <h3>Que é Trasnoca?</h3>
       <p>
@@ -356,7 +349,6 @@
       </p>
     </div>
 
-    <!-- Sección 2: Redes Sociais -->
     <div class="sidebar-section">
       <h3>Redes sociais</h3>
       <div class="social-links">
@@ -367,7 +359,6 @@
       </div>
     </div>
 
-    <!-- Sección 3: Formulario de Contacto -->
     <div class="sidebar-section">
       <h3>Deixa a túa mensaxe</h3>
       <form class="contact-form" action="https://formspree.io/f/xbjnopqr" method="POST" onsubmit="alert('Grazas pola túa mensaxe! Enviada con éxito.');">
@@ -419,7 +410,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
   <script>
-    // Control do menú lateral
+    /* global L, Papa */
+
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const openMenuBtn = document.getElementById('openMenu');
@@ -434,7 +426,6 @@
     closeMenuBtn.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
 
-    // Mapa Leaflet
     const hotLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '&copy; OpenStreetMap'
     });
@@ -451,7 +442,7 @@
     let variantColorMap = {};
     let allData = [];
 
-    // PEGA AQUÍ A TÚA LIGAZÓN CSV DE GOOGLE SHEETS
+    // PEGA AQUÍ A TÚA LIGAZÓN CSV DE GOOGLE SHEETS DENTRO DAS COMIÑAS
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/1C6sUUmKd1YCgIoyV1UgVD0CkLfNMZE_Fl_T9Ue4gaio/export?format=csv';
 
     function getColorForVariant(variant) {
