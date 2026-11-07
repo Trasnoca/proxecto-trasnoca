@@ -71,16 +71,30 @@
   <div id="map-container">
     <div class="filter-panel">
       <h3>🔍 Buscador do Atlas</h3>
+      
+      <!-- 1. Buscador xeral arriba de todo -->
+      <div class="filter-group">
+        <label for="searchInput">Buscar palabra ou lugar:</label>
+        <input type="text" id="searchInput" placeholder="Ex: 'piorno', 'Vigo'...">
+      </div>
+
+      <!-- 2. Filtro por Variable (Mapa completo do fenómeno) -->
       <div class="filter-group">
         <label for="variableFilter">Variable Lingüística:</label>
         <select id="variableFilter">
           <option value="">-- Escolle unha variable --</option>
         </select>
       </div>
+
+      <!-- 3. Novo filtro por Variante específica -->
       <div class="filter-group">
-        <label for="searchInput">Buscar palabra ou lugar:</label>
-        <input type="text" id="searchInput" placeholder="Ex: 'ghato', 'Vigo'...">
+        <label for="variantFilter">Variante concreta:</label>
+        <select id="variantFilter">
+          <option value="">-- Tódalas variantes --</option>
+        </select>
       </div>
+
+      <!-- 4. Filtro por Concello -->
       <div class="filter-group">
         <label for="concelloFilter">Concello:</label>
         <select id="concelloFilter">
@@ -131,10 +145,11 @@
 
       const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
       const selectedVariable = document.getElementById('variableFilter').value;
+      const selectedVariant = document.getElementById('variantFilter').value;
       const selectedConcello = document.getElementById('concelloFilter').value;
 
-      // Se non se escolleu ningunha busca, variable nin concello, mantense o mapa sen puntos
-      if (!searchText && !selectedVariable && !selectedConcello) {
+      // Se non se seleccionou ningún filtro nin busca, mantense o mapa limpo
+      if (!searchText && !selectedVariable && !selectedVariant && !selectedConcello) {
         updateLegend();
         return;
       }
@@ -143,8 +158,10 @@
         const matchesSearch = !searchText || 
           Object.values(row).some(val => String(val).toLowerCase().includes(searchText));
         const matchesVar = !selectedVariable || row['Variable'] === selectedVariable;
+        const matchesVariant = !selectedVariant || row['Variante ob'] === selectedVariant;
         const matchesConc = !selectedConcello || row['Concello'] === selectedConcello;
-        return matchesSearch && matchesVar && matchesConc;
+        
+        return matchesSearch && matchesVar && matchesVariant && matchesConc;
       });
 
       filtered.forEach(row => {
@@ -198,6 +215,20 @@
       });
     }
 
+    function updateVariantDropdown() {
+      const selectedVariable = document.getElementById('variableFilter').value;
+      const variantSelect = document.getElementById('variantFilter');
+      variantSelect.innerHTML = '<option value="">-- Tódalas variantes --</option>';
+
+      let relevantData = allData;
+      if (selectedVariable) {
+        relevantData = allData.filter(r => r['Variable'] === selectedVariable);
+      }
+
+      const variants = [...new Set(relevantData.map(r => r['Variante ob']).filter(Boolean))].sort();
+      variants.forEach(v => variantSelect.add(new Option(v, v)));
+    }
+
     function populateFilters() {
       const variables = [...new Set(allData.map(r => r['Variable']).filter(Boolean))].sort();
       const concellos = [...new Set(allData.map(r => r['Concello']).filter(Boolean))].sort();
@@ -207,10 +238,16 @@
 
       const concSelect = document.getElementById('concelloFilter');
       concellos.forEach(c => concSelect.add(new Option(c, c)));
+
+      updateVariantDropdown();
     }
 
     document.getElementById('searchInput').addEventListener('input', renderMap);
-    document.getElementById('variableFilter').addEventListener('change', renderMap);
+    document.getElementById('variableFilter').addEventListener('change', () => {
+      updateVariantDropdown();
+      renderMap();
+    });
+    document.getElementById('variantFilter').addEventListener('change', renderMap);
     document.getElementById('concelloFilter').addEventListener('change', renderMap);
 
     if (URL_CSV && URL_CSV !== 'PEGA_AQUI_A_TUA_LIGAZON_CSV') {
