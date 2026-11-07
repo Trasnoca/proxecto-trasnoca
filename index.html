@@ -41,10 +41,10 @@
     // Inicializar o mapa centrado en Galicia
     const map = L.map('map').setView([42.8782, -7.8644], 8);
 
-    // Capa base gratuíta Esri Light Gray (sen API Key e ideal para atlas)
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    // Capa estilo National Geographic (Beixe cálido, sen necesidade de API Key)
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 16,
-      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
+      attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC'
     }).addTo(map);
   </script>
 
