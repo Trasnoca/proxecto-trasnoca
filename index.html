@@ -41,12 +41,13 @@
     // Inicializar o mapa centrado en Galicia
     const map = L.map('map').setView([42.8782, -7.8644], 8);
 
-    // Capa de mapa estilo Atlas Simple (CartoDB Voyager)
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    // Capa base gratuíta sen necesidade de API Key (OpenStreetMap)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
     }).addTo(map);
   </script>
 
 </body>
 </html>
+
