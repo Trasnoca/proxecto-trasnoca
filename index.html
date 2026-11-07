@@ -41,10 +41,10 @@
     // Inicializar o mapa centrado en Galicia
     const map = L.map('map').setView([42.8782, -7.8644], 8);
 
-    // Capa base gratuíta sen necesidade de API Key (OpenStreetMap)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    // Capa base a color con relevo natural (Esri Topo - Gratuíta sen API Key)
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI'
     }).addTo(map);
   </script>
 
