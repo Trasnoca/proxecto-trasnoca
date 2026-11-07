@@ -32,28 +32,25 @@
       overflow-x: hidden;
     }
 
-    /* Cabeceiro */
+    /* Cabeceiro centrado */
     header {
       background-color: var(--trasnoca-maroon);
       color: white;
       padding: 10px 20px;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center; /* Centrado absoluto do bloque central */
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       border-bottom: 4px solid var(--trasnoca-gold);
       position: relative;
       z-index: 1001;
+      min-height: 48px;
     }
 
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    /* Botón do menú hamburguesa ☰ */
+    /* Botón do menú hamburguesa ☰ fixado á esquerda */
     .menu-toggle {
+      position: absolute;
+      left: 18px;
       background: none;
       border: 2px solid var(--trasnoca-gold);
       color: white;
@@ -71,6 +68,7 @@
       background: rgba(223, 154, 5, 0.2);
     }
 
+    /* Bloque central de logo + título */
     .header-brand {
       display: flex;
       align-items: center;
@@ -172,7 +170,7 @@
       margin: 0;
     }
 
-    /* Redes Sociais - Estilo Instagram */
+    /* Redes Sociais */
     .social-links {
       display: flex;
       flex-direction: column;
@@ -333,12 +331,10 @@
 
   <!-- Cabeceiro principal -->
   <header>
-    <div class="header-left">
-      <button class="menu-toggle" id="openMenu" aria-label="Abrir menú">☰</button>
-      <div class="header-brand">
-        <img src="logo.png" alt="Logo Proxecto Trasnoca" onerror="this.style.display='none'">
-        <h1>Proxecto Trasnoca</h1>
-      </div>
+    <button class="menu-toggle" id="openMenu" aria-label="Abrir menú">☰</button>
+    <div class="header-brand">
+      <img src="logo.png" alt="Logo Proxecto Trasnoca" onerror="this.style.display='none'">
+      <h1>Proxecto Trasnoca</h1>
     </div>
   </header>
 
