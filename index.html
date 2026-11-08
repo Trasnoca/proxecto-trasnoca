@@ -330,11 +330,11 @@
       color: white !important;
     }
 
-    /* Lenda */
+    /* Lenda posicionada debaixo do selector de capas */
     .legend {
       position: absolute;
-      bottom: 25px;
-      left: 18px;
+      top: 65px;
+      right: 18px;
       z-index: 1000;
       background: var(--bg-glass);
       backdrop-filter: blur(10px);
@@ -494,8 +494,9 @@
       .sidebar { width: 100vw; right: -100vw; border-left: none; padding: 20px 16px; }
       
       .legend { 
-        bottom: 15px; 
+        top: 60px; 
         right: 10px; 
+        bottom: auto;
         left: auto;
         max-width: calc(100% - 20px); 
         padding: 6px 10px; 
