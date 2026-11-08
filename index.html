@@ -308,7 +308,7 @@
       box-sizing: border-box;
     }
 
-    /* Zoom debaixo do buscador */
+    /* Zoom debaixo do buscador en PC/Tablet */
     .leaflet-top.leaflet-left {
       top: 395px !important;
       left: 18px !important;
@@ -359,23 +359,23 @@
     .popup-detail { font-size: 0.85rem; margin: 3px 0; }
     .popup-detail strong { color: var(--trasnoca-maroon); }
 
-    /* Notificación emerxente centrada e semi-transparente */
+    /* Notificación emerxente centrada na parte superior do mapa */
     .toast-notification {
       position: fixed;
-      top: 50%;
+      top: 88px;
       left: 50%;
-      transform: translate(-50%, -50%) scale(0.9);
+      transform: translateX(-50%) scale(0.9);
       z-index: 3000;
-      background: var(--bg-glass);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: rgba(247, 242, 223, 0.82);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: 2px solid var(--trasnoca-gold);
       color: var(--trasnoca-maroon);
-      padding: 16px 26px;
-      border-radius: 14px;
-      box-shadow: 0 12px 30px rgba(109, 20, 32, 0.25);
+      padding: 11px 22px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(109, 20, 32, 0.18);
       font-family: 'Merriweather', serif;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       text-align: center;
       pointer-events: none;
@@ -388,7 +388,7 @@
     .toast-notification.show {
       opacity: 1;
       visibility: visible;
-      transform: translate(-50%, -50%) scale(1);
+      transform: translateX(-50%) scale(1);
     }
 
     /* ========================================================
@@ -416,9 +416,10 @@
         height: calc(100vh - 58px);
       }
 
-      /* Panel flotante adaptado ao ancho do teléfono */
+      /* Panel de busca desprazado Á PARTE INFERIOR */
       .filter-panel {
-        top: 10px;
+        top: auto;
+        bottom: 12px;
         left: 10px;
         width: calc(100% - 20px);
         max-width: calc(100% - 20px);
@@ -446,10 +447,17 @@
         font-size: 0.8rem;
       }
 
-      /* Reposicionamento do zoom baixo o panel reducido */
+      /* Botóns de zoom desprázanse á parte superior esquerda baixo o cabeceiro */
       .leaflet-top.leaflet-left {
-        top: 310px !important;
+        top: 12px !important;
         left: 10px !important;
+      }
+
+      /* Toast posicionada debaixo da barra superior en móbil */
+      .toast-notification {
+        top: 70px;
+        padding: 9px 18px;
+        font-size: 0.85rem;
       }
 
       /* Menú lateral a pantalla completa en móbil */
@@ -460,8 +468,9 @@
         padding: 20px 16px;
       }
 
+      /* Lenda posicionada xusto enriba do buscador inferior */
       .legend {
-        bottom: 14px;
+        bottom: 290px;
         right: 10px;
         max-width: calc(100% - 20px);
         padding: 8px 12px;
@@ -519,7 +528,7 @@
   </aside>
 
   <!-- Notificación emerxente -->
-  <div id="toast" class="toast-notification">Non se atoparon resultados para esta busca.</div>
+  <div id="toast" class="toast-notification">Non se atoparon termos</div>
 
   <!-- Contedor do mapa -->
   <div id="map-container">
@@ -646,7 +655,7 @@
       });
 
       if (filtered.length === 0) {
-        showToast('Non se atoparon variantes para esta busca.');
+        showToast('Non se atoparon termos');
       } else {
         hideToast();
       }
