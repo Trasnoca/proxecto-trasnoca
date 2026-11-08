@@ -2,7 +2,7 @@
 <html lang="gl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Proxecto Trasnoca</title>
   
   <!-- Tipografía Google Fonts -->
@@ -256,7 +256,7 @@
       display: block;
     }
 
-    /* Panel flotante de filtros */
+    /* Panel flotante de filtros en PC/Tablet */
     .filter-panel {
       position: absolute;
       top: 18px;
@@ -391,35 +391,18 @@
       transform: translateX(-50%) scale(1);
     }
 
-    /* ========================================================
-       ADAPTACIÓN EXCLUSIVA PARA MÓBILES (max-width: 768px)
-       ======================================================== */
+    /* ADAPTACIÓN EXCLUSIVA PARA MÓBILES */
     @media (max-width: 768px) {
-      header {
-        padding: 8px 14px;
-      }
+      header { padding: 8px 14px; }
+      .header-brand h1 { font-size: 1.1rem; }
+      .header-brand img { height: 38px; }
+      .menu-toggle { padding: 5px 10px; font-size: 1.1rem; }
+      #map-container { height: calc(100vh - 58px); }
 
-      .header-brand h1 {
-        font-size: 1.1rem;
-      }
-
-      .header-brand img {
-        height: 38px;
-      }
-
-      .menu-toggle {
-        padding: 5px 10px;
-        font-size: 1.1rem;
-      }
-
-      #map-container {
-        height: calc(100vh - 58px);
-      }
-
-      /* Panel de busca desprazado Á PARTE INFERIOR */
+      /* Buscador situado abaixo pero elevando o suficiente para non tocar o bordo nin a barra do teléfono */
       .filter-panel {
         top: auto;
-        bottom: 12px;
+        bottom: calc(24px + env(safe-area-inset-bottom, 0px));
         left: 10px;
         width: calc(100% - 20px);
         max-width: calc(100% - 20px);
@@ -427,54 +410,25 @@
         box-sizing: border-box;
       }
 
-      .filter-panel h3 {
-        font-size: 0.9rem;
-        margin-bottom: 8px;
-        padding-bottom: 4px;
-      }
+      .filter-panel h3 { font-size: 0.9rem; margin-bottom: 8px; padding-bottom: 4px; }
+      .filter-group { margin-bottom: 6px; }
+      .filter-group label { font-size: 0.72rem; margin-bottom: 2px; }
+      .filter-group select, .filter-group input { padding: 6px 9px; font-size: 0.8rem; }
 
-      .filter-group {
-        margin-bottom: 6px;
-      }
+      /* Zoom na parte superior esquerda para despexar o buscador inferior */
+      .leaflet-top.leaflet-left { top: 12px !important; left: 10px !important; }
 
-      .filter-group label {
-        font-size: 0.72rem;
-        margin-bottom: 2px;
-      }
+      .toast-notification { top: 70px; padding: 9px 18px; font-size: 0.85rem; }
 
-      .filter-group select, .filter-group input {
-        padding: 6px 9px;
-        font-size: 0.8rem;
-      }
-
-      /* Botóns de zoom desprázanse á parte superior esquerda baixo o cabeceiro */
-      .leaflet-top.leaflet-left {
-        top: 12px !important;
-        left: 10px !important;
-      }
-
-      /* Toast posicionada debaixo da barra superior en móbil */
-      .toast-notification {
-        top: 70px;
-        padding: 9px 18px;
-        font-size: 0.85rem;
-      }
-
-      /* Menú lateral a pantalla completa en móbil */
-      .sidebar {
-        width: 100vw;
-        right: -100vw;
-        border-left: none;
-        padding: 20px 16px;
-      }
-
-      /* Lenda posicionada xusto enriba do buscador inferior */
-      .legend {
-        bottom: 290px;
-        right: 10px;
-        max-width: calc(100% - 20px);
-        padding: 8px 12px;
-        font-size: 0.78rem;
+      .sidebar { width: 100vw; right: -100vw; border-left: none; padding: 20px 16px; }
+      
+      /* Lenda situada xusto por riba do panel inferior elevado */
+      .legend { 
+        bottom: calc(295px + env(safe-area-inset-bottom, 0px)); 
+        right: 10px; 
+        max-width: calc(100% - 20px); 
+        padding: 8px 12px; 
+        font-size: 0.78rem; 
       }
     }
   </style>
@@ -668,10 +622,20 @@
         if (!isNaN(lat) && !isNaN(lng)) {
           const color = getColorForVariant(variante);
 
+          const bloque = row['Bloque'] || '';
+          const area = row['Área'] || '';
+          const subarea = row['Subárea'] || '';
+
+          const partesDialectais = [bloque, area, subarea].filter(Boolean).join(' › ');
+          const dialectoHTML = partesDialectais 
+            ? `<div class="popup-detail"><strong>Área dialectal:</strong> ${partesDialectais}</div>` 
+            : '';
+
           const popupContent = `
             <div class="popup-title" style="color: ${color};">${variante}</div>
             <div class="popup-detail"><strong>Variable:</strong> ${row['Variable'] || '-'}</div>
             <div class="popup-detail"><strong>Lugar:</strong> ${row['Localidade'] || ''} (${row['Parroquia'] || ''}), ${row['Concello'] || ''}</div>
+            ${dialectoHTML}
             <hr style="margin: 8px 0; border: 0; border-top: 1px solid var(--trasnoca-gold);">
             <div class="popup-detail"><strong>Informante:</strong> ${row['ID do Informante'] || '-'} (${row['Xénero'] || '-'}, ${row['Idade'] || '-'} anos)</div>
           `;
