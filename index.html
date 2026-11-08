@@ -19,7 +19,7 @@
       --trasnoca-gold: #df9a05;
       --trasnoca-cream: #f7f2df;
       --trasnoca-dark: #3a221b;
-      --bg-glass: rgba(247, 242, 223, 0.94);
+      --bg-glass: rgba(247, 242, 223, 0.95);
       --shadow-soft: 0 10px 25px -5px rgba(109, 20, 32, 0.2);
     }
 
@@ -28,7 +28,7 @@
       padding: 0;
       height: 100%;
       height: 100dvh;
-      overflow: hidden; /* Evita que a web faga scroll e faste o cabeceiro */
+      overflow: hidden;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       color: var(--trasnoca-dark);
       background-color: var(--trasnoca-cream);
@@ -39,7 +39,7 @@
       flex-direction: column;
     }
 
-    /* Cabeceiro fixo e inmóbil */
+    /* Cabeceiro principal */
     header {
       flex-shrink: 0;
       background-color: var(--trasnoca-maroon);
@@ -201,16 +201,8 @@
       border-color: var(--trasnoca-maroon);
     }
 
-    .social-link .social-name {
-      font-weight: 700;
-      font-size: 0.9rem;
-    }
-
-    .social-link .social-handle {
-      font-weight: 400;
-      font-size: 0.8rem;
-      opacity: 0.85;
-    }
+    .social-link .social-name { font-weight: 700; font-size: 0.9rem; }
+    .social-link .social-handle { font-weight: 400; font-size: 0.8rem; opacity: 0.85; }
 
     /* Formulario de Contacto */
     .contact-form {
@@ -246,9 +238,7 @@
       transition: background 0.2s;
     }
 
-    .contact-form button:hover {
-      background: #500e17;
-    }
+    .contact-form button:hover { background: #500e17; }
 
     .overlay {
       position: fixed;
@@ -261,11 +251,9 @@
       display: none;
     }
 
-    .overlay.active {
-      display: block;
-    }
+    .overlay.active { display: block; }
 
-    /* Panel flotante de filtros na parte superior */
+    /* Panel flotante de filtros */
     .filter-panel {
       position: absolute;
       top: 18px;
@@ -317,7 +305,7 @@
       box-sizing: border-box;
     }
 
-    /* Zoom debaixo do buscador en PC/Tablet */
+    /* Zoom debaixo do buscador */
     .leaflet-top.leaflet-left {
       top: 395px !important;
       left: 18px !important;
@@ -346,7 +334,7 @@
     .legend {
       position: absolute;
       bottom: 25px;
-      right: 18px;
+      left: 18px;
       z-index: 1000;
       background: var(--bg-glass);
       backdrop-filter: blur(10px);
@@ -400,6 +388,85 @@
       transform: translateX(-50%) scale(1);
     }
 
+    /* MASCOTA INTERACTIVA (PANDEIRETA) */
+    .assistant-container {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 2200;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .assistant-bubble {
+      background: var(--bg-glass);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 2px solid var(--trasnoca-gold);
+      color: var(--trasnoca-dark);
+      padding: 14px 18px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-soft);
+      font-size: 0.86rem;
+      line-height: 1.45;
+      max-width: 260px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .assistant-bubble p {
+      margin: 0;
+    }
+
+    .assistant-buttons {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .assistant-btn {
+      background: var(--trasnoca-maroon);
+      color: white;
+      border: 1px solid var(--trasnoca-gold);
+      padding: 5px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .assistant-btn:hover {
+      background: #500e17;
+      transform: scale(1.03);
+    }
+
+    .assistant-close {
+      position: absolute;
+      top: 4px;
+      right: 8px;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      color: var(--trasnoca-maroon);
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .assistant-avatar {
+      width: 78px;
+      height: auto;
+      cursor: pointer;
+      transition: transform 0.2s ease, filter 0.2s;
+      filter: drop-shadow(0 4px 12px rgba(109, 20, 32, 0.25));
+    }
+
+    .assistant-avatar:hover {
+      transform: scale(1.08) rotate(3deg);
+    }
+
     /* ADAPTACIÓN EXCLUSIVA PARA MÓBILES */
     @media (max-width: 768px) {
       header { padding: 8px 14px; }
@@ -407,7 +474,6 @@
       .header-brand img { height: 38px; }
       .menu-toggle { padding: 5px 10px; font-size: 1.1rem; }
 
-      /* Buscador na parte SUPERIOR do móbil */
       .filter-panel {
         top: 10px;
         left: 10px;
@@ -423,18 +489,21 @@
       .filter-group label { font-size: 0.68rem; margin-bottom: 1px; }
       .filter-group select, .filter-group input { padding: 5px 8px; font-size: 0.78rem; }
 
-      /* Zoom na parte superior esquerda xusto debaixo do buscador */
       .leaflet-top.leaflet-left { top: 250px !important; left: 10px !important; }
 
       .sidebar { width: 100vw; right: -100vw; border-left: none; padding: 20px 16px; }
       
-      /* Lenda na parte inferior dereita */
       .legend { 
         bottom: 15px; 
         right: 10px; 
+        left: auto;
         max-width: calc(100% - 20px); 
         padding: 6px 10px; 
         font-size: 0.75rem; 
+      }
+
+      .assistant-container {
+        display: none !important;
       }
     }
   </style>
@@ -481,7 +550,7 @@
       <form class="contact-form" action="https://formspree.io/f/xbjnopqr" method="POST" onsubmit="alert('Grazas pola túa mensaxe! Enviada con éxito.');">
         <input type="text" name="nome" placeholder="O teu nome" required>
         <input type="email" name="email" placeholder="O teu correo electrónico" required>
-        <textarea name="mensaxe" placeholder="Escribe aquí a túa mensaxe ou suxestión..." required></textarea>
+        <textarea id="contactMessage" name="mensaxe" placeholder="Escribe aquí a túa mensaxe ou suxestión..." required></textarea>
         <button type="submit">Enviar achega</button>
       </form>
     </div>
@@ -489,6 +558,19 @@
 
   <!-- Notificación emerxente -->
   <div id="toast" class="toast-notification">Non se atoparon termos</div>
+
+  <!-- MASCOTA INTERACTIVA (PANDEIRETA) -->
+  <div id="assistantContainer" class="assistant-container">
+    <div id="assistantBubble" class="assistant-bubble">
+      <button id="assistantClose" class="assistant-close" aria-label="Pechar bocadillo">&times;</button>
+      <p id="assistantText">Douche a benvida a Trasnoca! É a túa primeira vez na páxina?</p>
+      <div id="assistantButtons" class="assistant-buttons">
+        <button id="btnYes" class="assistant-btn">Si</button>
+        <button id="btnNo" class="assistant-btn">Non</button>
+      </div>
+    </div>
+    <img id="assistantAvatar" src="pandeireta.png" alt="Mascota Proxecto Trasnoca" class="assistant-avatar" onerror="this.style.display='none'">
+  </div>
 
   <!-- Contedor do mapa -->
   <div id="map-container">
@@ -541,6 +623,18 @@
     const closeMenuBtn = document.getElementById('closeMenu');
     const toast = document.getElementById('toast');
 
+    // Elementos da Mascota
+    const assistantBubble = document.getElementById('assistantBubble');
+    const assistantText = document.getElementById('assistantText');
+    const assistantButtons = document.getElementById('assistantButtons');
+    const btnYes = document.getElementById('btnYes');
+    const btnNo = document.getElementById('btnNo');
+    const assistantClose = document.getElementById('assistantClose');
+    const assistantAvatar = document.getElementById('assistantAvatar');
+    const contactMessage = document.getElementById('contactMessage');
+
+    let currentAction = null;
+
     function toggleMenu() {
       sidebar.classList.toggle('open');
       overlay.classList.toggle('active');
@@ -558,6 +652,45 @@
     function hideToast() {
       toast.classList.remove('show');
     }
+
+    // Lóxica da Mascota (Pandeireta)
+    function speakAssistant(text, showBtns = false, autoHideMs = 0) {
+      assistantText.innerHTML = text;
+      assistantBubble.style.display = 'block';
+      assistantButtons.style.display = showBtns ? 'flex' : 'none';
+
+      if (autoHideMs > 0) {
+        setTimeout(() => {
+          assistantBubble.style.display = 'none';
+        }, autoHideMs);
+      }
+    }
+
+    assistantClose.addEventListener('click', () => {
+      assistantBubble.style.display = 'none';
+    });
+
+    btnYes.addEventListener('click', () => {
+      speakAssistant("Trasnoca é un proxecto colaborativo! Os datos do mapa xorden das enquisas que facemos en Instagram e da propia comunidade. Podes navegar polo mapa ou buscar termos no panel superior!", false, 9000);
+    });
+
+    btnNo.addEventListener('click', () => {
+      speakAssistant("Entón, adiante!", false, 3000);
+    });
+
+    // Acción ao premer na mascota
+    assistantAvatar.addEventListener('click', () => {
+      if (currentAction === 'suggest') {
+        const searchText = document.getElementById('searchInput').value.trim();
+        if (!sidebar.classList.contains('open')) {
+          toggleMenu();
+        }
+        contactMessage.value = `Ola! Quería suxerir información para recoller en futuras enquisas sobre o termo: "${searchText}".`;
+        contactMessage.focus();
+      } else {
+        speakAssistant("Lembra que podes filtrar por termo, variable ou concello para explorar a nosa lingua!", false, 4000);
+      }
+    });
 
     const hotLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '&copy; OpenStreetMap'
@@ -590,6 +723,7 @@
     function renderMap() {
       markersGroup.clearLayers();
       variantColorMap = {};
+      currentAction = null;
 
       const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
       const selectedVariable = document.getElementById('variableFilter').value;
@@ -616,6 +750,8 @@
 
       if (filtered.length === 0) {
         showToast('Non se atoparon termos');
+        currentAction = 'suggest';
+        speakAssistant(`Valla! Non atopamos termos para esta busca. Preme en min para escribilo en suxerencias e recollelo en futuras enquisas!`, false);
       } else {
         hideToast();
       }
@@ -624,6 +760,7 @@
         const lat = parseFloat(row['Latitude']);
         const lng = parseFloat(row['Lonxitude']);
         const variante = row['Variante ob'] || 'Descoñecida';
+        const variable = row['Variable'] || '';
 
         if (!isNaN(lat) && !isNaN(lng)) {
           const color = getColorForVariant(variante);
@@ -639,21 +776,34 @@
 
           const popupContent = `
             <div class="popup-title" style="color: ${color};">${variante}</div>
-            <div class="popup-detail"><strong>Variable:</strong> ${row['Variable'] || '-'}</div>
+            <div class="popup-detail"><strong>Variable:</strong> ${variable || '-'}</div>
             <div class="popup-detail"><strong>Lugar:</strong> ${row['Localidade'] || ''} (${row['Parroquia'] || ''}), ${row['Concello'] || ''}</div>
             ${dialectoHTML}
             <hr style="margin: 8px 0; border: 0; border-top: 1px solid var(--trasnoca-gold);">
             <div class="popup-detail"><strong>Informante:</strong> ${row['ID do Informante'] || '-'} (${row['Xénero'] || '-'}, ${row['Idade'] || '-'} anos)</div>
           `;
 
-          L.circleMarker([lat, lng], {
+          const circleMarker = L.circleMarker([lat, lng], {
             radius: 8,
             fillColor: color,
             color: '#ffffff',
             weight: 2,
             opacity: 1,
             fillOpacity: 0.9
-          }).bindPopup(popupContent).addTo(markersGroup);
+          }).bindPopup(popupContent);
+
+          circleMarker.on('click', () => {
+            const isHorreo = variable.toLowerCase().includes('hórreo') || 
+                             variable.toLowerCase().includes('horreo') || 
+                             variante.toLowerCase().includes('hórreo') || 
+                             variante.toLowerCase().includes('horreo');
+
+            if (isHorreo) {
+              speakAssistant("Sabías que a primeira representación gráfica coñecida dun hórreo aparece nas <em>Cantigas de Santa María</em>?", false, 8000);
+            }
+          });
+
+          circleMarker.addTo(markersGroup);
         }
       });
 
@@ -715,6 +865,10 @@
     });
     document.getElementById('variantFilter').addEventListener('change', renderMap);
     document.getElementById('concelloFilter').addEventListener('change', renderMap);
+
+    window.addEventListener('load', () => {
+      speakAssistant("Douche a benvida a Trasnoca! É a túa primeira vez na páxina?", true);
+    });
 
     if (URL_CSV && URL_CSV !== 'PEGA_AQUI_A_TUA_LIGAZON_CSV') {
       Papa.parse(URL_CSV, {
