@@ -888,7 +888,6 @@
 
     // -------------------------------------------------------------
     // ESTRUTURA COMPLETA DE SECCIÓNS, SUBSECCIÓNS E VARIABLES
-    // Os nomes dos ficheiros imaxe son: [variable].png na raíz de GitHub
     // -------------------------------------------------------------
     const surveyData = {
       "Fenómenos meteorolóxicos": {
@@ -955,7 +954,7 @@
           { variable: "Chuchamel", file: "chuchamel.png" }
         ]
       },
-      "Construcións": {
+      "Construción": {
         items: [
           { variable: "Cabazo", file: "cabazo.png" },
           { variable: "Fonte", file: "fonte.png" },
@@ -1002,6 +1001,9 @@
     let currentCategoryName = "";
     let currentItemList = [];
     let currentItemIndex = 0;
+    
+    // VARIABLE DE SESIÓN DO INFORMANTE (Mantense activa durante toda a navegación do test)
+    let sessionInformanteId = null;
 
     function toggleMenu() {
       sidebar.classList.toggle('open');
@@ -1022,10 +1024,10 @@
     function closeSurveyView() {
       sidebarSurveyView.style.display = 'none';
       sidebarMainView.style.display = 'block';
+      sessionInformanteId = null; // Resétase o informante se sae do test por completo
       resetToCategories();
     }
 
-    // Rentenderizar as seccións principais
     function renderMainCategories() {
       catSelectionTitle.textContent = "Escolle unha sección para comezar:";
       btnBackToMainCats.style.display = 'none';
@@ -1041,12 +1043,10 @@
       });
     }
 
-    // Cando a persoa escolle unha sección principal
     function selectMainCategory(catName) {
       const catObj = surveyData[catName];
 
       if (catObj.subcategories) {
-        // Se ten subseccións (como Mundo animal)
         catSelectionTitle.textContent = `Escolle o tipo dentro de ${catName}:`;
         btnBackToMainCats.style.display = 'inline-flex';
         catButtonsGrid.innerHTML = '';
@@ -1060,12 +1060,10 @@
           catButtonsGrid.appendChild(btn);
         });
       } else {
-        // Se vai directa aos termos
         validateAndStartTest(catName, catObj.items);
       }
     }
 
-    // Validar datos sociolingüísticos e comezar o test da sección escollida
     function validateAndStartTest(categoryLabel, itemList) {
       const concello = document.getElementById('surveyConcello').value.trim();
       const localidade = document.getElementById('surveyLocalidade').value.trim();
@@ -1075,6 +1073,11 @@
       if (!xenero || !idade || !concello || !localidade) {
         alert('Por favor, cobre os datos de xénero, idade, concello e localidade antes de comezar o test.');
         return;
+      }
+
+      // Se é a primeira sección que fai o usuario, xeramos un ID de sesión único
+      if (!sessionInformanteId) {
+        sessionInformanteId = 'INF-' + Math.floor(1000 + Math.random() * 9000);
       }
 
       currentCategoryName = categoryLabel;
@@ -1098,7 +1101,6 @@
       const item = currentItemList[currentItemIndex];
       document.getElementById('surveyProgressBadge').textContent = `${currentCategoryName} • Termo ${currentItemIndex + 1} de ${currentItemList.length}`;
       
-      // Carga o ficheiro PNG asociado á variable
       document.getElementById('surveyImage').src = item.file;
       
       document.getElementById('surveyAnswerInput').value = '';
@@ -1115,17 +1117,17 @@
       const currentItem = currentItemList[currentItemIndex];
 
       const payload = {
+        id_informante: sessionInformanteId, // Envía o mesmo ID durante toda a sesión
         categoria: currentCategoryName,
         xenero: document.getElementById('surveyXenero').value,
         idade: document.getElementById('surveyIdade').value,
         concello: document.getElementById('surveyConcello').value.trim(),
         parroquia: document.getElementById('surveyParroquia').value.trim(),
         localidade: document.getElementById('surveyLocalidade').value.trim(),
-        variable: currentItem.variable,  // Envía a variable exacta (ex: Cabalo do demo)
-        variante_ob: varianteText        // Envía a resposta escrita pola persoa
+        variable: currentItem.variable,
+        variante_ob: varianteText
       };
 
-      // Enviar os datos en segundo plano a Google Apps Script
       if (URL_APPS_SCRIPT && !URL_APPS_SCRIPT.includes('PEGA_AQUI')) {
         fetch(URL_APPS_SCRIPT, {
           method: 'POST',
