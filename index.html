@@ -174,28 +174,29 @@
       margin: 0;
     }
 
-    /* Botón destacado "E ti, como lle dis?" */
+    /* Botón "E ti, como lle dis?" (Novo deseño elegante) */
     .btn-survey-main {
       width: 100%;
-      background: var(--trasnoca-gold);
-      color: var(--trasnoca-dark);
-      border: 2px solid var(--trasnoca-maroon);
-      padding: 12px;
+      background: var(--trasnoca-maroon);
+      color: #ffffff;
+      border: 1.5px solid var(--trasnoca-gold);
+      padding: 11px 14px;
       border-radius: 8px;
       font-family: 'Merriweather', serif;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 4px 10px rgba(109,20,32,0.15);
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(109, 20, 32, 0.15);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .btn-survey-main:hover {
-      background: #eab020;
-      transform: translateY(-2px);
+      background: #500e17;
+      border-color: #f3e5ab;
+      box-shadow: 0 6px 15px rgba(109, 20, 32, 0.25);
     }
 
     /* Estilos do Test / Enquisa */
@@ -717,7 +718,7 @@
       </div>
     </div>
 
-    <!-- PESTANA DO TEST "E TI, COMO LLE DIS?" (DO MESMO TAMAÑO DENTRO DO MENÚ) -->
+    <!-- PESTANA DO TEST "E TI, COMO LLE DIS?" -->
     <div id="sidebarSurveyView" style="display: none;">
       <div class="sidebar-header">
         <h2>E ti, como lle dis?</h2>
@@ -726,8 +727,9 @@
 
       <button type="button" class="btn-back-link" onclick="closeSurveyView()">&larr; Volver ao menú principal</button>
 
+      <!-- TEXTO DE INTRODUCIÓN ACTUALIZADO -->
       <div class="survey-intro-box">
-        Queres facer a túa aportación ao mapa? As respostas son <strong>100% anónimas</strong>. Só che pedimos uns datos básicos sociolingüísticos para poder analizar a variación por zonas e idades!
+        Queres facer a túa aportación ao mapa? As respostas son <strong>100% anónimas</strong>. Só che pedimos uns datos para a posterior análise dos resultados!
       </div>
 
       <!-- PASO 1: DATOS DO INFORMANTE E SELECCIÓN DE SECCIÓN -->
