@@ -174,6 +174,160 @@
       margin: 0;
     }
 
+    /* Botón destacado "E ti, como lle dis?" */
+    .btn-survey-main {
+      width: 100%;
+      background: var(--trasnoca-gold);
+      color: var(--trasnoca-dark);
+      border: 2px solid var(--trasnoca-maroon);
+      padding: 12px;
+      border-radius: 8px;
+      font-family: 'Merriweather', serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 4px 10px rgba(109,20,32,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-survey-main:hover {
+      background: #eab020;
+      transform: translateY(-2px);
+    }
+
+    /* Estilos do Test / Enquisa */
+    .btn-back-link {
+      background: transparent;
+      border: none;
+      color: var(--trasnoca-maroon);
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      padding: 0;
+      margin-bottom: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .survey-intro-box {
+      background: rgba(255,255,255,0.6);
+      border-left: 3px solid var(--trasnoca-gold);
+      padding: 10px 12px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    .survey-form-group {
+      margin-bottom: 10px;
+    }
+
+    .survey-form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--trasnoca-maroon);
+      margin-bottom: 3px;
+    }
+
+    .survey-form-group input,
+    .survey-form-group select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #d4cbb3;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: white;
+      box-sizing: border-box;
+    }
+
+    .cat-selection-title {
+      font-family: 'Merriweather', serif;
+      font-size: 0.9rem;
+      color: var(--trasnoca-maroon);
+      margin: 16px 0 8px 0;
+      border-bottom: 1px dashed var(--trasnoca-gold);
+      padding-bottom: 4px;
+    }
+
+    .cat-buttons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .btn-cat-card {
+      background: white;
+      border: 1px solid var(--trasnoca-gold);
+      color: var(--trasnoca-maroon);
+      padding: 10px 6px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .btn-cat-card:hover {
+      background: var(--trasnoca-maroon);
+      color: white;
+      border-color: var(--trasnoca-maroon);
+    }
+
+    /* Tarxeta do Test con Imaxe */
+    .survey-card {
+      background: white;
+      border: 2px solid var(--trasnoca-gold);
+      border-radius: 10px;
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+      margin-top: 10px;
+    }
+
+    .survey-img-container {
+      width: 100%;
+      height: 150px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: #e9e4d0;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #d4cbb3;
+    }
+
+    .survey-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .survey-progress-badge {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--trasnoca-gold);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .survey-term-title {
+      font-family: 'Merriweather', serif;
+      font-size: 1rem;
+      color: var(--trasnoca-maroon);
+      margin-bottom: 8px;
+    }
+
     /* Redes Sociais */
     .social-links {
       display: flex;
@@ -204,24 +358,14 @@
     .social-link .social-name { font-weight: 700; font-size: 0.9rem; }
     .social-link .social-handle { font-weight: 400; font-size: 0.8rem; opacity: 0.85; }
 
-    /* Formulario Enquisa Dialectal */
+    /* Formulario de Contacto (Formspree orixinal) */
     .contact-form {
       display: flex;
       flex-direction: column;
       gap: 10px;
     }
 
-    .contact-form label {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--trasnoca-maroon);
-      margin-bottom: 2px;
-      display: block;
-    }
-
-    .contact-form input, 
-    .contact-form select, 
-    .contact-form textarea {
+    .contact-form input, .contact-form textarea {
       width: 100%;
       padding: 8px 10px;
       border: 1px solid #d4cbb3;
@@ -230,7 +374,6 @@
       font-size: 0.85rem;
       box-sizing: border-box;
       background: white;
-      color: var(--trasnoca-dark);
     }
 
     .contact-form textarea {
@@ -238,7 +381,8 @@
       height: 80px;
     }
 
-    .contact-form button {
+    .contact-form button,
+    .btn-action-primary {
       background: var(--trasnoca-maroon);
       color: white;
       border: 1px solid var(--trasnoca-gold);
@@ -247,10 +391,11 @@
       font-weight: 600;
       cursor: pointer;
       transition: background 0.2s;
-      margin-top: 4px;
+      width: 100%;
     }
 
-    .contact-form button:hover { background: #500e17; }
+    .contact-form button:hover,
+    .btn-action-primary:hover { background: #500e17; }
 
     .overlay {
       position: fixed;
@@ -536,44 +681,68 @@
 
   <!-- Menú lateral -->
   <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <h2>Proxecto Trasnoca</h2>
-      <button class="close-btn" id="closeMenu">&times;</button>
-    </div>
+    
+    <!-- VISTA PRINCIPAL DO MENÚ -->
+    <div id="sidebarMainView">
+      <div class="sidebar-header">
+        <h2>Proxecto Trasnoca</h2>
+        <button class="close-btn" id="closeMenu">&times;</button>
+      </div>
 
-    <div class="sidebar-section">
-      <h3>Que é Trasnoca?</h3>
-      <p>
-        Trasnoca é un proxecto de divulgación lingüística que busca dar visibilidade ás diversas falas da nosa terra. A riqueza da nosa lingua amosa unha diversidade da que non sempre somos conscientes, pero que é parte esencial da nosa identidade.
-      </p>
-    </div>
+      <div class="sidebar-section">
+        <h3>Que é Trasnoca?</h3>
+        <p>
+          Trasnoca é un proxecto de divulgación lingüística que busca dar visibilidade ás diversas falas da nosa terra. A riqueza da nosa lingua amosa unha diversidade da que non sempre somos conscientes, pero que é parte esencial da nosa identidade.
+        </p>
+      </div>
 
-    <div class="sidebar-section">
-      <h3>Redes sociais</h3>
-      <div class="social-links">
-        <a href="https://instagram.com/trasnoca" target="_blank" class="social-link">
-          <span class="social-name">Instagram</span>
-          <span class="social-handle">trasnoca</span>
-        </a>
+      <div class="sidebar-section">
+        <h3>Redes sociais</h3>
+        <div class="social-links">
+          <a href="https://instagram.com/trasnoca" target="_blank" class="social-link">
+            <span class="social-name">Instagram</span>
+            <span class="social-handle">trasnoca</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- BOTÓN DESTACADO "E TI, COMO LLE DIS?" XUSTO ENRIBA DA CAIXA DE SUXERENCIAS -->
+      <div class="sidebar-section">
+        <h3>Participa na enquisa</h3>
+        <button type="button" class="btn-survey-main" onclick="openSurveyView()">
+          🗣️ E ti, como lle dis?
+        </button>
+      </div>
+
+      <!-- FORMULARIO DE SUXERENCIAS / CONTACTO ORIXINAL (FORMSPREE) -->
+      <div class="sidebar-section">
+        <h3>Deixa a túa mensaxe</h3>
+        <form class="contact-form" action="https://formspree.io/f/xbjnopqr" method="POST" onsubmit="alert('Grazas pola túa mensaxe! Enviada con éxito.');">
+          <input type="text" name="nome" placeholder="O teu nome" required>
+          <input type="email" name="email" placeholder="O teu correo electrónico" required>
+          <textarea id="contactMessage" name="mensaxe" placeholder="Escribe aquí a túa mensaxe ou suxestión..." required></textarea>
+          <button type="submit">Enviar achega</button>
+        </form>
       </div>
     </div>
 
-    <!-- Formulario de recolleita dialectal anónima -->
-    <div class="sidebar-section">
-      <h3>Achega a túa variante</h3>
-      <form id="trasnocaSurveyForm" class="contact-form">
-        <div>
-          <label for="surveyCategory">Categoría / Tema:</label>
-          <select id="surveyCategory" required>
-            <option value="Xeral">Xeral</option>
-            <option value="Aves">Aves e animais</option>
-            <option value="Flora">Flora e vexetación</option>
-            <option value="Construcions">Construcións tradicionais</option>
-          </select>
-        </div>
+    <!-- PESTANA DO TEST "E TI, COMO LLE DIS?" (DO MESMO TAMAÑO DENTRO DO MENÚ) -->
+    <div id="sidebarSurveyView" style="display: none;">
+      <div class="sidebar-header">
+        <h2>E ti, como lle dis?</h2>
+        <button class="close-btn" onclick="closeSurveyView()">&times;</button>
+      </div>
 
-        <div>
-          <label for="surveyXenero">Xénero:</label>
+      <button type="button" class="btn-back-link" onclick="closeSurveyView()">← Volver ao menú principal</button>
+
+      <div class="survey-intro-box">
+        Queres facer a túa aportación ao mapa? As respostas son <strong>100% anónimas</strong>. Só che pedimos uns datos básicos sociolingüísticos para poder analizar a variación por zonas e idades!
+      </div>
+
+      <!-- PASO 1: DATOS DO INFORMANTE E SELECCIÓN DE SECCIÓN -->
+      <div id="surveyStep1">
+        <div class="survey-form-group">
+          <label for="surveyXenero">O teu xénero:</label>
           <select id="surveyXenero" required>
             <option value="">-- Selecciona --</option>
             <option value="Muller">Muller</option>
@@ -582,7 +751,7 @@
           </select>
         </div>
 
-        <div>
+        <div class="survey-form-group">
           <label for="surveyIdade">Rango de idade:</label>
           <select id="surveyIdade" required>
             <option value="">-- Selecciona --</option>
@@ -594,34 +763,63 @@
           </select>
         </div>
 
-        <div>
+        <div class="survey-form-group">
           <label for="surveyConcello">Concello:</label>
           <input type="text" id="surveyConcello" placeholder="Ex: Carballo" required>
         </div>
 
-        <div>
+        <div class="survey-form-group">
           <label for="surveyParroquia">Parroquia (opcional):</label>
           <input type="text" id="surveyParroquia" placeholder="Ex: Sofán">
         </div>
 
-        <div>
+        <div class="survey-form-group">
           <label for="surveyLocalidade">Localidade / Lugar:</label>
           <input type="text" id="surveyLocalidade" placeholder="Ex: Alvedro" required>
         </div>
 
-        <div>
-          <label for="surveyVariable">Variable preguntada:</label>
-          <input type="text" id="surveyVariable" placeholder="Ex: Hórreo, Miñoca..." required>
+        <div class="cat-selection-title">Escolle unha sección para comezar:</div>
+        
+        <div class="cat-buttons-grid">
+          <button type="button" class="btn-cat-card" onclick="startSection('Aves')">🦅 Aves</button>
+          <button type="button" class="btn-cat-card" onclick="startSection('Mamíferos')">🦊 Mamíferos</button>
+          <button type="button" class="btn-cat-card" onclick="startSection('Flora')">🌿 Flora e plantas</button>
+          <button type="button" class="btn-cat-card" onclick="startSection('Construcións')">🏚️ Construcións</button>
         </div>
+      </div>
 
-        <div>
-          <label for="surveyVariante">Como se di na túa zona? (Variante):</label>
-          <input type="text" id="surveyVariante" placeholder="Escribe a palabra exacta" required>
+      <!-- PASO 2: TARXETA DO TEST CON IMAXES -->
+      <div id="surveyStep2" style="display: none;">
+        <button type="button" class="btn-back-link" onclick="backToCategories()">← Cambiar de sección</button>
+
+        <div class="survey-card">
+          <div class="survey-progress-badge" id="surveyProgressBadge">Termo 1 de 3</div>
+          <div class="survey-term-title" id="surveyTermTitle">Variable</div>
+          
+          <div class="survey-img-container">
+            <img id="surveyImage" src="" alt="Imaxe do termo a responder">
+          </div>
+
+          <div class="survey-form-group">
+            <label for="surveyAnswerInput">Como lle chaman na túa zona?</label>
+            <input type="text" id="surveyAnswerInput" placeholder="Escribe a túa palabra exacta..." required>
+          </div>
+
+          <button type="button" class="btn-action-primary" onclick="submitCurrentTerm()">Enviar e seguinte ➔</button>
         </div>
+      </div>
 
-        <button type="button" onclick="enviarEnquisaAnonima()">Enviar resposta anónima</button>
-      </form>
+      <!-- PASO 3: MENSAXE DE AGRADECEMENTO E OPCIÓN DE FACER OUTRA SECCIÓN -->
+      <div id="surveyStep3" style="display: none; text-align: center; padding: 15px 5px;">
+        <h3 style="color: var(--trasnoca-maroon); font-family: 'Merriweather', serif; margin-bottom: 10px;">Moitas grazas! 🎉</h3>
+        <p style="font-size: 0.86rem; line-height: 1.5; margin-bottom: 20px;">
+          As túas respostas desta sección gardáronse correctamente para a súa revisión. Anímasche a completar outra sección máis?
+        </p>
+        <button type="button" class="btn-action-primary" onclick="resetToCategories()">Facer outra sección 🎯</button>
+      </div>
+
     </div>
+
   </aside>
 
   <!-- Notificación emerxente -->
@@ -695,11 +893,41 @@
     // -------------------------------------------------------------
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/1C6sUUmKd1YCgIoyV1UgVD0CkLfNMZE_Fl_T9Ue4gaio/export?format=csv';
 
+    // -------------------------------------------------------------
+    // BANCO DE TERMOS E IMAXES PARA O TEST (EDITABLE)
+    // Podes engadir ou cambiar as fotos e nomes dos termos de cada sección
+    // -------------------------------------------------------------
+    const surveyData = {
+      "Aves": [
+        { variable: "Bubela", img: "https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=400&q=80" },
+        { variable: "Paspallás", img: "https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?auto=format&fit=crop&w=400&q=80" },
+        { variable: "Gaivota", img: "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?auto=format&fit=crop&w=400&q=80" }
+      ],
+      "Mamíferos": [
+        { variable: "Ourizo cacho", img: "https://images.unsplash.com/photo-1574063413132-355dbfd83e0c?auto=format&fit=crop&w=400&q=80" },
+        { variable: "Esquirol", img: "https://images.unsplash.com/photo-1507666405769-422406bd8a1d?auto=format&fit=crop&w=400&q=80" }
+      ],
+      "Flora": [
+        { variable: "Fento", img: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=400&q=80" },
+        { variable: "Piorno / Xesta", img: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=400&q=80" }
+      ],
+      "Construcións": [
+        { variable: "Hórreo", img: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=400&q=80" }
+      ]
+    };
+
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const openMenuBtn = document.getElementById('openMenu');
     const closeMenuBtn = document.getElementById('closeMenu');
     const toast = document.getElementById('toast');
+
+    // Elementos do Menú / Test
+    const sidebarMainView = document.getElementById('sidebarMainView');
+    const sidebarSurveyView = document.getElementById('sidebarSurveyView');
+    const surveyStep1 = document.getElementById('surveyStep1');
+    const surveyStep2 = document.getElementById('surveyStep2');
+    const surveyStep3 = document.getElementById('surveyStep3');
 
     // Elementos da Mascota
     const assistantBubble = document.getElementById('assistantBubble');
@@ -711,6 +939,8 @@
     const assistantAvatar = document.getElementById('assistantAvatar');
 
     let currentAction = null;
+    let currentCategory = "";
+    let currentItemIndex = 0;
 
     function toggleMenu() {
       sidebar.classList.toggle('open');
@@ -720,6 +950,100 @@
     openMenuBtn.addEventListener('click', toggleMenu);
     closeMenuBtn.addEventListener('click', toggleMenu);
     overlay.addEventListener('click', toggleMenu);
+
+    /* Navegación das pestanas internas do menú */
+    function openSurveyView() {
+      sidebarMainView.style.display = 'none';
+      sidebarSurveyView.style.display = 'block';
+    }
+
+    function closeSurveyView() {
+      sidebarSurveyView.style.display = 'none';
+      sidebarMainView.style.display = 'block';
+      resetToCategories();
+    }
+
+    function startSection(catName) {
+      const concello = document.getElementById('surveyConcello').value.trim();
+      const localidade = document.getElementById('surveyLocalidade').value.trim();
+      const xenero = document.getElementById('surveyXenero').value;
+      const idade = document.getElementById('surveyIdade').value;
+
+      if (!xenero || !idade || !concello || !localidade) {
+        alert('Por favor, cubre os datos de xénero, idade, concello e localidade antes de comezar o test.');
+        return;
+      }
+
+      currentCategory = catName;
+      currentItemIndex = 0;
+
+      surveyStep1.style.display = 'none';
+      surveyStep2.style.display = 'block';
+      surveyStep3.style.display = 'none';
+
+      loadCurrentTerm();
+    }
+
+    function loadCurrentTerm() {
+      const list = surveyData[currentCategory];
+      if (!list || currentItemIndex >= list.length) {
+        // Cando remata os termos desta sección
+        surveyStep2.style.display = 'none';
+        surveyStep3.style.display = 'block';
+        return;
+      }
+
+      const item = list[currentItemIndex];
+      document.getElementById('surveyProgressBadge').textContent = `${currentCategory} • Termo ${currentItemIndex + 1} de ${list.length}`;
+      document.getElementById('surveyTermTitle').textContent = item.variable;
+      document.getElementById('surveyImage').src = item.img;
+      document.getElementById('surveyAnswerInput').value = '';
+      document.getElementById('surveyAnswerInput').focus();
+    }
+
+    function submitCurrentTerm() {
+      const varianteText = document.getElementById('surveyAnswerInput').value.trim();
+      if (!varianteText) {
+        alert('Por favor, indica como lle chamades na túa zona.');
+        return;
+      }
+
+      const payload = {
+        categoria: currentCategory,
+        xenero: document.getElementById('surveyXenero').value,
+        idade: document.getElementById('surveyIdade').value,
+        concello: document.getElementById('surveyConcello').value.trim(),
+        parroquia: document.getElementById('surveyParroquia').value.trim(),
+        localidade: document.getElementById('surveyLocalidade').value.trim(),
+        variable: surveyData[currentCategory][currentItemIndex].variable,
+        variante_ob: varianteText
+      };
+
+      // Enviar os datos ao backend en segundo plano
+      if (URL_APPS_SCRIPT && !URL_APPS_SCRIPT.includes('PEGA_AQUI')) {
+        fetch(URL_APPS_SCRIPT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(e => console.log('Erro de envío:', e));
+      }
+
+      currentItemIndex++;
+      loadCurrentTerm();
+    }
+
+    function backToCategories() {
+      surveyStep2.style.display = 'none';
+      surveyStep3.style.display = 'none';
+      surveyStep1.style.display = 'block';
+    }
+
+    function resetToCategories() {
+      surveyStep2.style.display = 'none';
+      surveyStep3.style.display = 'none';
+      surveyStep1.style.display = 'block';
+    }
 
     function showToast(msg) {
       toast.textContent = msg;
@@ -748,69 +1072,24 @@
     });
 
     btnYes.addEventListener('click', () => {
-      speakAssistant("Trasnoca é un proxecto colaborativo! Os datos do mapa xorden das enquisas que facemos en Instagram e da propia comunidade. Podes navegar polo mapa ou buscar termos no panel superior!", false, 9000);
+      speakAssistant("Trasnoca é un proxecto colaborativo! Os datos do mapa xorden das enquisas que facemos en Instagram e da propia comunidade. Podes navegar polo mapa ou participar no noso test no menú!", false, 9000);
     });
 
     btnNo.addEventListener('click', () => {
       speakAssistant("Entón, adiante!", false, 3000);
     });
 
-    // Acción ao premer na mascota
     assistantAvatar.addEventListener('click', () => {
       if (currentAction === 'suggest') {
         const searchText = document.getElementById('searchInput').value.trim();
         if (!sidebar.classList.contains('open')) {
           toggleMenu();
         }
-        if (document.getElementById('surveyVariable')) {
-          document.getElementById('surveyVariable').value = searchText;
-          document.getElementById('surveyVariable').focus();
-        }
+        openSurveyView();
       } else {
         speakAssistant("Lembra que podes filtrar por termo, variable ou concello para explorar a nosa lingua!", false, 4000);
       }
     });
-
-    // Función de envío do Formulario a Google Apps Script
-    function enviarEnquisaAnonima() {
-      const payload = {
-        categoria: document.getElementById('surveyCategory').value,
-        xenero: document.getElementById('surveyXenero').value,
-        idade: document.getElementById('surveyIdade').value,
-        concello: document.getElementById('surveyConcello').value.trim(),
-        parroquia: document.getElementById('surveyParroquia').value.trim(),
-        localidade: document.getElementById('surveyLocalidade').value.trim(),
-        variable: document.getElementById('surveyVariable').value.trim(),
-        variante_ob: document.getElementById('surveyVariante').value.trim()
-      };
-
-      if (!payload.concello || !payload.localidade || !payload.variante_ob) {
-        alert('Por favor, cobre polo menos o Concello, a Localidade e a Variante.');
-        return;
-      }
-
-      if (URL_APPS_SCRIPT.includes('PEGA_AQUI')) {
-        alert('Lembrete: Debes colar a URL xerada por Apps Script na liña 310 do ficheiro index.html.');
-        return;
-      }
-
-      fetch(URL_APPS_SCRIPT, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(() => {
-        speakAssistant("Moitas grazas! A túa achega anónima gardouse correctamente na pestana Pendentes.", false, 6000);
-        document.getElementById('trasnocaSurveyForm').reset();
-        if (sidebar.classList.contains('open')) {
-          toggleMenu();
-        }
-      })
-      .catch(err => {
-        alert('Houbo un erro ao enviar os datos. Inténtao de novo!');
-      });
-    }
 
     const hotLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '&copy; OpenStreetMap'
@@ -868,7 +1147,7 @@
       if (filtered.length === 0) {
         showToast('Non se atoparon termos');
         currentAction = 'suggest';
-        speakAssistant(`Vaia! Non atopamos termos para esta busca. Preme en min para enviarmos a túa variante no formulario!`, false);
+        speakAssistant(`Vaia! Non atopamos termos para esta busca. Preme en min para enviarmos a túa variante no test do menú!`, false);
       } else {
         hideToast();
       }
