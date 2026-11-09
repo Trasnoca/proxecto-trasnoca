@@ -174,7 +174,7 @@
       margin: 0;
     }
 
-    /* Botón "E ti, como lle dis?" (Novo deseño elegante) */
+    /* Botón "E ti, como lle dis?" */
     .btn-survey-main {
       width: 100%;
       background: var(--trasnoca-maroon);
@@ -258,7 +258,7 @@
 
     .cat-buttons-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 8px;
       margin-bottom: 16px;
     }
@@ -267,14 +267,17 @@
       background: white;
       border: 1px solid var(--trasnoca-gold);
       color: var(--trasnoca-maroon);
-      padding: 10px 6px;
+      padding: 10px 12px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       cursor: pointer;
-      text-align: center;
+      text-align: left;
       transition: all 0.2s;
       box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .btn-cat-card:hover {
@@ -295,7 +298,7 @@
 
     .survey-img-container {
       width: 100%;
-      height: 180px;
+      height: 190px;
       border-radius: 6px;
       overflow: hidden;
       background: #e9e4d0;
@@ -698,7 +701,7 @@
         </div>
       </div>
 
-      <!-- BOTÓN DESTACADO "E TI, COMO LLE DIS?" XUSTO ENRIBA DA CAIXA DE SUXERENCIAS -->
+      <!-- BOTÓN DESTACADO "E TI, COMO LLE DIS?" -->
       <div class="sidebar-section">
         <h3>Participa na enquisa</h3>
         <button type="button" class="btn-survey-main" onclick="openSurveyView()">
@@ -727,12 +730,11 @@
 
       <button type="button" class="btn-back-link" onclick="closeSurveyView()">&larr; Volver ao menú principal</button>
 
-      <!-- TEXTO DE INTRODUCIÓN ACTUALIZADO -->
       <div class="survey-intro-box">
         Queres facer a túa aportación ao mapa? As respostas son <strong>100% anónimas</strong>. Só che pedimos uns datos para a posterior análise dos resultados!
       </div>
 
-      <!-- PASO 1: DATOS DO INFORMANTE E SELECCIÓN DE SECCIÓN -->
+      <!-- PASO 1: DATOS DO INFORMANTE E SELECCIÓN DE SECCIÓN / SUBSECCIÓN -->
       <div id="surveyStep1">
         <div class="survey-form-group">
           <label for="surveyXenero">O teu xénero:</label>
@@ -771,17 +773,16 @@
           <input type="text" id="surveyLocalidade" placeholder="Ex: Alvedro" required>
         </div>
 
-        <div class="cat-selection-title">Escolle unha sección para comezar:</div>
+        <div class="cat-selection-title" id="catSelectionTitle">Escolle unha sección para comezar:</div>
         
-        <div class="cat-buttons-grid">
-          <button type="button" class="btn-cat-card" onclick="startSection('Aves')">Aves</button>
-          <button type="button" class="btn-cat-card" onclick="startSection('Mamíferos')">Mamíferos</button>
-          <button type="button" class="btn-cat-card" onclick="startSection('Flora')">Flora e plantas</button>
-          <button type="button" class="btn-cat-card" onclick="startSection('Construcións')">Construcións</button>
+        <button type="button" class="btn-back-link" id="btnBackToMainCats" style="display: none;" onclick="renderMainCategories()">&larr; Volver ás seccións principais</button>
+
+        <div class="cat-buttons-grid" id="catButtonsGrid">
+          <!-- Xenérase dinamicamente por JS -->
         </div>
       </div>
 
-      <!-- PASO 2: TARXETA DO TEST SÓ CON IMAXE (SEN NOME DE VARIABLE) -->
+      <!-- PASO 2: TARXETA DO TEST CON IMAXE (SEN NOME DE VARIABLE) -->
       <div id="surveyStep2" style="display: none;">
         <button type="button" class="btn-back-link" onclick="backToCategories()">&larr; Cambiar de sección</button>
 
@@ -886,27 +887,90 @@
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/1C6sUUmKd1YCgIoyV1UgVD0CkLfNMZE_Fl_T9Ue4gaio/export?format=csv';
 
     // -------------------------------------------------------------
-    // BANCO DE TERMOS POR SECCIÓN
-    // Cada elemento contén a 'variable'. A imaxe cárgase automaticamente 
-    // buscando o ficheiro '[variable].png' (ex: bubela.png) en GitHub.
+    // ESTRUTURA COMPLETA DE SECCIÓNS, SUBSECCIÓNS E VARIABLES
+    // Os nomes dos ficheiros imaxe son: [variable].png na raíz de GitHub
     // -------------------------------------------------------------
     const surveyData = {
-      "Aves": [
-        { variable: "bubela" },
-        { variable: "paspallas" },
-        { variable: "gaivota" }
-      ],
-      "Mamíferos": [
-        { variable: "ourizo_cacho" },
-        { variable: "esquirol" }
-      ],
-      "Flora": [
-        { variable: "fento" },
-        { variable: "piorno" }
-      ],
-      "Construcións": [
-        { variable: "horreo" }
-      ]
+      "Fenómenos meteorolóxicos": {
+        items: [
+          { variable: "Orballo", file: "orballo.png" },
+          { variable: "Tormenta", file: "tormenta.png" },
+          { variable: "Vendaval", file: "vendaval.png" },
+          { variable: "Xeada", file: "xeada.png" }
+        ]
+      },
+      "Mundo animal": {
+        subcategories: {
+          "Mamíferos": [
+            { variable: "Esquío", file: "esquio.png" },
+            { variable: "Morcego", file: "morcego.png" },
+            { variable: "Porco", file: "porco.png" },
+            { variable: "Xabarín", file: "xabarin.png" },
+            { variable: "Raposo", file: "raposo.png" },
+            { variable: "Doniña", file: "donina.png" },
+            { variable: "Tiupa", file: "tiupa.png" },
+            { variable: "Ourizo", file: "ourizo.png" }
+          ],
+          "Insectos": [
+            { variable: "Xoaniña", file: "xoanina.png" },
+            { variable: "Bolboreta", file: "bolboreta.png" },
+            { variable: "Avelaíña", file: "avelaina.png" },
+            { variable: "Libélula", file: "libelula.png" },
+            { variable: "Cabalo do demo", file: "cabalo_do_demo.png" },
+            { variable: "Lesma", file: "lesma.png" },
+            { variable: "Vagalume", file: "vagalume.png" }
+          ],
+          "Aves": [
+            { variable: "Moucho", file: "moucho.png" },
+            { variable: "Curuxa", file: "curuxa.png" },
+            { variable: "Paspallás", file: "paspallas.png" },
+            { variable: "Pardal", file: "pardal.png" },
+            { variable: "Paporrubio", file: "paporrubio.png" },
+            { variable: "Pega", file: "pega.png" },
+            { variable: "Anduriña", file: "andurina.png" },
+            { variable: "Merlo", file: "merlo.png" },
+            { variable: "Bubela", file: "bubela.png" },
+            { variable: "Miñato", file: "minato.png" }
+          ],
+          "Peixes": [
+            { variable: "Faneca", file: "faneca.png" },
+            { variable: "Sardiña", file: "sardina.png" },
+            { variable: "Cabala", file: "cabala.png" },
+            { variable: "Robaliza", file: "robaliza.png" },
+            { variable: "Rape", file: "rape.png" }
+          ],
+          "Outros": [
+            { variable: "Píntega", file: "pintega.png" },
+            { variable: "Lagartixa", file: "lagartixa.png" },
+            { variable: "Escáncer", file: "escancer.png" }
+          ]
+        }
+      },
+      "Mundo vexetal": {
+        items: [
+          { variable: "Carballo", file: "carballo.png" },
+          { variable: "Ortiga", file: "ortiga.png" },
+          { variable: "Silva", file: "silva.png" },
+          { variable: "Bilitroque", file: "bilitroque.png" },
+          { variable: "Chuchamel", file: "chuchamel.png" }
+        ]
+      },
+      "Construción": {
+        items: [
+          { variable: "Cabazo", file: "cabazo.png" },
+          { variable: "Fonte", file: "fonte.png" },
+          { variable: "Valado", file: "valado.png" }
+        ]
+      },
+      "Mitoloxía": {
+        items: [
+          { variable: "Meigas", file: "meigas.png" },
+          { variable: "Santa compaña", file: "santa_compana.png" },
+          { variable: "Trasno", file: "trasno.png" },
+          { variable: "Demo", file: "demo.png" },
+          { variable: "Lobishome", file: "lobishome.png" }
+        ]
+      }
     };
 
     const sidebar = document.getElementById('sidebar');
@@ -921,6 +985,9 @@
     const surveyStep1 = document.getElementById('surveyStep1');
     const surveyStep2 = document.getElementById('surveyStep2');
     const surveyStep3 = document.getElementById('surveyStep3');
+    const catButtonsGrid = document.getElementById('catButtonsGrid');
+    const catSelectionTitle = document.getElementById('catSelectionTitle');
+    const btnBackToMainCats = document.getElementById('btnBackToMainCats');
 
     // Elementos da Mascota
     const assistantBubble = document.getElementById('assistantBubble');
@@ -932,7 +999,8 @@
     const assistantAvatar = document.getElementById('assistantAvatar');
 
     let currentAction = null;
-    let currentCategory = "";
+    let currentCategoryName = "";
+    let currentItemList = [];
     let currentItemIndex = 0;
 
     function toggleMenu() {
@@ -948,6 +1016,7 @@
     function openSurveyView() {
       sidebarMainView.style.display = 'none';
       sidebarSurveyView.style.display = 'block';
+      renderMainCategories();
     }
 
     function closeSurveyView() {
@@ -956,18 +1025,60 @@
       resetToCategories();
     }
 
-    function startSection(catName) {
+    // Rentenderizar as seccións principais
+    function renderMainCategories() {
+      catSelectionTitle.textContent = "Escolle unha sección para comezar:";
+      btnBackToMainCats.style.display = 'none';
+      catButtonsGrid.innerHTML = '';
+
+      Object.keys(surveyData).forEach(catName => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn-cat-card';
+        btn.innerHTML = `<span>${catName}</span> <span>&rarr;</span>`;
+        btn.onclick = () => selectMainCategory(catName);
+        catButtonsGrid.appendChild(btn);
+      });
+    }
+
+    // Cando a persoa escolle unha sección principal
+    function selectMainCategory(catName) {
+      const catObj = surveyData[catName];
+
+      if (catObj.subcategories) {
+        // Se ten subseccións (como Mundo animal)
+        catSelectionTitle.textContent = `Escolle o tipo dentro de ${catName}:`;
+        btnBackToMainCats.style.display = 'inline-flex';
+        catButtonsGrid.innerHTML = '';
+
+        Object.keys(catObj.subcategories).forEach(subName => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn-cat-card';
+          btn.innerHTML = `<span>${subName}</span> <span>&rarr;</span>`;
+          btn.onclick = () => validateAndStartTest(`${catName} (${subName})`, catObj.subcategories[subName]);
+          catButtonsGrid.appendChild(btn);
+        });
+      } else {
+        // Se vai directa aos termos
+        validateAndStartTest(catName, catObj.items);
+      }
+    }
+
+    // Validar datos sociolingüísticos e comezar o test da sección escollida
+    function validateAndStartTest(categoryLabel, itemList) {
       const concello = document.getElementById('surveyConcello').value.trim();
       const localidade = document.getElementById('surveyLocalidade').value.trim();
       const xenero = document.getElementById('surveyXenero').value;
       const idade = document.getElementById('surveyIdade').value;
 
       if (!xenero || !idade || !concello || !localidade) {
-        alert('Por favor, cubre os datos de xénero, idade, concello e localidade antes de comezar o test.');
+        alert('Por favor, cobre os datos de xénero, idade, concello e localidade antes de comezar o test.');
         return;
       }
 
-      currentCategory = catName;
+      currentCategoryName = categoryLabel;
+      currentItemList = itemList;
       currentItemIndex = 0;
 
       surveyStep1.style.display = 'none';
@@ -978,19 +1089,17 @@
     }
 
     function loadCurrentTerm() {
-      const list = surveyData[currentCategory];
-      if (!list || currentItemIndex >= list.length) {
+      if (!currentItemList || currentItemIndex >= currentItemList.length) {
         surveyStep2.style.display = 'none';
         surveyStep3.style.display = 'block';
         return;
       }
 
-      const item = list[currentItemIndex];
-      document.getElementById('surveyProgressBadge').textContent = `${currentCategory} • Termo ${currentItemIndex + 1} de ${list.length}`;
+      const item = currentItemList[currentItemIndex];
+      document.getElementById('surveyProgressBadge').textContent = `${currentCategoryName} • Termo ${currentItemIndex + 1} de ${currentItemList.length}`;
       
-      // Carga a imaxe segundo o nome da variable + .png (ex: bubela.png)
-      const imageFileName = (item.image || item.variable.toLowerCase().trim()) + '.png';
-      document.getElementById('surveyImage').src = imageFileName;
+      // Carga o ficheiro PNG asociado á variable
+      document.getElementById('surveyImage').src = item.file;
       
       document.getElementById('surveyAnswerInput').value = '';
       document.getElementById('surveyAnswerInput').focus();
@@ -1003,17 +1112,17 @@
         return;
       }
 
-      const currentTermObj = surveyData[currentCategory][currentItemIndex];
+      const currentItem = currentItemList[currentItemIndex];
 
       const payload = {
-        categoria: currentCategory,
+        categoria: currentCategoryName,
         xenero: document.getElementById('surveyXenero').value,
         idade: document.getElementById('surveyIdade').value,
         concello: document.getElementById('surveyConcello').value.trim(),
         parroquia: document.getElementById('surveyParroquia').value.trim(),
         localidade: document.getElementById('surveyLocalidade').value.trim(),
-        variable: currentTermObj.variable,  // Envía a variable interna á táboa
-        variante_ob: varianteText            // Envía a variante introducida polo usuario
+        variable: currentItem.variable,  // Envía a variable exacta (ex: Cabalo do demo)
+        variante_ob: varianteText        // Envía a resposta escrita pola persoa
       };
 
       // Enviar os datos en segundo plano a Google Apps Script
@@ -1034,12 +1143,14 @@
       surveyStep2.style.display = 'none';
       surveyStep3.style.display = 'none';
       surveyStep1.style.display = 'block';
+      renderMainCategories();
     }
 
     function resetToCategories() {
       surveyStep2.style.display = 'none';
       surveyStep3.style.display = 'none';
       surveyStep1.style.display = 'block';
+      renderMainCategories();
     }
 
     function showToast(msg) {
