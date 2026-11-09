@@ -16,7 +16,7 @@
   <style>
     :root {
       --bg-brown: #2c221e;
-      --glass-bg: rgba(44, 34, 30, 0.85);
+      --glass-bg: rgba(44, 34, 30, 0.90);
       --glass-border: rgba(212, 175, 55, 0.3);
       --accent-gold: #d4af37;
       --accent-gold-hover: #f3e5ab;
@@ -31,23 +31,26 @@
       padding: 0;
     }
 
-    body {
+    html, body {
+      height: 100%;
+      width: 100%;
       font-family: var(--font-main);
       background-color: var(--bg-brown);
       color: var(--text-light);
       overflow: hidden;
-      height: 100vh;
-      width: 100vw;
     }
 
     /* Mapa a pantalla completa */
     #map {
       height: 100vh;
       width: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
       z-index: 1;
     }
 
-    /* Botón flotante do menú */
+    /* Botón hamburguesa */
     .menu-toggle {
       position: absolute;
       top: 20px;
@@ -61,9 +64,13 @@
       cursor: pointer;
       font-family: var(--font-main);
       font-weight: 700;
+      font-size: 1rem;
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
       transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .menu-toggle:hover {
@@ -71,7 +78,7 @@
       color: var(--bg-brown);
     }
 
-    /* Menú lateral (Sidebar con Glassmorphism) */
+    /* Menú lateral (Sidebar) */
     .sidebar {
       position: absolute;
       top: 0;
@@ -86,36 +93,85 @@
       overflow-y: auto;
       transition: right 0.4s ease-in-out;
       box-shadow: -5px 0 25px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
     }
 
     .sidebar.open {
       right: 0;
     }
 
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--glass-border);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+
     .sidebar h2 {
       color: var(--accent-gold);
+      font-size: 1.4rem;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
       font-size: 1.5rem;
-      margin-bottom: 10px;
-      border-bottom: 1px solid var(--glass-border);
-      padding-bottom: 8px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: var(--accent-gold);
     }
 
     .sidebar p {
       font-size: 0.9rem;
       color: var(--text-muted);
       margin-bottom: 20px;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
-    /* Estilos do formulario */
-    .sidebar-section {
-      margin-top: 15px;
+    /* Botón principal para abrir o cuestionario */
+    .btn-start-survey {
+      background: var(--accent-gold);
+      color: var(--bg-brown);
+      border: none;
+      padding: 14px 20px;
+      border-radius: 8px;
+      font-family: var(--font-main);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      margin-top: 10px;
     }
 
-    .sidebar-section h3 {
+    .btn-start-survey:hover {
+      background: var(--accent-gold-hover);
+    }
+
+    .btn-back {
+      background: transparent;
       color: var(--accent-gold);
-      font-size: 1.1rem;
+      border: 1px solid var(--glass-border);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: var(--font-main);
+      font-size: 0.8rem;
+      cursor: pointer;
       margin-bottom: 15px;
+      align-self: flex-start;
+    }
+
+    /* Contedor do Formulario (Oculto por defecto) */
+    #surveyContainer {
+      display: none;
     }
 
     .contact-form {
@@ -136,8 +192,7 @@
     }
 
     .filter-group input,
-    .filter-group select,
-    .filter-group textarea {
+    .filter-group select {
       width: 100%;
       padding: 10px;
       border-radius: 6px;
@@ -154,23 +209,6 @@
       border-color: var(--accent-gold);
     }
 
-    .contact-form button {
-      margin-top: 10px;
-      background: var(--accent-gold);
-      color: var(--bg-brown);
-      border: none;
-      padding: 12px;
-      border-radius: 6px;
-      font-family: var(--font-main);
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .contact-form button:hover {
-      background: var(--accent-gold-hover);
-    }
-
     /* Mascota (Pandeireta) e bocadillo de texto */
     .mascot-container {
       position: absolute;
@@ -184,8 +222,8 @@
     }
 
     .mascot-img {
-      width: 90px;
-      height: 90px;
+      width: 80px;
+      height: 80px;
       background: var(--accent-gold);
       border-radius: 50%;
       border: 3px solid var(--bg-brown);
@@ -210,7 +248,7 @@
       padding: 12px 16px;
       border-radius: 12px 12px 12px 0;
       font-size: 0.85rem;
-      max-width: 260px;
+      max-width: 250px;
       backdrop-filter: blur(10px);
       box-shadow: 0 4px 15px rgba(0,0,0,0.4);
       opacity: 0;
@@ -240,19 +278,32 @@
   <!-- Mapa Leaflet -->
   <div id="map"></div>
 
-  <!-- Botón abrir/pechar menú -->
-  <button class="menu-toggle" onclick="toggleMenu()">☰ Menú</button>
+  <!-- Botón hamburguesa -->
+  <button class="menu-toggle" onclick="toggleMenu()">
+    <span>☰</span> Menú
+  </button>
 
   <!-- Menú lateral -->
   <div class="sidebar" id="sidebar">
-    <h2>Proxecto Trasnoca</h2>
-    <p>Mapa de variación dialectolóxica e recolledor de patrimonio lingüístico viva en Galicia.</p>
-    
-    <!-- Formulario anónimo de 12 columnas -->
-    <div class="sidebar-section">
-      <h3>Achega a túa variante</h3>
+    <div class="sidebar-header">
+      <h2>Proxecto Trasnoca</h2>
+      <button class="close-btn" onclick="toggleMenu()">✕</button>
+    </div>
+
+    <!-- Vista inicial do menú -->
+    <div id="mainMenuView">
+      <p>Benvida ao mapa de variación dialectolóxica de Galicia. Explora os puntos e axúdanos a recoller o patrimonio lingüístico vivo da túa zona.</p>
+      
+      <button class="btn-start-survey" onclick="mostrarCuestionario()">
+        📝 Achegar variante lingüística
+      </button>
+    </div>
+
+    <!-- Vista do Formulario (Oculta ao inicio) -->
+    <div id="surveyContainer">
+      <button class="btn-back" onclick="ocultarCuestionario()">← Volver ao menú</button>
+      
       <form id="trasnocaSurveyForm" class="contact-form">
-        
         <div class="filter-group">
           <label for="surveyCategory">Categoría / Tema:</label>
           <select id="surveyCategory" required>
@@ -310,7 +361,7 @@
           <input type="text" id="surveyVariante" placeholder="Escribe a palabra exacta" required>
         </div>
 
-        <button type="button" onclick="enviarEnquisaAnonima()">Enviar resposta anónima</button>
+        <button type="button" class="btn-start-survey" onclick="enviarEnquisaAnonima()">Enviar resposta anónima</button>
       </form>
     </div>
   </div>
@@ -318,7 +369,7 @@
   <!-- Mascota (Pandeireta) -->
   <div class="mascot-container">
     <div class="mascot-img" onclick="mascotClick()">🥁</div>
-    <div class="speech-bubble" id="mascotSpeech">Ola! Soas da túa zona? Deixa as túas variantes lingüísticas no formulario.</div>
+    <div class="speech-bubble" id="mascotSpeech">Ola! Preme no menú para achegar as túas palabras.</div>
   </div>
 
   <!-- Leaflet JS -->
@@ -333,16 +384,27 @@
     // Inicialización do mapa centrado en Galicia
     const map = L.map('map').setView([42.5751, -8.1339], 8);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 19
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
     // Control do menú lateral
     function toggleMenu() {
       const sidebar = document.getElementById('sidebar');
       sidebar.classList.toggle('open');
+      if (!sidebar.classList.contains('open')) {
+        ocultarCuestionario();
+      }
+    }
+
+    function mostrarCuestionario() {
+      document.getElementById('mainMenuView').style.display = 'none';
+      document.getElementById('surveyContainer').style.display = 'block';
+    }
+
+    function ocultarCuestionario() {
+      document.getElementById('mainMenuView').style.display = 'block';
+      document.getElementById('surveyContainer').style.display = 'none';
     }
 
     // Interaccións coa Mascota
@@ -361,12 +423,11 @@
     }
 
     function mascotClick() {
-      speakAssistant("Podes axudarnos a ampliar o mapa enchendo as formas tradicionais do teu concello dende o menú!", true, 6000);
+      speakAssistant("Preme no menú superior para abrir o formulario e enviar novas variantes!", true, 6000);
     }
 
-    // Mostrar mensaxe de benvida aos 2 segundos
     setTimeout(() => {
-      speakAssistant("Benvida a Trasnoca! Explora o mapa ou achega novas palabras no menú.", true, 6000);
+      speakAssistant("Benvida a Trasnoca! Explora o mapa ou abre o menú para colaborar.", true, 6000);
     }, 2000);
 
     // Envío do Formulario a Google Apps Script
@@ -387,9 +448,8 @@
         return;
       }
 
-      // Verificación de seguridade antes do envío
       if (URL_APPS_SCRIPT.includes('PEGA_AQUÍ')) {
-        alert('Recordatorio: Debes colar a URL xerada por Apps Script no ficheiro index.html.');
+        alert('Lembrete: Debes colar a URL xerada por Apps Script no ficheiro index.html.');
         return;
       }
 
@@ -400,15 +460,10 @@
         body: JSON.stringify(payload)
       })
       .then(() => {
-        // Reacción da mascota tras o envío con éxito
-        speakAssistant("Moitas grazas! A túa achega anónima gardouse correctamente na táboa.", false, 6000);
+        speakAssistant("Moitas grazas! A túa achega anónima gardouse correctamente na pestana Pendentes.", false, 6000);
         document.getElementById('trasnocaSurveyForm').reset();
-        
-        // Pechar menú lateral se está aberto
-        const sidebar = document.getElementById('sidebar');
-        if (sidebar.classList.contains('open')) {
-          toggleMenu();
-        }
+        ocultarCuestionario();
+        toggleMenu();
       })
       .catch(err => {
         alert('Houbo un erro ao enviar os datos. Inténtao de novo!');
