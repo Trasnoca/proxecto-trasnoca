@@ -191,7 +191,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
     }
 
     .btn-survey-main:hover {
@@ -211,7 +210,6 @@
       margin-bottom: 14px;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
     }
 
     .survey-intro-box {
@@ -296,7 +294,7 @@
 
     .survey-img-container {
       width: 100%;
-      height: 150px;
+      height: 180px;
       border-radius: 6px;
       overflow: hidden;
       background: #e9e4d0;
@@ -318,13 +316,6 @@
       font-weight: 700;
       color: var(--trasnoca-gold);
       text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-
-    .survey-term-title {
-      font-family: 'Merriweather', serif;
-      font-size: 1rem;
-      color: var(--trasnoca-maroon);
       margin-bottom: 8px;
     }
 
@@ -710,7 +701,7 @@
       <div class="sidebar-section">
         <h3>Participa na enquisa</h3>
         <button type="button" class="btn-survey-main" onclick="openSurveyView()">
-          🗣️ E ti, como lle dis?
+          E ti, como lle dis?
         </button>
       </div>
 
@@ -733,7 +724,7 @@
         <button class="close-btn" onclick="closeSurveyView()">&times;</button>
       </div>
 
-      <button type="button" class="btn-back-link" onclick="closeSurveyView()">← Volver ao menú principal</button>
+      <button type="button" class="btn-back-link" onclick="closeSurveyView()">&larr; Volver ao menú principal</button>
 
       <div class="survey-intro-box">
         Queres facer a túa aportación ao mapa? As respostas son <strong>100% anónimas</strong>. Só che pedimos uns datos básicos sociolingüísticos para poder analizar a variación por zonas e idades!
@@ -781,23 +772,22 @@
         <div class="cat-selection-title">Escolle unha sección para comezar:</div>
         
         <div class="cat-buttons-grid">
-          <button type="button" class="btn-cat-card" onclick="startSection('Aves')">🦅 Aves</button>
-          <button type="button" class="btn-cat-card" onclick="startSection('Mamíferos')">🦊 Mamíferos</button>
-          <button type="button" class="btn-cat-card" onclick="startSection('Flora')">🌿 Flora e plantas</button>
-          <button type="button" class="btn-cat-card" onclick="startSection('Construcións')">🏚️ Construcións</button>
+          <button type="button" class="btn-cat-card" onclick="startSection('Aves')">Aves</button>
+          <button type="button" class="btn-cat-card" onclick="startSection('Mamíferos')">Mamíferos</button>
+          <button type="button" class="btn-cat-card" onclick="startSection('Flora')">Flora e plantas</button>
+          <button type="button" class="btn-cat-card" onclick="startSection('Construcións')">Construcións</button>
         </div>
       </div>
 
-      <!-- PASO 2: TARXETA DO TEST CON IMAXES -->
+      <!-- PASO 2: TARXETA DO TEST SÓ CON IMAXE (SEN NOME DE VARIABLE) -->
       <div id="surveyStep2" style="display: none;">
-        <button type="button" class="btn-back-link" onclick="backToCategories()">← Cambiar de sección</button>
+        <button type="button" class="btn-back-link" onclick="backToCategories()">&larr; Cambiar de sección</button>
 
         <div class="survey-card">
           <div class="survey-progress-badge" id="surveyProgressBadge">Termo 1 de 3</div>
-          <div class="survey-term-title" id="surveyTermTitle">Variable</div>
           
           <div class="survey-img-container">
-            <img id="surveyImage" src="" alt="Imaxe do termo a responder">
+            <img id="surveyImage" src="" alt="Imaxe do termo a responder" onerror="this.alt='Imaxe non atopada no repositorio'">
           </div>
 
           <div class="survey-form-group">
@@ -805,17 +795,17 @@
             <input type="text" id="surveyAnswerInput" placeholder="Escribe a túa palabra exacta..." required>
           </div>
 
-          <button type="button" class="btn-action-primary" onclick="submitCurrentTerm()">Enviar e seguinte ➔</button>
+          <button type="button" class="btn-action-primary" onclick="submitCurrentTerm()">Enviar e seguinte</button>
         </div>
       </div>
 
-      <!-- PASO 3: MENSAXE DE AGRADECEMENTO E OPCIÓN DE FACER OUTRA SECCIÓN -->
+      <!-- PASO 3: AGRADECEMENTO E REPETICIÓN -->
       <div id="surveyStep3" style="display: none; text-align: center; padding: 15px 5px;">
-        <h3 style="color: var(--trasnoca-maroon); font-family: 'Merriweather', serif; margin-bottom: 10px;">Moitas grazas! 🎉</h3>
+        <h3 style="color: var(--trasnoca-maroon); font-family: 'Merriweather', serif; margin-bottom: 10px;">Moitas grazas!</h3>
         <p style="font-size: 0.86rem; line-height: 1.5; margin-bottom: 20px;">
           As túas respostas desta sección gardáronse correctamente para a súa revisión. Anímasche a completar outra sección máis?
         </p>
-        <button type="button" class="btn-action-primary" onclick="resetToCategories()">Facer outra sección 🎯</button>
+        <button type="button" class="btn-action-primary" onclick="resetToCategories()">Facer outra sección</button>
       </div>
 
     </div>
@@ -894,25 +884,26 @@
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/1C6sUUmKd1YCgIoyV1UgVD0CkLfNMZE_Fl_T9Ue4gaio/export?format=csv';
 
     // -------------------------------------------------------------
-    // BANCO DE TERMOS E IMAXES PARA O TEST (EDITABLE)
-    // Podes engadir ou cambiar as fotos e nomes dos termos de cada sección
+    // BANCO DE TERMOS POR SECCIÓN
+    // Cada elemento contén a 'variable'. A imaxe cárgase automaticamente 
+    // buscando o ficheiro '[variable].png' (ex: bubela.png) en GitHub.
     // -------------------------------------------------------------
     const surveyData = {
       "Aves": [
-        { variable: "Bubela", img: "https://images.unsplash.com/photo-1555685812-4b943f1cb0eb?auto=format&fit=crop&w=400&q=80" },
-        { variable: "Paspallás", img: "https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?auto=format&fit=crop&w=400&q=80" },
-        { variable: "Gaivota", img: "https://images.unsplash.com/photo-1518020382113-a7e8fc38eac9?auto=format&fit=crop&w=400&q=80" }
+        { variable: "bubela" },
+        { variable: "paspallas" },
+        { variable: "gaivota" }
       ],
       "Mamíferos": [
-        { variable: "Ourizo cacho", img: "https://images.unsplash.com/photo-1574063413132-355dbfd83e0c?auto=format&fit=crop&w=400&q=80" },
-        { variable: "Esquirol", img: "https://images.unsplash.com/photo-1507666405769-422406bd8a1d?auto=format&fit=crop&w=400&q=80" }
+        { variable: "ourizo_cacho" },
+        { variable: "esquirol" }
       ],
       "Flora": [
-        { variable: "Fento", img: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=400&q=80" },
-        { variable: "Piorno / Xesta", img: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=400&q=80" }
+        { variable: "fento" },
+        { variable: "piorno" }
       ],
       "Construcións": [
-        { variable: "Hórreo", img: "https://images.unsplash.com/photo-1513836279014-a89f7a76ae86?auto=format&fit=crop&w=400&q=80" }
+        { variable: "horreo" }
       ]
     };
 
@@ -987,7 +978,6 @@
     function loadCurrentTerm() {
       const list = surveyData[currentCategory];
       if (!list || currentItemIndex >= list.length) {
-        // Cando remata os termos desta sección
         surveyStep2.style.display = 'none';
         surveyStep3.style.display = 'block';
         return;
@@ -995,8 +985,11 @@
 
       const item = list[currentItemIndex];
       document.getElementById('surveyProgressBadge').textContent = `${currentCategory} • Termo ${currentItemIndex + 1} de ${list.length}`;
-      document.getElementById('surveyTermTitle').textContent = item.variable;
-      document.getElementById('surveyImage').src = item.img;
+      
+      // Carga a imaxe segundo o nome da variable + .png (ex: bubela.png)
+      const imageFileName = (item.image || item.variable.toLowerCase().trim()) + '.png';
+      document.getElementById('surveyImage').src = imageFileName;
+      
       document.getElementById('surveyAnswerInput').value = '';
       document.getElementById('surveyAnswerInput').focus();
     }
@@ -1008,6 +1001,8 @@
         return;
       }
 
+      const currentTermObj = surveyData[currentCategory][currentItemIndex];
+
       const payload = {
         categoria: currentCategory,
         xenero: document.getElementById('surveyXenero').value,
@@ -1015,11 +1010,11 @@
         concello: document.getElementById('surveyConcello').value.trim(),
         parroquia: document.getElementById('surveyParroquia').value.trim(),
         localidade: document.getElementById('surveyLocalidade').value.trim(),
-        variable: surveyData[currentCategory][currentItemIndex].variable,
-        variante_ob: varianteText
+        variable: currentTermObj.variable,  // Envía a variable interna á táboa
+        variante_ob: varianteText            // Envía a variante introducida polo usuario
       };
 
-      // Enviar os datos ao backend en segundo plano
+      // Enviar os datos en segundo plano a Google Apps Script
       if (URL_APPS_SCRIPT && !URL_APPS_SCRIPT.includes('PEGA_AQUI')) {
         fetch(URL_APPS_SCRIPT, {
           method: 'POST',
@@ -1081,7 +1076,6 @@
 
     assistantAvatar.addEventListener('click', () => {
       if (currentAction === 'suggest') {
-        const searchText = document.getElementById('searchInput').value.trim();
         if (!sidebar.classList.contains('open')) {
           toggleMenu();
         }
