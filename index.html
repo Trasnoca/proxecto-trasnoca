@@ -879,12 +879,12 @@
     // -------------------------------------------------------------
     // CONFIGURACIÓN DE APPS SCRIPT (SUBSTITÚE ESTE ENLACE POLO TEU)
     // -------------------------------------------------------------
-    const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbzbl24lcwLgZW3qina8nQX2AtRxWr2tzK8BZCf-zl41648OKOTKRBIiMxk3tdV1pTEx/exec';
+    const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbxT_nFcR2pFz1YuQSP_B6DCVDS5aPJQRmp60db9izdrvS-mVs6PenErYT4TcH6FmxIp/exec';
 
     // -------------------------------------------------------------
     // CONFIGURACIÓN DO CSV DE GOOGLE SHEETS PARA LER O MAPA
     // -------------------------------------------------------------
-    const URL_CSV = 'https://docs.google.com/spreadsheets/d/1C6sUUmKd1YCgIoyV1UgVD0CkLfNMZE_Fl_T9Ue4gaio/export?format=csv';
+    const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM7J-V4z8IRqX5Fr6qdodnNq_PWXJjVspePhH3xIb0wqz8CjBZETB-6JRLPcaMk1xMq-7X1DGgxt3O/pub?gid=0&single=true&output=csv';
 
     // -------------------------------------------------------------
     // ESTRUTURA COMPLETA DE SECCIÓNS, SUBSECCIÓNS E VARIABLES
@@ -1434,8 +1434,11 @@
       speakAssistant("Douche a benvida a Trasnoca! É a túa primeira vez na páxina?", true);
     });
 
-    if (URL_CSV && URL_CSV !== 'PEGA_AQUI_A_TUA_LIGAZON_CSV') {
-      Papa.parse(URL_CSV, {
+    // CARGA DE DATOS DO MAPA EVITANDO CACHÉ
+    if (URL_CSV && URL_CSV !== 'PEGA_AQUI_A_NOVA_LIGAZON_CSV') {
+      const urlActualizada = URL_CSV + (URL_CSV.includes('?') ? '&' : '?') + 't=' + Date.now();
+
+      Papa.parse(urlActualizada, {
         download: true,
         header: true,
         skipEmptyLines: true,
