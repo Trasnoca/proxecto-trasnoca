@@ -1096,6 +1096,27 @@
           return;
         }
 
+        // SE HABÍA UNHA BUSCA SEN RESULTADOS, ABRE O FORMULARIO E AUTOCUBRE A SUXESTIÓN
+        if (currentAction === 'suggest_contact') {
+          if (sidebar && !sidebar.classList.contains('open')) {
+            toggleMenu();
+          }
+          closeSurveyView();
+          
+          const msgInput = document.getElementById('contactMessage');
+          if (msgInput) {
+            msgInput.value = lastSearchedTerm 
+              ? `Suxestión de termo/variante: ${lastSearchedTerm}` 
+              : "Suxestión de termo:";
+            msgInput.focus();
+            msgInput.scrollIntoView({ behavior: 'smooth' });
+          }
+          speakAssistant("Déixanos a túa suxestión ou variante no formulario de contacto!", false, 4000, true);
+          currentAction = null;
+          return;
+        }
+
+        // SE NON HAI BUSCA SEN RESULTADOS, ALTERNA EN MODO NORMAL
         if (btnYes) btnYes.style.display = 'inline-block';
         if (btnNo) btnNo.style.display = 'inline-block';
 
@@ -1105,7 +1126,7 @@
           speakAssistant("Lembra que podes explorar a nosa lingua de 3 xeitos: buscando por <strong>termo</strong>, por <strong>área lingüística</strong> ou por <strong>lugar</strong> no buscador da esquerda!", false, 9000, true);
         } else {
           assistantText.innerHTML = "Aínda non participaches? Axúdanos a completar o mapa dicíndonos como lle chamas ás cousas na túa zona!";
-          assistantButtons.innerHTML = `<button class="assistant-btn" onclick="irAEnquisaDesdeAsistente()">Ir á enquisa :)</button>`;
+          assistantButtons.innerHTML = `<button class="assistant-btn" onclick="irAEnquisaDesdeAsistente()">Ir á enquisa</button>`;
           assistantButtons.style.display = 'flex';
           if (assistantClose) assistantClose.style.display = 'block';
           assistantBubble.style.display = 'block';
@@ -1606,7 +1627,22 @@
       }
 
       if (filtered.length === 0) {
-        showToast('Non se atoparon resultados');
+        if (currentSearchTab === 'termo') {
+          showToast('Non se atoparon termos');
+          currentAction = 'suggest_contact';
+          const sText = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim() : '';
+          const vVar = document.getElementById('variableFilter') ? document.getElementById('variableFilter').value : '';
+          const vVarOb = document.getElementById('variantFilter') ? document.getElementById('variantFilter').value : '';
+          lastSearchedTerm = sText || vVarOb || vVar || '';
+          
+          speakAssistant(`Vaia! Non atopamos termos para esta busca. Preme en min para enviarnos a túa suxestión no formulario!`, false, 0, true);
+        } else if (currentSearchTab === 'dialecto') {
+          showToast('Non se atoparon termos para esta área lingüística');
+          speakAssistant(`Vaia! Non atopamos termos rexistrados para esta área lingüística.`, false, 4000, true);
+        } else if (currentSearchTab === 'lugar') {
+          showToast('Non se atoparon termos para esta localidade/concello');
+          speakAssistant(`Vaia! Non atopamos termos rexistrados para este concello ou localidade.`, false, 4000, true);
+        }
       } else {
         hideToast();
       }
