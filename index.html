@@ -956,7 +956,7 @@
     const IMG_FALA_PECHADA = 'pandeireta_fala_pechada.png';
     const IMG_FALA_ABERTA = 'pandeireta_fala_aberta.png';
 
-    // 2. ELEMENTOS DO DOM (DECLARADOS NO INICIO PARA EVITAR ERROS DE INICIALIZACIÓN)
+    // 2. ELEMENTOS DO DOM
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const openMenuBtn = document.getElementById('openMenu');
@@ -980,6 +980,8 @@
     // 3. VARIABLES DE ESTADO
     let talkInterval = null;
     let talkTimeout = null;
+    let mascotToggle = false;
+    let isWelcomeActive = true;
     let currentSearchTab = 'termo'; 
     let lastSearchedTerm = '';
     let currentAction = null;
@@ -1040,19 +1042,75 @@
       if (assistantAvatar) assistantAvatar.src = IMG_NORMAL;
     }
 
-    function speakAssistant(text, showBtns = false, autoHideMs = 0) {
+    function speakAssistant(text, showBtns = false, autoHideMs = 0, allowClose = true) {
       if (!assistantText || !assistantBubble || !assistantButtons) return;
       assistantText.innerHTML = text;
       assistantBubble.style.display = 'block';
       assistantButtons.style.display = showBtns ? 'flex' : 'none';
+
+      if (assistantClose) {
+        assistantClose.style.display = allowClose ? 'block' : 'none';
+      }
 
       animarFala(text, autoHideMs);
     }
 
     if (assistantClose) {
       assistantClose.addEventListener('click', () => {
+        if (isWelcomeActive) return;
         if (assistantBubble) assistantBubble.style.display = 'none';
         pararFalaTotal();
+      });
+    }
+
+    // BOTÓNS DA BENVIDA INICIAL OBRIGATORIA
+    if (btnYes) {
+      btnYes.addEventListener('click', () => {
+        isWelcomeActive = false;
+        speakAssistant("Trasnoca é un proxecto colaborativo! Os datos do mapa xorden das enquisas que facemos en Instagram e da propia comunidade. Podes navegar polo mapa ou participar no noso test no menú!", false, 9000, true);
+      });
+    }
+
+    if (btnNo) {
+      btnNo.addEventListener('click', () => {
+        isWelcomeActive = false;
+        speakAssistant("Entón, adiante!", false, 3000, true);
+      });
+    }
+
+    // FUNCIÓN PARA IR DIRECTO Á ENQUISA
+    function irAEnquisaDesdeAsistente() {
+      if (sidebar && !sidebar.classList.contains('open')) {
+        toggleMenu();
+      }
+      openSurveyView();
+      if (assistantBubble) assistantBubble.style.display = 'none';
+      pararFalaTotal();
+    }
+
+    // CLIC INTENCIONAL NA MASCOTA
+    if (assistantAvatar) {
+      assistantAvatar.addEventListener('click', () => {
+        if (isWelcomeActive) {
+          speakAssistant("Por favor, selecciona Si ou Non para continuar!", true, 0, false);
+          return;
+        }
+
+        if (btnYes) btnYes.style.display = 'inline-block';
+        if (btnNo) btnNo.style.display = 'inline-block';
+
+        mascotToggle = !mascotToggle;
+
+        if (mascotToggle) {
+          speakAssistant("Lembra que podes explorar a nosa lingua de 3 xeitos: buscando por <strong>termo</strong>, por <strong>área lingüística</strong> ou por <strong>lugar</strong> no buscador da esquerda!", false, 9000, true);
+        } else {
+          assistantText.innerHTML = "Aínda non participaches? Axúdanos a completar o mapa dicíndonos como lle chamas ás cousas na túa zona!";
+          assistantButtons.innerHTML = `<button class="assistant-btn" onclick="irAEnquisaDesdeAsistente()">Ir á enquisa 📝</button>`;
+          assistantButtons.style.display = 'flex';
+          if (assistantClose) assistantClose.style.display = 'block';
+          assistantBubble.style.display = 'block';
+          animarFala(assistantText.innerHTML, 9000);
+        }
       });
     }
 
@@ -1447,41 +1505,6 @@
       if (toast) toast.classList.remove('show');
     }
 
-    if (btnYes) {
-      btnYes.addEventListener('click', () => {
-        speakAssistant("Trasnoca é un proxecto colaborativo! Os datos do mapa xorden das enquisas que facemos en Instagram e da propia comunidade. Podes navegar polo mapa ou participar no noso test no menú!", false, 9000);
-      });
-    }
-
-    if (btnNo) {
-      btnNo.addEventListener('click', () => {
-        speakAssistant("Entón, adiante!", false, 3000);
-      });
-    }
-
-    if (assistantAvatar) {
-      assistantAvatar.addEventListener('click', () => {
-        if (currentAction === 'suggest_contact') {
-          if (sidebar && !sidebar.classList.contains('open')) {
-            toggleMenu();
-          }
-          closeSurveyView();
-          
-          const msgInput = document.getElementById('contactMessage');
-          if (msgInput) {
-            msgInput.value = lastSearchedTerm 
-              ? `Suxestión de termo/variante: ${lastSearchedTerm}` 
-              : "Suxestión de termo:";
-            msgInput.focus();
-            msgInput.scrollIntoView({ behavior: 'smooth' });
-          }
-          speakAssistant("Déixanos a túa suxestión ou variante no formulario de contacto!", false, 4000);
-        } else {
-          speakAssistant("Lembra que podes filtrar por termo, área lingüística ou lugar para explorar a nosa lingua!", false, 4000);
-        }
-      });
-    }
-
     // 6. INICIALIZACIÓN DO MAPA LEAFLET
     const hotLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '&copy; OpenStreetMap'
@@ -1583,22 +1606,7 @@
       }
 
       if (filtered.length === 0) {
-        if (currentSearchTab === 'termo') {
-          showToast('Non se atoparon termos');
-          currentAction = 'suggest_contact';
-          const sText = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim() : '';
-          const vVar = document.getElementById('variableFilter') ? document.getElementById('variableFilter').value : '';
-          const vVarOb = document.getElementById('variantFilter') ? document.getElementById('variantFilter').value : '';
-          lastSearchedTerm = sText || vVarOb || vVar || '';
-          
-          speakAssistant(`Vaia! Non atopamos termos para esta busca. Preme en min para enviarnos a túa suxestión no formulario!`, false);
-        } else if (currentSearchTab === 'dialecto') {
-          showToast('Non se atoparon termos para esta área lingüística');
-          speakAssistant(`Vaia! Non atopamos termos rexistrados para esta área lingüística.`, false);
-        } else if (currentSearchTab === 'lugar') {
-          showToast('Non se atoparon termos para esta localidade/concello');
-          speakAssistant(`Vaia! Non atopamos termos rexistrados para este concello ou localidade.`, false);
-        }
+        showToast('Non se atoparon resultados');
       } else {
         hideToast();
       }
@@ -1646,7 +1654,7 @@
                              variante.toLowerCase().includes('horreo');
 
             if (isHorreo) {
-              speakAssistant("Sabías que a primeira representación gráfica coñecida dun hórreo aparece nas <em>Cantigas de Santa María</em>?", false, 8000);
+              speakAssistant("Sabías que a primeira representación gráfica coñecida dun hórreo aparece nas <em>Cantigas de Santa María</em>?", false, 8000, true);
             }
           });
 
@@ -1797,8 +1805,10 @@
     }
     if (localidadeFilter) localidadeFilter.addEventListener('change', renderMap);
 
+    // BENVIDA INICIAL OBRIGATORIA
     window.addEventListener('load', () => {
-      speakAssistant("Douche a benvida a Trasnoca! É a túa primeira vez na páxina?", true);
+      isWelcomeActive = true;
+      speakAssistant("Douche a benvida a Trasnoca! É a túa primeira vez na páxina?", true, 0, false);
     });
 
     if (URL_CSV && URL_CSV !== 'PEGA_AQUI_A_TUA_LIGAZON_CSV') {
