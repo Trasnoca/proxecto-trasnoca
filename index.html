@@ -708,7 +708,7 @@
       </div>
     </div>
 
-    <!-- PESTANA DO TEST CON DESPRAZABLES DE CONCELLO E LOCALIDADE VINCULADOS -->
+    <!-- PESTANA DO TEST CON DESPRAZABLES VINCULADOS -->
     <div id="sidebarSurveyView" style="display: none;">
       <div class="sidebar-header">
         <h2>E ti, como lle dis?</h2>
@@ -871,7 +871,6 @@
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM7J-V4z8IRqX5Fr6qdodnNq_PWXJjVspePhH3xIb0wqz8CjBZETB-6JRLPcaMk1xMq-7X1DGgxt3O/pub?gid=0&single=true&output=csv';                 
     // =========================================================================
 
-    // Dicionario das principais localidades/parroquias vinculadas ao Concello seleccionado
     const mapaLocalidadesPorConcello = {
       "Carballo": ["Carballo (Vila)", "Sofán", "Ardaña", "Berdillo", "Entrecruces", "Razo", "Lema", "Rus", "Sísamo", "Oza", "Goiáns"],
       "A Coruña": ["A Coruña (Cidade)", "Alvedro", "Elviña", "Oza", "Visma", "San Cristóbal das Viñas"],
@@ -891,7 +890,7 @@
       "Lalín": ["Lalín (Vila)", "Barcia", "Bendoiro", "Catasós", "Doade", "Goiás", "Méndez"],
       "Malpica de Bergantiños": ["Malpica (Vila)", "Barizo", "Buño", "Cambre", "Cerneira", "Mens"],
       "Monforte de Lemos": ["Monforte (Vila)", "A Penela", "Chao do Fabeiro", "Guntín", "Marcelle", "Ribas Altas"],
-      "Noia": ["Noia (Vila)", "Ar গো", "Baroña", "Boa", "O Obre", "Roo"],
+      "Noia": ["Noia (Vila)", "Argo", "Baroña", "Boa", "O Obre", "Roo"],
       "O Carballiño": ["O Carballiño (Vila)", "Arcos", "Banga", "Cabanelas", "Lobia", "Señorín"],
       "Ordes": ["Ordes (Vila)", "Ardemil", "Buscás", "Leira", "Montaos", "Poulo"],
       "Padrón": ["Padrón (Vila)", "Carcacía", "Cruces", "Herbón", "Iria Flavia"],
@@ -945,14 +944,17 @@
       }
     }
 
-    function obterLocalidadeFinal() {
-      const localidadeSelect = document.getElementById('surveyLocalidadeSelect');
-      const inputManual = document.getElementById('surveyLocalidadeManual');
+    function getLocalidade() {
+      const selectEl = document.getElementById('surveyLocalidadeSelect');
+      const manualEl = document.getElementById('surveyLocalidadeManual');
       
-      if (localidadeSelect.value === 'OTRO') {
-        return inputManual.value.trim();
+      if (manualEl && manualEl.style.display !== 'none' && manualEl.value.trim() !== '') {
+        return manualEl.value.trim();
       }
-      return localidadeSelect.value.trim();
+      if (selectEl && selectEl.value !== '' && selectEl.value !== 'OTRO') {
+        return selectEl.value.trim();
+      }
+      return '';
     }
 
     const surveyData = {
@@ -1143,7 +1145,7 @@
       const idadeEl = document.getElementById('surveyIdade');
 
       const concello = concelloEl ? concelloEl.value.trim() : '';
-      const localidade = obterLocalidadeFinal();
+      const localidade = getLocalidade();
       const xenero = xeneroEl ? xeneroEl.value : '';
       const idade = idadeEl ? idadeEl.value : '';
 
@@ -1211,7 +1213,7 @@
         idade: document.getElementById('surveyIdade').value,
         concello: document.getElementById('surveyConcello').value.trim(),
         parroquia: document.getElementById('surveyParroquia').value.trim(),
-        localidade: obterLocalidadeFinal(),
+        localidade: getLocalidade(),
         variable: currentItem.variable,
         variante_ob: varianteText
       };
@@ -1220,9 +1222,11 @@
         fetch(URL_APPS_SCRIPT, {
           method: 'POST',
           mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload)
         }).catch(e => console.log('Erro de envío:', e));
+      } else {
+        alert('Recordatorio: pega a túa URL de Apps Script na constante URL_APPS_SCRIPT no código de index.html.');
       }
 
       currentItemIndex++;
