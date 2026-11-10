@@ -403,6 +403,7 @@
 
     .overlay.active { display: block; }
 
+    /* ESTILOS DO BUSCADOR REDESEÑADO EN 3 SECCIÓNS */
     .filter-panel {
       position: absolute;
       top: 18px;
@@ -412,20 +413,20 @@
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border: 2px solid var(--trasnoca-gold);
-      padding: 18px 20px;
+      padding: 16px 18px;
       border-radius: 12px;
       box-shadow: var(--shadow-soft);
-      max-width: 310px;
+      max-width: 320px;
       width: calc(100% - 64px);
     }
 
     .filter-panel h3 {
-      margin: 0 0 14px 0;
+      margin: 0 0 10px 0;
       font-family: 'Merriweather', serif;
       font-size: 1rem;
       color: var(--trasnoca-maroon);
       border-bottom: 2px solid var(--trasnoca-gold);
-      padding-bottom: 6px;
+      padding-bottom: 4px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -440,14 +441,43 @@
       fill: none;
     }
 
-    .filter-group { margin-bottom: 12px; }
-    .filter-group label { display: block; font-size: 0.78rem; font-weight: 700; margin-bottom: 4px; color: var(--trasnoca-maroon); }
+    .search-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 12px;
+      background: rgba(109, 20, 32, 0.08);
+      padding: 3px;
+      border-radius: 8px;
+    }
+
+    .search-tab-btn {
+      flex: 1;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 2px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--trasnoca-maroon);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    .search-tab-btn.active {
+      background: var(--trasnoca-maroon);
+      color: white;
+      box-shadow: 0 2px 6px rgba(109, 20, 32, 0.2);
+    }
+
+    .filter-group { margin-bottom: 10px; }
+    .filter-group label { display: block; font-size: 0.76rem; font-weight: 700; margin-bottom: 3px; color: var(--trasnoca-maroon); }
     .filter-group select, .filter-group input {
       width: 100%;
-      padding: 9px 12px;
+      padding: 8px 10px;
       border: 1px solid #d4cbb3;
       border-radius: 6px;
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       font-family: inherit;
       background-color: #ffffff;
       color: var(--trasnoca-dark);
@@ -455,7 +485,7 @@
     }
 
     .leaflet-top.leaflet-left {
-      top: 395px !important;
+      top: 410px !important;
       left: 18px !important;
     }
 
@@ -633,7 +663,7 @@
       .filter-group label { font-size: 0.68rem; margin-bottom: 1px; }
       .filter-group select, .filter-group input { padding: 5px 8px; font-size: 0.78rem; }
 
-      .leaflet-top.leaflet-left { top: 250px !important; left: 10px !important; }
+      .leaflet-top.leaflet-left { top: 270px !important; left: 10px !important; }
 
       .sidebar { width: 100vw; right: -100vw; border-left: none; padding: 20px 16px; }
       
@@ -821,37 +851,83 @@
   </div>
 
   <div id="map-container">
+    
+    <!-- BUSCADOR REDESEÑADO CON 3 APARTADOS (BUSCA POR TERMOS, DIALECTO E LUGAR) -->
     <div class="filter-panel">
       <h3>
         <svg class="search-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         Buscador
       </h3>
       
-      <div class="filter-group">
-        <label for="searchInput">Buscar palabra ou lugar:</label>
-        <input type="text" id="searchInput" placeholder="Ex: 'piorno', 'Vigo'...">
+      <!-- Pestanas superiores de selección -->
+      <div class="search-tabs">
+        <button id="tabBtnTermo" class="search-tab-btn active" onclick="switchSearchTab('termo')">Termos</button>
+        <button id="tabBtnDialecto" class="search-tab-btn" onclick="switchSearchTab('dialecto')">Dialecto</button>
+        <button id="tabBtnLugar" class="search-tab-btn" onclick="switchSearchTab('lugar')">Lugar</button>
       </div>
 
-      <div class="filter-group">
-        <label for="variableFilter">Variable Lingüística:</label>
-        <select id="variableFilter">
-          <option value="">-- Escolle unha variable --</option>
-        </select>
+      <!-- APARTADO 1: Busca por Termo / Variable / Variante (Por defecto) -->
+      <div id="searchTabTermo" class="search-tab-content">
+        <div class="filter-group">
+          <label for="searchInput">Escribir termo:</label>
+          <input type="text" id="searchInput" placeholder="Ex: 'piorno', 'carballo'...">
+        </div>
+        <div class="filter-group">
+          <label for="variableFilter">Variable lingüística:</label>
+          <select id="variableFilter">
+            <option value="">-- Tódalas variables --</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="variantFilter">Variante concreta:</label>
+          <select id="variantFilter">
+            <option value="">-- Tódalas variantes --</option>
+          </select>
+        </div>
       </div>
 
-      <div class="filter-group">
-        <label for="variantFilter">Variante concreta:</label>
-        <select id="variantFilter">
-          <option value="">-- Tódalas variantes --</option>
-        </select>
+      <!-- APARTADO 2: Busca por Bloque, Área e Subárea -->
+      <div id="searchTabDialecto" class="search-tab-content" style="display: none;">
+        <div class="filter-group">
+          <label for="bloqueFilter">Bloque lingüístico:</label>
+          <select id="bloqueFilter">
+            <option value="">-- Tódolos bloques --</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="areaFilter">Área lingüística:</label>
+          <select id="areaFilter">
+            <option value="">-- Tódalas áreas --</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="subareaFilter">Subárea lingüística:</label>
+          <select id="subareaFilter">
+            <option value="">-- Tódalas subáreas --</option>
+          </select>
+        </div>
       </div>
 
-      <div class="filter-group">
-        <label for="concelloFilter">Concello:</label>
-        <select id="concelloFilter">
-          <option value="">-- Tódolos concellos --</option>
-        </select>
+      <!-- APARTADO 3: Busca por Lugar, Concello e Localidade -->
+      <div id="searchTabLugar" class="search-tab-content" style="display: none;">
+        <div class="filter-group">
+          <label for="lugarInput">Escribir lugar:</label>
+          <input type="text" id="lugarInput" placeholder="Ex: 'Alvedro', 'Sofán'...">
+        </div>
+        <div class="filter-group">
+          <label for="concelloFilter">Concello:</label>
+          <select id="concelloFilter">
+            <option value="">-- Tódolos concellos --</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <label for="localidadeFilter">Localidade:</label>
+          <select id="localidadeFilter">
+            <option value="">-- Tódalas localidades --</option>
+          </select>
+        </div>
       </div>
+
     </div>
 
     <div id="map"></div>
@@ -870,6 +946,22 @@
     const URL_APPS_SCRIPT = 'https://script.google.com/macros/s/AKfycbzp-UtguGkKl3lVXfNKEeAwGOAWM6cZJtLfCQZvW7OZ8323Jixk3gEwOvWd8bMN4yK4/exec'; 
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM7J-V4z8IRqX5Fr6qdodnNq_PWXJjVspePhH3xIb0wqz8CjBZETB-6JRLPcaMk1xMq-7X1DGgxt3O/pub?gid=0&single=true&output=csv';                 
     // =========================================================================
+
+    let currentSearchTab = 'termo'; // 'termo', 'dialecto', 'lugar'
+
+    function switchSearchTab(tabName) {
+      currentSearchTab = tabName;
+
+      document.getElementById('searchTabTermo').style.display = (tabName === 'termo') ? 'block' : 'none';
+      document.getElementById('searchTabDialecto').style.display = (tabName === 'dialecto') ? 'block' : 'none';
+      document.getElementById('searchTabLugar').style.display = (tabName === 'lugar') ? 'block' : 'none';
+
+      document.getElementById('tabBtnTermo').classList.toggle('active', tabName === 'termo');
+      document.getElementById('tabBtnDialecto').classList.toggle('active', tabName === 'dialecto');
+      document.getElementById('tabBtnLugar').classList.toggle('active', tabName === 'lugar');
+
+      renderMap();
+    }
 
     const mapaLocalidadesPorConcello = {
       "Carballo": ["Carballo (Vila)", "Sofán", "Ardaña", "Berdillo", "Entrecruces", "Razo", "Lema", "Rus", "Sísamo", "Oza", "Goiáns"],
@@ -1225,8 +1317,6 @@
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify(payload)
         }).catch(e => console.log('Erro de envío:', e));
-      } else {
-        alert('Recordatorio: pega a túa URL de Apps Script na constante URL_APPS_SCRIPT no código de index.html.');
       }
 
       currentItemIndex++;
@@ -1332,33 +1422,76 @@
       variantColorMap = {};
       currentAction = null;
 
-      const searchEl = document.getElementById('searchInput');
-      const varEl = document.getElementById('variableFilter');
-      const variantEl = document.getElementById('variantFilter');
-      const concelloEl = document.getElementById('concelloFilter');
+      let filtered = [];
+      let isFilterActive = false;
 
-      const searchText = searchEl ? searchEl.value.toLowerCase().trim() : '';
-      const selectedVariable = varEl ? varEl.value : '';
-      const selectedVariant = variantEl ? variantEl.value : '';
-      const selectedConcello = concelloEl ? concelloEl.value : '';
+      if (currentSearchTab === 'termo') {
+        const searchEl = document.getElementById('searchInput');
+        const varEl = document.getElementById('variableFilter');
+        const variantEl = document.getElementById('variantFilter');
 
-      const isFilterActive = searchText || selectedVariable || selectedVariant || selectedConcello;
+        const searchText = searchEl ? searchEl.value.toLowerCase().trim() : '';
+        const selectedVariable = varEl ? varEl.value : '';
+        const selectedVariant = variantEl ? variantEl.value : '';
+
+        isFilterActive = searchText || selectedVariable || selectedVariant;
+
+        if (isFilterActive) {
+          filtered = allData.filter(row => {
+            const matchesSearch = !searchText || 
+              Object.values(row).some(val => String(val).toLowerCase().includes(searchText));
+            const matchesVar = !selectedVariable || row['Variable'] === selectedVariable;
+            const matchesVariant = !selectedVariant || row['Variante ob'] === selectedVariant;
+            return matchesSearch && matchesVar && matchesVariant;
+          });
+        }
+      } else if (currentSearchTab === 'dialecto') {
+        const bloqueEl = document.getElementById('bloqueFilter');
+        const areaEl = document.getElementById('areaFilter');
+        const subareaEl = document.getElementById('subareaFilter');
+
+        const selectedBloque = bloqueEl ? bloqueEl.value : '';
+        const selectedArea = areaEl ? areaEl.value : '';
+        const selectedSubarea = subareaEl ? subareaEl.value : '';
+
+        isFilterActive = selectedBloque || selectedArea || selectedSubarea;
+
+        if (isFilterActive) {
+          filtered = allData.filter(row => {
+            const matchesBloque = !selectedBloque || row['Bloque'] === selectedBloque;
+            const matchesArea = !selectedArea || row['Área'] === selectedArea;
+            const matchesSubarea = !selectedSubarea || row['Subárea'] === selectedSubarea;
+            return matchesBloque && matchesArea && matchesSubarea;
+          });
+        }
+      } else if (currentSearchTab === 'lugar') {
+        const lugarEl = document.getElementById('lugarInput');
+        const concelloEl = document.getElementById('concelloFilter');
+        const localidadeEl = document.getElementById('localidadeFilter');
+
+        const lugarText = lugarEl ? lugarEl.value.toLowerCase().trim() : '';
+        const selectedConcello = concelloEl ? concelloEl.value : '';
+        const selectedLocalidade = localidadeEl ? localidadeEl.value : '';
+
+        isFilterActive = lugarText || selectedConcello || selectedLocalidade;
+
+        if (isFilterActive) {
+          filtered = allData.filter(row => {
+            const matchesLugarText = !lugarText || 
+              (row['Localidade'] && String(row['Localidade']).toLowerCase().includes(lugarText)) ||
+              (row['Parroquia'] && String(row['Parroquia']).toLowerCase().includes(lugarText));
+            const matchesConcello = !selectedConcello || row['Concello'] === selectedConcello;
+            const matchesLocalidade = !selectedLocalidade || row['Localidade'] === selectedLocalidade;
+            return matchesLugarText && matchesConcello && matchesLocalidade;
+          });
+        }
+      }
 
       if (!isFilterActive) {
         hideToast();
         updateLegend();
         return;
       }
-
-      const filtered = allData.filter(row => {
-        const matchesSearch = !searchText || 
-          Object.values(row).some(val => String(val).toLowerCase().includes(searchText));
-        const matchesVar = !selectedVariable || row['Variable'] === selectedVariable;
-        const matchesVariant = !selectedVariant || row['Variante ob'] === selectedVariant;
-        const matchesConc = !selectedConcello || row['Concello'] === selectedConcello;
-        
-        return matchesSearch && matchesVar && matchesVariant && matchesConc;
-      });
 
       if (filtered.length === 0) {
         showToast('Non se atoparon termos');
@@ -1462,27 +1595,58 @@
       variants.forEach(v => variantSelect.add(new Option(v, v)));
     }
 
-    function populateFilters() {
-      const variables = [...new Set(allData.map(r => r['Variable']).filter(Boolean))].sort();
-      const concellos = [...new Set(allData.map(r => r['Concello']).filter(Boolean))].sort();
+    function updateLocalidadeFilterDropdown() {
+      const concelloEl = document.getElementById('concelloFilter');
+      const locSelect = document.getElementById('localidadeFilter');
+      if (!locSelect) return;
 
+      const selectedConcello = concelloEl ? concelloEl.value : '';
+      locSelect.innerHTML = '<option value="">-- Tódalas localidades --</option>';
+
+      let relevantData = allData;
+      if (selectedConcello) {
+        relevantData = allData.filter(r => r['Concello'] === selectedConcello);
+      }
+
+      const localidades = [...new Set(relevantData.map(r => r['Localidade']).filter(Boolean))].sort();
+      localidades.forEach(l => locSelect.add(new Option(l, l)));
+    }
+
+    function populateFilters() {
+      // 1. Variables en orde alfabética
+      const variables = [...new Set(allData.map(r => r['Variable']).filter(Boolean))].sort();
       const varSelect = document.getElementById('variableFilter');
       if (varSelect) {
         variables.forEach(v => varSelect.add(new Option(v, v)));
       }
 
+      // 2. Bloque, Área e Subárea
+      const bloques = [...new Set(allData.map(r => r['Bloque']).filter(Boolean))].sort();
+      const areas = [...new Set(allData.map(r => r['Área']).filter(Boolean))].sort();
+      const subareas = [...new Set(allData.map(r => r['Subárea']).filter(Boolean))].sort();
+
+      const bloqueSelect = document.getElementById('bloqueFilter');
+      if (bloqueSelect) bloques.forEach(b => bloqueSelect.add(new Option(b, b)));
+
+      const areaSelect = document.getElementById('areaFilter');
+      if (areaSelect) areas.forEach(a => areaSelect.add(new Option(a, a)));
+
+      const subareaSelect = document.getElementById('subareaFilter');
+      if (subareaSelect) subareas.forEach(s => subareaSelect.add(new Option(s, s)));
+
+      // 3. Concellos e Localidades
+      const concellos = [...new Set(allData.map(r => r['Concello']).filter(Boolean))].sort();
       const concSelect = document.getElementById('concelloFilter');
-      if (concSelect) {
-        concellos.forEach(c => concSelect.add(new Option(c, c)));
-      }
+      if (concSelect) concellos.forEach(c => concSelect.add(new Option(c, c)));
 
       updateVariantDropdown();
+      updateLocalidadeFilterDropdown();
     }
 
+    // Escoitadores do Apartado 1: Termos
     const searchInput = document.getElementById('searchInput');
     const variableFilter = document.getElementById('variableFilter');
     const variantFilter = document.getElementById('variantFilter');
-    const concelloFilter = document.getElementById('concelloFilter');
 
     if (searchInput) searchInput.addEventListener('input', renderMap);
     if (variableFilter) {
@@ -1492,7 +1656,29 @@
       });
     }
     if (variantFilter) variantFilter.addEventListener('change', renderMap);
-    if (concelloFilter) concelloFilter.addEventListener('change', renderMap);
+
+    // Escoitadores do Apartado 2: Dialecto
+    const bloqueFilter = document.getElementById('bloqueFilter');
+    const areaFilter = document.getElementById('areaFilter');
+    const subareaFilter = document.getElementById('subareaFilter');
+
+    if (bloqueFilter) bloqueFilter.addEventListener('change', renderMap);
+    if (areaFilter) areaFilter.addEventListener('change', renderMap);
+    if (subareaFilter) subareaFilter.addEventListener('change', renderMap);
+
+    // Escoitadores do Apartado 3: Lugar
+    const lugarInput = document.getElementById('lugarInput');
+    const concelloFilter = document.getElementById('concelloFilter');
+    const localidadeFilter = document.getElementById('localidadeFilter');
+
+    if (lugarInput) lugarInput.addEventListener('input', renderMap);
+    if (concelloFilter) {
+      concelloFilter.addEventListener('change', () => {
+        updateLocalidadeFilterDropdown();
+        renderMap();
+      });
+    }
+    if (localidadeFilter) localidadeFilter.addEventListener('change', renderMap);
 
     window.addEventListener('load', () => {
       speakAssistant("Douche a benvida a Trasnoca! É a túa primeira vez na páxina?", true);
