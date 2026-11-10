@@ -951,18 +951,48 @@
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM7J-V4z8IRqX5Fr6qdodnNq_PWXJjVspePhH3xIb0wqz8CjBZETB-6JRLPcaMk1xMq-7X1DGgxt3O/pub?gid=0&single=true&output=csv';                 
     // =========================================================================
 
-    // RUTA DAS IMAXES DA MASCOTA E SISTEMA DE ANIMACIÓN AL FALAR
+    // 1. IMAXES DA MASCOTA
     const IMG_NORMAL = 'pandeireta_normal.png';
     const IMG_FALA_PECHADA = 'pandeireta_fala_pechada.png';
     const IMG_FALA_ABERTA = 'pandeireta_fala_aberta.png';
 
+    // 2. ELEMENTOS DO DOM (DECLARADOS NO INICIO PARA EVITAR ERROS DE INICIALIZACIÓN)
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    const openMenuBtn = document.getElementById('openMenu');
+    const closeMenuBtn = document.getElementById('closeMenu');
+    const toast = document.getElementById('toast');
+
+    const sidebarMainView = document.getElementById('sidebarMainView');
+    const sidebarSurveyView = document.getElementById('sidebarSurveyView');
+    const surveyStep1 = document.getElementById('surveyStep1');
+    const surveyStep2 = document.getElementById('surveyStep2');
+    const surveyStep3 = document.getElementById('surveyStep3');
+
+    const assistantBubble = document.getElementById('assistantBubble');
+    const assistantText = document.getElementById('assistantText');
+    const assistantButtons = document.getElementById('assistantButtons');
+    const btnYes = document.getElementById('btnYes');
+    const btnNo = document.getElementById('btnNo');
+    const assistantClose = document.getElementById('assistantClose');
+    const assistantAvatar = document.getElementById('assistantAvatar');
+
+    // 3. VARIABLES DE ESTADO
     let talkInterval = null;
     let talkTimeout = null;
+    let currentSearchTab = 'termo'; 
+    let lastSearchedTerm = '';
+    let currentAction = null;
+    let currentCategoryName = "";
+    let currentItemList = [];
+    let currentItemIndex = 0;
+    let sessionInformanteId = null;
+    let variantColorMap = {};
+    let allData = [];
 
-    // ANIMACIÓN CALCULADA POLAS LIÑAS DO TEXTO A AMOSAR
+    // 4. ANIMACIÓN E ASISTENTE
     function animarFala(text, autoHideMs = 0) {
-      const avatar = document.getElementById('assistantAvatar');
-      if (!avatar) return;
+      if (!assistantAvatar) return;
 
       if (talkInterval) clearInterval(talkInterval);
       if (talkTimeout) clearTimeout(talkTimeout);
@@ -973,19 +1003,19 @@
       const numCiclos = Math.max(1, linasPorSaltos, linasPorLonxitude);
 
       let ciclosRealizados = 0;
-      avatar.src = IMG_FALA_PECHADA;
+      assistantAvatar.src = IMG_FALA_PECHADA;
 
       talkInterval = setInterval(() => {
-        if (avatar.src.includes(IMG_FALA_PECHADA)) {
-          avatar.src = IMG_FALA_ABERTA;
+        if (assistantAvatar.src.includes(IMG_FALA_PECHADA)) {
+          assistantAvatar.src = IMG_FALA_ABERTA;
         } else {
-          avatar.src = IMG_FALA_PECHADA;
+          assistantAvatar.src = IMG_FALA_PECHADA;
           ciclosRealizados++;
           
           if (ciclosRealizados >= numCiclos) {
             clearInterval(talkInterval);
             talkInterval = null;
-            avatar.src = IMG_FALA_PECHADA;
+            assistantAvatar.src = IMG_FALA_PECHADA;
           }
         }
       }, 200);
@@ -998,7 +1028,6 @@
       }
     }
 
-    // RESETEA A MASCOTA Á POSE RELAXADA ORIXINAL (BRAZOS ABAIXO)
     function pararFalaTotal() {
       if (talkInterval) {
         clearInterval(talkInterval);
@@ -1008,8 +1037,7 @@
         clearTimeout(talkTimeout);
         talkTimeout = null;
       }
-      const avatar = document.getElementById('assistantAvatar');
-      if (avatar) avatar.src = IMG_NORMAL;
+      if (assistantAvatar) assistantAvatar.src = IMG_NORMAL;
     }
 
     function speakAssistant(text, showBtns = false, autoHideMs = 0) {
@@ -1028,19 +1056,38 @@
       });
     }
 
-    let currentSearchTab = 'termo'; 
-    let lastSearchedTerm = '';
+    // 5. MENÚ LATERAL E ENQUISA
+    function toggleMenu() {
+      if (!sidebar || !overlay) return;
+      sidebar.classList.toggle('open');
+      overlay.classList.toggle('active');
+      const assistantContainer = document.getElementById('assistantContainer');
+      if (assistantContainer) {
+        assistantContainer.classList.toggle('shifted', sidebar.classList.contains('open'));
+      }
+    }
+
+    if (openMenuBtn) openMenuBtn.addEventListener('click', toggleMenu);
+    if (closeMenuBtn) closeMenuBtn.addEventListener('click', toggleMenu);
+    if (overlay) overlay.addEventListener('click', toggleMenu);
 
     function switchSearchTab(tabName) {
       currentSearchTab = tabName;
 
-      document.getElementById('searchTabTermo').style.display = (tabName === 'termo') ? 'block' : 'none';
-      document.getElementById('searchTabDialecto').style.display = (tabName === 'dialecto') ? 'block' : 'none';
-      document.getElementById('searchTabLugar').style.display = (tabName === 'lugar') ? 'block' : 'none';
+      const tabTermo = document.getElementById('searchTabTermo');
+      const tabDialecto = document.getElementById('searchTabDialecto');
+      const tabLugar = document.getElementById('searchTabLugar');
+      const btnTermo = document.getElementById('tabBtnTermo');
+      const btnDialecto = document.getElementById('tabBtnDialecto');
+      const btnLugar = document.getElementById('tabBtnLugar');
 
-      document.getElementById('tabBtnTermo').classList.toggle('active', tabName === 'termo');
-      document.getElementById('tabBtnDialecto').classList.toggle('active', tabName === 'dialecto');
-      document.getElementById('tabBtnLugar').classList.toggle('active', tabName === 'lugar');
+      if (tabTermo) tabTermo.style.display = (tabName === 'termo') ? 'block' : 'none';
+      if (tabDialecto) tabDialecto.style.display = (tabName === 'dialecto') ? 'block' : 'none';
+      if (tabLugar) tabLugar.style.display = (tabName === 'lugar') ? 'block' : 'none';
+
+      if (btnTermo) btnTermo.classList.toggle('active', tabName === 'termo');
+      if (btnDialecto) btnDialecto.classList.toggle('active', tabName === 'dialecto');
+      if (btnLugar) btnLugar.classList.toggle('active', tabName === 'lugar');
 
       renderMap();
     }
@@ -1086,9 +1133,13 @@
       const inputManual = document.getElementById('surveyLocalidadeManual');
       
       const cVal = concelloSelect ? concelloSelect.value : '';
+      if (!localidadeSelect) return;
+
       localidadeSelect.innerHTML = '';
-      inputManual.style.display = 'none';
-      inputManual.value = '';
+      if (inputManual) {
+        inputManual.style.display = 'none';
+        inputManual.value = '';
+      }
 
       if (!cVal) {
         localidadeSelect.add(new Option('-- Escolle un concello primeiro --', ''));
@@ -1109,12 +1160,14 @@
       const localidadeSelect = document.getElementById('surveyLocalidadeSelect');
       const inputManual = document.getElementById('surveyLocalidadeManual');
       
-      if (localidadeSelect.value === 'OTRO') {
-        inputManual.style.display = 'block';
-        inputManual.focus();
-      } else {
-        inputManual.style.display = 'none';
-        inputManual.value = '';
+      if (localidadeSelect && inputManual) {
+        if (localidadeSelect.value === 'OTRO') {
+          inputManual.style.display = 'block';
+          inputManual.focus();
+        } else {
+          inputManual.style.display = 'none';
+          inputManual.value = '';
+        }
       }
     }
 
@@ -1214,55 +1267,15 @@
       }
     };
 
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const openMenuBtn = document.getElementById('openMenu');
-    const closeMenuBtn = document.getElementById('closeMenu');
-    const toast = document.getElementById('toast');
-
-    const sidebarMainView = document.getElementById('sidebarMainView');
-    const sidebarSurveyView = document.getElementById('sidebarSurveyView');
-    const surveyStep1 = document.getElementById('surveyStep1');
-    const surveyStep2 = document.getElementById('surveyStep2');
-    const surveyStep3 = document.getElementById('surveyStep3');
-
-    const assistantBubble = document.getElementById('assistantBubble');
-    const assistantText = document.getElementById('assistantText');
-    const assistantButtons = document.getElementById('assistantButtons');
-    const btnYes = document.getElementById('btnYes');
-    const btnNo = document.getElementById('btnNo');
-    const assistantClose = document.getElementById('assistantClose');
-    const assistantAvatar = document.getElementById('assistantAvatar');
-
-    let currentAction = null;
-    let currentCategoryName = "";
-    let currentItemList = [];
-    let currentItemIndex = 0;
-    
-    let sessionInformanteId = null;
-
-    function toggleMenu() {
-      sidebar.classList.toggle('open');
-      overlay.classList.toggle('active');
-      const assistantContainer = document.getElementById('assistantContainer');
-      if (assistantContainer) {
-        assistantContainer.classList.toggle('shifted', sidebar.classList.contains('open'));
-      }
-    }
-
-    openMenuBtn.addEventListener('click', toggleMenu);
-    closeMenuBtn.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', toggleMenu);
-
     function openSurveyView() {
-      sidebarMainView.style.display = 'none';
-      sidebarSurveyView.style.display = 'block';
+      if (sidebarMainView) sidebarMainView.style.display = 'none';
+      if (sidebarSurveyView) sidebarSurveyView.style.display = 'block';
       renderMainCategories();
     }
 
     function closeSurveyView() {
-      sidebarSurveyView.style.display = 'none';
-      sidebarMainView.style.display = 'block';
+      if (sidebarSurveyView) sidebarSurveyView.style.display = 'none';
+      if (sidebarMainView) sidebarMainView.style.display = 'block';
       sessionInformanteId = null;
       resetToCategories();
     }
@@ -1449,7 +1462,7 @@
     if (assistantAvatar) {
       assistantAvatar.addEventListener('click', () => {
         if (currentAction === 'suggest_contact') {
-          if (!sidebar.classList.contains('open')) {
+          if (sidebar && !sidebar.classList.contains('open')) {
             toggleMenu();
           }
           closeSurveyView();
@@ -1469,6 +1482,7 @@
       });
     }
 
+    // 6. INICIALIZACIÓN DO MAPA LEAFLET
     const hotLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '&copy; OpenStreetMap'
     });
@@ -1482,8 +1496,6 @@
     const markersGroup = L.layerGroup().addTo(map);
 
     const palette = ['#6d1420', '#df9a05', '#0284c7', '#16a34a', '#9333ea', '#ea580c', '#0d9488', '#475569'];
-    let variantColorMap = {};
-    let allData = [];
 
     function getColorForVariant(variant) {
       if (!variant) return '#94a3b8';
