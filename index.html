@@ -403,7 +403,6 @@
 
     .overlay.active { display: block; }
 
-    /* ESTILOS DO BUSCADOR REDESEÑADO EN 3 SECCIÓNS */
     .filter-panel {
       position: absolute;
       top: 18px;
@@ -456,7 +455,7 @@
       border: none;
       border-radius: 6px;
       padding: 6px 2px;
-      font-size: 0.76rem;
+      font-size: 0.74rem;
       font-weight: 700;
       color: var(--trasnoca-maroon);
       cursor: pointer;
@@ -564,6 +563,7 @@
       transform: translateX(-50%) scale(1);
     }
 
+    /* MASCOTA CON TRANSICIÓN DE DESPRAZAMENTO AO ABRIR A BARRA LATERAL */
     .assistant-container {
       position: fixed;
       bottom: 25px;
@@ -573,6 +573,11 @@
       flex-direction: column;
       align-items: flex-end;
       gap: 10px;
+      transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .assistant-container.shifted {
+      right: 345px;
     }
 
     .assistant-bubble {
@@ -779,7 +784,7 @@
           <label for="surveyConcello">Concello <span class="req-star">*</span>:</label>
           <select id="surveyConcello" required onchange="actualizarLocalidadesPorConcello()">
             <option value="">-- Selecciona Concello --</option>
-            <option value="A Baña">A Baña</option><option value="A Capela">A Capela</option><option value="A Cañiza">A Cañiza</option><option value="A Coruña">A Coruña</option><option value="A Estrada">A Estrada</option><option value="A Fonsagrada">A Fonsagrada</option><option value="A Guarda">A Guarda</option><option value="A Gudiña">A Gudiña</option><option value="A Illa de Arousa">A Illa de Arousa</option><option value="A Laracha">A Laracha</option><option value="A Mezquita">A Mezquita</option><option value="A Pobra do Brollón">A Pobra do Brollón</option><option value="A Pobra do Caramiñal">A Pobra do Caramiñal</option><option value="A Pobra de Trives">A Pobra de Trives</option><option value="A Pontenova">A Pontenova</option><option value="A Rúa">A Rúa</option><option value="A Teixeira">A Teixeira</option><option value="A Veiga">A Veiga</option><option value="Abadín">Abadín</option><option value="Abegondo">Abegondo</option><option value="Agolada">Agolada</option><option value="Alfoz">Alfoz</option><option value="Allariz">Allariz</option><option value="Ames">Ames</option><option value="Amoeiro">Amoeiro</option><option value="Antas de Ulla">Antas de Ulla</option><option value="Aranga">Aranga</option><option value="Arbo">Arbo</option><option value="Ares">Ares</option><option value="Arnoia">Arnoia</option><option value="Arteixo">Arteixo</option><option value="Arzúa">Arzúa</option><option value="Avión">Avión</option><option value="Baiona">Baiona</option><option value="Baleira">Baleira</option><option value="Baltar">Baltar</option><option value="Bande">Bande</option><option value="Baños de Molgas">Baños de Molgas</option><option value="Barbadás">Barbadás</option><option value="Baralla">Baralla</option><option value="Barreiros">Barreiros</option><option value="Barro">Barro</option><option value="Beade">Beade</option><option value="Beariz">Beariz</option><option value="Becerreá">Becerreá</option><option value="Begonte">Begonte</option><option value="Bergondo">Bergondo</option><option value="Betanzos">Betanzos</option><option value="Boiro">Boiro</option><option value="Bóveda">Bóveda</option><option value="Brión">Brión</option><option value="Bueu">Bueu</option><option value="Burela">Burela</option><option value="Cabana de Bergantiños">Cabana de Bergantiños</option><option value="Cabanas">Cabanas</option><option value="Caldas de Reis">Caldas de Reis</option><option value="Calvos de Randín">Calvos de Randín</option><option value="Camariñas">Camariñas</option><option value="Cambados">Cambados</option><option value="Cambre">Cambre</option><option value="Campo Lameiro">Campo Lameiro</option><option value="Cangas">Cangas</option><option value="Carballeda de Avia">Carballeda de Avia</option><option value="Carballeda de Valdeorras">Carballeda de Valdeorras</option><option value="Carballedo">Carballedo</option><option value="Carballo">Carballo</option><option value="Cariño">Cariño</option><option value="Carnota">Carnota</option><option value="Carral">Carral</option><option value="Cartelle">Cartelle</option><option value="Castrelo de Miño">Castrelo de Miño</option><option value="Castrelo do Val">Castrelo do Val</option><option value="Castro Caldelas">Castro Caldelas</option><option value="Castro de Rei">Castro de Rei</option><option value="Castroverde">Castroverde</option><option value="Catoira">Catoira</option><option value="Cedeira">Cedeira</option><option value="Cee">Cee</option><option value="Celanova">Celanova</option><option value="Cenlle">Cenlle</option><option value="Cerceda">Cerceda</option><option value="Cerdedo-Cotobade">Cerdedo-Cotobade</option><option value="Cerdido">Cerdido</option><option value="Cervantes">Cervantes</option><option value="Cervo">Cervo</option><option value="Chandrexa de Queixa">Chandrexa de Queixa</option><option value="Chantada">Chantada</option><option value="Coirós">Coirós</option><option value="Coles">Coles</option><option value="Corcubión">Corcubión</option><option value="Coristanco">Coristanco</option><option value="Cortegada">Cortegada</option><option value="Cospeito">Cospeito</option><option value="Covelo">Covelo</option><option value="Crecente">Crecente</option><option value="Cualedro">Cualedro</option><option value="Culleredo">Culleredo</option><option value="Curtis">Curtis</option><option value="Dodro">Dodro</option><option value="Dozón">Dozón</option><option value="Dumbría">Dumbría</option><option value="Entrimo">Entrimo</option><option value="Esgos">Esgos</option><option value="Fene">Fene</option><option value="Ferrol">Ferrol</option><option value="Fisterra">Fisterra</option><option value="Folgoso do Courel">Folgoso do Courel</option><option value="Forcarei">Forcarei</option><option value="Fornelos de Montes">Fornelos de Montes</option><option value="Foz">Foz</option><option value="Frades">Frades</option><option value="Friol">Friol</option><option value="Gomesende">Gomesende</option><option value="Gondomar">Gondomar</option><option value="Guitiriz">Guitiriz</option><option value="Guntín">Guntín</option><option value="Irixoa">Irixoa</option><option value="Lalín">Lalín</option><option value="Lama">Lama</option><option value="Láncara">Láncara</option><option value="Larouco">Larouco</option><option value="Laxe">Laxe</option><option value="Laza">Laza</option><option value="Leiro">Leiro</option><option value="Lobeira">Lobeira</option><option value="Lobios">Lobios</option><option value="Lourenzá">Lourenzá</option><option value="Lousame">Lousame</option><option value="Lugo">Lugo</option><option value="Maceda">Maceda</option><option value="Malpica de Bergantiños">Malpica de Bergantiños</option><option value="Manzaneda">Manzaneda</option><option value="Mañón">Mañón</option><option value="Marín">Marín</option><option value="Maside">Maside</option><option value="Mazaricos">Mazaricos</option><option value="Meaño">Meaño</option><option value="Meira">Meira</option><option value="Meis">Meis</option><option value="Melide">Melide</option><option value="Melón">Melón</option><option value="Mesía">Mesía</option><option value="Miño">Miño</option><option value="Moaña">Moaña</option><option value="Moeche">Moeche</option><option value="Mondariz">Mondariz</option><option value="Mondariz-Balneario">Mondariz-Balneario</option><option value="Mondoñedo">Mondoñedo</option><option value="Monfero">Monfero</option><option value="Monforte de Lemos">Monforte de Lemos</option><option value="Montederramo">Montederramo</option><option value="Monterrei">Monterrei</option><option value="Monterroso">Monterroso</option><option value="Moraña">Moraña</option><option value="Mos">Mos</option><option value="Mugardos">Mugardos</option><option value="Muras">Muras</option><option value="Muros">Muros</option><option value="Muxía">Muxía</option><option value="Narón">Narón</option><option value="Navia de Suarna">Navia de Suarna</option><option value="Neda">Neda</option><option value="Negreira">Negreira</option><option value="Negueira de Muñiz">Negueira de Muñiz</option><option value="Nigrán">Nigrán</option><option value="Nogueira de Ramuín">Nogueira de Ramuín</option><option value="Noia">Noia</option><option value="As Neves">As Neves</option><option value="As Nogais">As Nogais</option><option value="O Barco de Valdeorras">O Barco de Valdeorras</option><option value="O Bolo">O Bolo</option><option value="O Carballiño">O Carballiño</option><option value="O Corgo">O Corgo</option><option value="O Irixo">O Irixo</option><option value="O Incio">O Incio</option><option value="O Páramo">O Páramo</option><option value="O Pereiro de Aguiar">O Pereiro de Aguiar</option><option value="O Pino">O Pino</option><option value="O Porriño">O Porriño</option><option value="O Rosal">O Rosal</option><option value="O Saviñao">O Saviñao</option><option value="O Valadouro">O Valadouro</option><option value="O Vicedo">O Vicedo</option><option value="Oia">Oia</option><option value="Oímbra">Oímbra</option><option value="Oleiros">Oleiros</option><option value="Ordes">Ordes</option><option value="Oroso">Oroso</option><option value="Ortigueira">Ortigueira</option><option value="Ourense">Ourense</option><option value="Ourol">Ourol</option><option value="Outeiro de Rei">Outeiro de Rei</option><option value="Outes">Outes</option><option value="Oza-Cesuras">Oza-Cesuras</option><option value="Paderne">Paderne</option><option value="Paderne de Allariz">Paderne de Allariz</option><option value="Padrenda">Padrenda</option><option value="Padrón">Padrón</option><option value="Palas de Rei">Palas de Rei</option><option value="Pantón">Pantón</option><option value="Parada de Sil">Parada de Sil</option><option value="Paradela">Paradela</option><option value="A Pastoriza">A Pastoriza</option><option value="Pazos de Borbén">Pazos de Borbén</option><option value="Pedrafita do Cebreiro">Pedrafita do Cebreiro</option><option value="Petín">Petín</option><option value="Piñor">Piñor</option><option value="Poio">Poio</option><option value="Pol">Pol</option><option value="Ponte Caldelas">Ponte Caldelas</option><option value="Ponteareas">Ponteareas</option><option value="Ponteceso">Ponteceso</option><option value="Pontecesures">Pontecesures</option><option value="Pontedeume">Pontedeume</option><option value="Pontedeva">Pontedeva</option><option value="Pontevedra">Pontevedra</option><option value="As Pontes de García Rodríguez">As Pontes de García Rodríguez</option><option value="Porqueira">Porqueira</option><option value="Portas">Portas</option><option value="Porto do Son">Porto do Son</option><option value="Portomarín">Portomarín</option><option value="Punxín">Punxín</option><option value="Quintela de Leirado">Quintela de Leirado</option><option value="Quiroga">Quiroga</option><option value="Rairiz de Veiga">Rairiz de Veiga</option><option value="Ramirás">Ramirás</option><option value="Redondela">Redondela</option><option value="Rianxo">Rianxo</option><option value="Ribadavia">Ribadavia</option><option value="Ribadeo">Ribadeo</option><option value="Ribadumia">Ribadumia</option><option value="Ribas de Sil">Ribas de Sil</option><option value="Ribeira">Ribeira</option><option value="Ribeira de Piquín">Ribeira de Piquín</option><option value="Riós">Riós</option><option value="Riotorto">Riotorto</option><option value="Rodeiro">Rodeiro</option><option value="Rois">Rois</option><option value="Rubiá">Rubiá</option><option value="Sada">Sada</option><option value="Salceda de Caselas">Salceda de Caselas</option><option value="Salvaterra de Miño">Salvaterra de Miño</option><option value="Samos">Samos</option><option value="San Amaro">San Amaro</option><option value="San Cristovo de Cea">San Cristovo de Cea</option><option value="San Sadurniño">San Sadurniño</option><option value="San Xoán de Río">San Xoán de Río</option><option value="Sandiás">Sandiás</option><option value="Santa Comba">Santa Comba</option><option value="Santiago de Compostela">Santiago de Compostela</option><option value="Santiso">Santiso</option><option value="Sanxenxo">Sanxenxo</option><option value="Sarreaus">Sarreaus</option><option value="Sarria">Sarria</option><option value="Silleda">Silleda</option><option value="Sober">Sober</option><option value="Sobrado">Sobrado</option><option value="As Somozas">As Somozas</option><option value="Soutomaior">Soutomaior</option><option value="Taboada">Taboada</option><option value="Taboadela">Taboadela</option><option value="Teo">Teo</option><option value="Toén">Toén</option><option value="Tomiño">Tomiño</option><option value="Toques">Toques</option><option value="Tordoia">Tordoia</option><option value="Touro">Touro</option><option value="Trabada">Trabada</option><option value="Trasmiras">Trasmiras</option><option value="Trazo">Trazo</option><option value="Triacastela">Triacastela</option><option value="Tui">Tui</option><option value="Val do Dubra">Val do Dubra</option><option value="Valdoviño">Valdoviño</option><option value="Valga">Valga</option><option value="Vedra">Vedra</option><option value="Verea">Verea</option><option value="Verín">Verín</option><option value="Viana do Bolo">Viana do Bolo</option><option value="Vigo">Vigo</option><option value="Vila de Cruces">Vila de Cruces</option><option value="Vilaboa">Vilaboa</option><option value="Vilagarcía de Arousa">Vilagarcía de Arousa</option><option value="Vilalba">Vilalba</option><option value="Vilamarín">Vilamarín</option><option value="Vilamartín de Valdeorras">Vilamartín de Valdeorras</option><option value="Vilanova de Arousa">Vilanova de Arousa</option><option value="Vilar de Barrio">Vilar de Barrio</option><option value="Vilar de Santos">Vilar de Santos</option><option value="Vilardevós">Vilardevós</option><option value="Vilariño de Conso">Vilariño de Conso</option><option value="Vilarmaior">Vilarmaior</option><option value="Vilasantar">Vilasantar</option><option value="Vimianzo">Vimianzo</option><option value="Viveiro">Viveiro</option><option value="Xermade">Xermade</option><option value="Xinzo de Limia">Xinzo de Limia</option><option value="Xove">Xove</option><option value="Xunqueira de Ambía">Xunqueira de Ambía</option><option value="Xunqueira de Espadanedo">Xunqueira de Espadanedo</option><option value="Zas">Zas</option>
+            <option value="A Baña">A Baña</option><option value="A Capela">A Capela</option><option value="A Cañiza">A Cañiza</option><option value="A Coruña">A Coruña</option><option value="A Estrada">A Estrada</option><option value="A Fonsagrada">A Fonsagrada</option><option value="A Guarda">A Guarda</option><option value="A Gudiña">A Gudiña</option><option value="A Illa de Arousa">A Illa de Arousa</option><option value="A Laracha">A Laracha</option><option value="A Mezquita">A Mezquita</option><option value="A Pobra do Brollón">A Pobra do Brollón</option><option value="A Pobra do Caramiñal">A Pobra do Caramiñal</option><option value="A Pobra de Trives">A Pobra de Trives</option><option value="A Pontenova">A Pontenova</option><option value="A Rúa">A Rúa</option><option value="A Teixeira">A Teixeira</option><option value="A Veiga">A Veiga</option><option value="Abadín">Abadín</option><option value="Abegondo">Abegondo</option><option value="Agolada">Agolada</option><option value="Alfoz">Alfoz</option><option value="Allariz">Allariz</option><option value="Ames">Ames</option><option value="Amoeiro">Amoeiro</option><option value="Antas de Ulla">Antas de Ulla</option><option value="Aranga">Aranga</option><option value="Arbo">Arbo</option><option value="Ares">Ares</option><option value="Arnoia">Arnoia</option><option value="Arteixo">Arteixo</option><option value="Arzúa">Arzúa</option><option value="Avión">Avión</option><option value="Baiona">Baiona</option><option value="Baleira">Baleira</option><option value="Baltar">Baltar</option><option value="Bande">Bande</option><option value="Baños de Molgas">Baños de Molgas</option><option value="Barbadás">Barbadás</option><option value="Baralla">Baralla</option><option value="Barreiros">Barreiros</option><option value="Barro">Barro</option><option value="Beade">Beade</option><option value="Beariz">Beariz</option><option value="Becerreá">Becerreá</option><option value="Begonte">Begonte</option><option value="Bergondo">Bergondo</option><option value="Betanzos">Betanzos</option><option value="Boiro">Boiro</option><option value="Bóveda">Bóveda</option><option value="Brión">Brión</option><option value="Bueu">Bueu</option><option value="Burela">Burela</option><option value="Cabana de Bergantiños">Cabana de Bergantiños</option><option value="Cabanas">Cabanas</option><option value="Caldas de Reis">Caldas de Reis</option><option value="Calvos de Randín">Calvos de Randín</option><option value="Camariñas">Camariñas</option><option value="Cambados">Cambados</option><option value="Cambre">Cambre</option><option value="Campo Lameiro">Campo Lameiro</option><option value="Cangas">Cangas</option><option value="Carballeda de Avia">Carballeda de Avia</option><option value="Carballeda de Valdeorras">Carballeda de Valdeorras</option><option value="Carballedo">Carballedo</option><option value="Carballo">Carballo</option><option value="Cariño">Cariño</option><option value="Carnota">Carnota</option><option value="Carral">Carral</option><option value="Cartelle">Cartelle</option><option value="Castrelo de Miño">Castrelo de Miño</option><option value="Castrelo do Val">Castrelo do Val</option><option value="Castro Caldelas">Castro Caldelas</option><option value="Castro de Rei">Castro de Rei</option><option value="Castroverde">Castroverde</option><option value="Catoira">Catoira</option><option value="Cedeira">Cedeira</option><option value="Cee">Cee</option><option value="Celanova">Celanova</option><option value="Cenlle">Cenlle</option><option value="Cerdeda">Cerdeda</option><option value="Cerdedo-Cotobade">Cerdedo-Cotobade</option><option value="Cerdido">Cerdido</option><option value="Cervantes">Cervantes</option><option value="Cervo">Cervo</option><option value="Chandrexa de Queixa">Chandrexa de Queixa</option><option value="Chantada">Chantada</option><option value="Coirós">Coirós</option><option value="Coles">Coles</option><option value="Corcubión">Corcubión</option><option value="Coristanco">Coristanco</option><option value="Cortegada">Cortegada</option><option value="Cospeito">Cospeito</option><option value="Covelo">Covelo</option><option value="Crecente">Crecente</option><option value="Cualedro">Cualedro</option><option value="Culleredo">Culleredo</option><option value="Curtis">Curtis</option><option value="Dodro">Dodro</option><option value="Dozón">Dozón</option><option value="Dumbría">Dumbría</option><option value="Entrimo">Entrimo</option><option value="Esgos">Esgos</option><option value="Fene">Fene</option><option value="Ferrol">Ferrol</option><option value="Fisterra">Fisterra</option><option value="Folgoso do Courel">Folgoso do Courel</option><option value="Forcarei">Forcarei</option><option value="Fornelos de Montes">Fornelos de Montes</option><option value="Foz">Foz</option><option value="Frades">Frades</option><option value="Friol">Friol</option><option value="Gomesende">Gomesende</option><option value="Gondomar">Gondomar</option><option value="Guitiriz">Guitiriz</option><option value="Guntín">Guntín</option><option value="Irixoa">Irixoa</option><option value="Lalín">Lalín</option><option value="Lama">Lama</option><option value="Láncara">Láncara</option><option value="Larouco">Larouco</option><option value="Laxe">Laxe</option><option value="Laza">Laza</option><option value="Leiro">Leiro</option><option value="Lobeira">Lobeira</option><option value="Lobios">Lobios</option><option value="Lourenzá">Lourenzá</option><option value="Lousame">Lousame</option><option value="Lugo">Lugo</option><option value="Maceda">Maceda</option><option value="Malpica de Bergantiños">Malpica de Bergantiños</option><option value="Manzaneda">Manzaneda</option><option value="Mañón">Mañón</option><option value="Marín">Marín</option><option value="Maside">Maside</option><option value="Mazaricos">Mazaricos</option><option value="Meaño">Meaño</option><option value="Meira">Meira</option><option value="Meis">Meis</option><option value="Melide">Melide</option><option value="Melón">Melón</option><option value="Mesía">Mesía</option><option value="Miño">Miño</option><option value="Moaña">Moaña</option><option value="Moeche">Moeche</option><option value="Mondariz">Mondariz</option><option value="Mondariz-Balneario">Mondariz-Balneario</option><option value="Mondoñedo">Mondoñedo</option><option value="Monfero">Monfero</option><option value="Monforte de Lemos">Monforte de Lemos</option><option value="Montederramo">Montederramo</option><option value="Monterrei">Monterrei</option><option value="Monterroso">Monterroso</option><option value="Moraña">Moraña</option><option value="Mos">Mos</option><option value="Mugardos">Mugardos</option><option value="Muras">Muras</option><option value="Muros">Muros</option><option value="Muxía">Muxía</option><option value="Narón">Narón</option><option value="Navia de Suarna">Navia de Suarna</option><option value="Neda">Neda</option><option value="Negreira">Negreira</option><option value="Negueira de Muñiz">Negueira de Muñiz</option><option value="Nigrán">Nigrán</option><option value="Nogueira de Ramuín">Nogueira de Ramuín</option><option value="Noia">Noia</option><option value="As Neves">As Neves</option><option value="As Nogais">As Nogais</option><option value="O Barco de Valdeorras">O Barco de Valdeorras</option><option value="O Bolo">O Bolo</option><option value="O Carballiño">O Carballiño</option><option value="O Corgo">O Corgo</option><option value="O Irixo">O Irixo</option><option value="O Incio">O Incio</option><option value="O Páramo">O Páramo</option><option value="O Pereiro de Aguiar">O Pereiro de Aguiar</option><option value="O Pino">O Pino</option><option value="O Porriño">O Porriño</option><option value="O Rosal">O Rosal</option><option value="O Saviñao">O Saviñao</option><option value="O Valadouro">O Valadouro</option><option value="O Vicedo">O Vicedo</option><option value="Oia">Oia</option><option value="Oímbra">Oímbra</option><option value="Oleiros">Oleiros</option><option value="Ordes">Ordes</option><option value="Oroso">Oroso</option><option value="Ortigueira">Ortigueira</option><option value="Ourense">Ourense</option><option value="Ourol">Ourol</option><option value="Outeiro de Rei">Outeiro de Rei</option><option value="Outes">Outes</option><option value="Oza-Cesuras">Oza-Cesuras</option><option value="Paderne">Paderne</option><option value="Paderne de Allariz">Paderne de Allariz</option><option value="Padrenda">Padrenda</option><option value="Padrón">Padrón</option><option value="Palas de Rei">Palas de Rei</option><option value="Pantón">Pantón</option><option value="Parada de Sil">Parada de Sil</option><option value="Paradela">Paradela</option><option value="A Pastoriza">A Pastoriza</option><option value="Pazos de Borbén">Pazos de Borbén</option><option value="Pedrafita do Cebreiro">Pedrafita do Cebreiro</option><option value="Petín">Petín</option><option value="Piñor">Piñor</option><option value="Poio">Poio</option><option value="Pol">Pol</option><option value="Ponte Caldelas">Ponte Caldelas</option><option value="Ponteareas">Ponteareas</option><option value="Ponteceso">Ponteceso</option><option value="Pontecesures">Pontecesures</option><option value="Pontedeume">Pontedeume</option><option value="Pontedeva">Pontedeva</option><option value="Pontevedra">Pontevedra</option><option value="As Pontes de García Rodríguez">As Pontes de García Rodríguez</option><option value="Porqueira">Porqueira</option><option value="Portas">Portas</option><option value="Porto do Son">Porto do Son</option><option value="Portomarín">Portomarín</option><option value="Punxín">Punxín</option><option value="Quintela de Leirado">Quintela de Leirado</option><option value="Quiroga">Quiroga</option><option value="Rairiz de Veiga">Rairiz de Veiga</option><option value="Ramirás">Ramirás</option><option value="Redondela">Redondela</option><option value="Rianxo">Rianxo</option><option value="Ribadavia">Ribadavia</option><option value="Ribadeo">Ribadeo</option><option value="Ribadumia">Ribadumia</option><option value="Ribas de Sil">Ribas de Sil</option><option value="Ribeira">Ribeira</option><option value="Ribeira de Piquín">Ribeira de Piquín</option><option value="Riós">Riós</option><option value="Riotorto">Riotorto</option><option value="Rodeiro">Rodeiro</option><option value="Rois">Rois</option><option value="Rubiá">Rubiá</option><option value="Sada">Sada</option><option value="Salceda de Caselas">Salceda de Caselas</option><option value="Salvaterra de Miño">Salvaterra de Miño</option><option value="Samos">Samos</option><option value="San Amaro">San Amaro</option><option value="San Cristovo de Cea">San Cristovo de Cea</option><option value="San Sadurniño">San Sadurniño</option><option value="San Xoán de Río">San Xoán de Río</option><option value="Sandiás">Sandiás</option><option value="Santa Comba">Santa Comba</option><option value="Santiago de Compostela">Santiago de Compostela</option><option value="Santiso">Santiso</option><option value="Sanxenxo">Sanxenxo</option><option value="Sarreaus">Sarreaus</option><option value="Sarria">Sarria</option><option value="Silleda">Silleda</option><option value="Sober">Sober</option><option value="Sobrado">Sobrado</option><option value="As Somozas">As Somozas</option><option value="Soutomaior">Soutomaior</option><option value="Taboada">Taboada</option><option value="Taboadela">Taboadela</option><option value="Teo">Teo</option><option value="Toén">Toén</option><option value="Tomiño">Tomiño</option><option value="Toques">Toques</option><option value="Tordoia">Tordoia</option><option value="Touro">Touro</option><option value="Trabada">Trabada</option><option value="Trasmiras">Trasmiras</option><option value="Trazo">Trazo</option><option value="Triacastela">Triacastela</option><option value="Tui">Tui</option><option value="Val do Dubra">Val do Dubra</option><option value="Valdoviño">Valdoviño</option><option value="Valga">Valga</option><option value="Vedra">Vedra</option><option value="Verea">Verea</option><option value="Verín">Verín</option><option value="Viana do Bolo">Viana do Bolo</option><option value="Vigo">Vigo</option><option value="Vila de Cruces">Vila de Cruces</option><option value="Vilaboa">Vilaboa</option><option value="Vilagarcía de Arousa">Vilagarcía de Arousa</option><option value="Vilalba">Vilalba</option><option value="Vilamarín">Vilamarín</option><option value="Vilamartín de Valdeorras">Vilamartín de Valdeorras</option><option value="Vilanova de Arousa">Vilanova de Arousa</option><option value="Vilar de Barrio">Vilar de Barrio</option><option value="Vilar de Santos">Vilar de Santos</option><option value="Vilardevós">Vilardevós</option><option value="Vilariño de Conso">Vilariño de Conso</option><option value="Vilarmaior">Vilarmaior</option><option value="Vilasantar">Vilasantar</option><option value="Vimianzo">Vimianzo</option><option value="Viveiro">Viveiro</option><option value="Xermade">Xermade</option><option value="Xinzo de Limia">Xinzo de Limia</option><option value="Xove">Xove</option><option value="Xunqueira de Ambía">Xunqueira de Ambía</option><option value="Xunqueira de Espadanedo">Xunqueira de Espadanedo</option><option value="Zas">Zas</option>
           </select>
         </div>
 
@@ -852,21 +857,21 @@
 
   <div id="map-container">
     
-    <!-- BUSCADOR REDESEÑADO CON 3 APARTADOS (BUSCA POR TERMOS, DIALECTO E LUGAR) -->
+    <!-- BUSCADOR REDESEÑADO CON 3 APARTADOS -->
     <div class="filter-panel">
       <h3>
         <svg class="search-icon" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
         Buscador
       </h3>
       
-      <!-- Pestanas superiores de selección -->
+      <!-- Pestanas superiores de selección (Dialecto pasa a Área lingüística) -->
       <div class="search-tabs">
         <button id="tabBtnTermo" class="search-tab-btn active" onclick="switchSearchTab('termo')">Termos</button>
-        <button id="tabBtnDialecto" class="search-tab-btn" onclick="switchSearchTab('dialecto')">Dialecto</button>
+        <button id="tabBtnDialecto" class="search-tab-btn" onclick="switchSearchTab('dialecto')">Área lingüística</button>
         <button id="tabBtnLugar" class="search-tab-btn" onclick="switchSearchTab('lugar')">Lugar</button>
       </div>
 
-      <!-- APARTADO 1: Busca por Termo / Variable / Variante (Por defecto) -->
+      <!-- APARTADO 1: Busca por Termo / Variable / Variante -->
       <div id="searchTabTermo" class="search-tab-content">
         <div class="filter-group">
           <label for="searchInput">Escribir termo:</label>
@@ -947,7 +952,8 @@
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM7J-V4z8IRqX5Fr6qdodnNq_PWXJjVspePhH3xIb0wqz8CjBZETB-6JRLPcaMk1xMq-7X1DGgxt3O/pub?gid=0&single=true&output=csv';                 
     // =========================================================================
 
-    let currentSearchTab = 'termo'; // 'termo', 'dialecto', 'lugar'
+    let currentSearchTab = 'termo'; 
+    let lastSearchedTerm = '';
 
     function switchSearchTab(tabName) {
       currentSearchTab = tabName;
@@ -1159,9 +1165,14 @@
     
     let sessionInformanteId = null;
 
+    // AL ABRIR A BARRA LATERAL A MASCOTA DESPRÁZASE Á ESQUERDA
     function toggleMenu() {
       sidebar.classList.toggle('open');
       overlay.classList.toggle('active');
+      const assistantContainer = document.getElementById('assistantContainer');
+      if (assistantContainer) {
+        assistantContainer.classList.toggle('shifted', sidebar.classList.contains('open'));
+      }
     }
 
     openMenuBtn.addEventListener('click', toggleMenu);
@@ -1379,15 +1390,26 @@
       });
     }
 
+    // PREMER NA MASCOTA APERTURA DO FORMULARIO AUTOCOMPLETADO
     if (assistantAvatar) {
       assistantAvatar.addEventListener('click', () => {
-        if (currentAction === 'suggest') {
+        if (currentAction === 'suggest_contact') {
           if (!sidebar.classList.contains('open')) {
             toggleMenu();
           }
-          openSurveyView();
+          closeSurveyView();
+          
+          const msgInput = document.getElementById('contactMessage');
+          if (msgInput) {
+            msgInput.value = lastSearchedTerm 
+              ? `Suxestión de termo/variante: ${lastSearchedTerm}` 
+              : "Suxestión de termo:";
+            msgInput.focus();
+            msgInput.scrollIntoView({ behavior: 'smooth' });
+          }
+          speakAssistant("Déixanos a túa suxestión ou variante no formulario de contacto!", false, 4000);
         } else {
-          speakAssistant("Lembra que podes filtrar por termo, variable ou concello para explorar a nosa lingua!", false, 4000);
+          speakAssistant("Lembra que podes filtrar por termo, área lingüística ou lugar para explorar a nosa lingua!", false, 4000);
         }
       });
     }
@@ -1493,10 +1515,24 @@
         return;
       }
 
+      // MANEXO DE MENSAXES SE DAS BUSCAS NON SAIINGA NINGÚN TERMO
       if (filtered.length === 0) {
-        showToast('Non se atoparon termos');
-        currentAction = 'suggest';
-        speakAssistant(`Vaia! Non atopamos termos para esta busca. Preme en min para enviarmos a túa variante no test do menú!`, false);
+        if (currentSearchTab === 'termo') {
+          showToast('Non se atoparon termos');
+          currentAction = 'suggest_contact';
+          const sText = document.getElementById('searchInput') ? document.getElementById('searchInput').value.trim() : '';
+          const vVar = document.getElementById('variableFilter') ? document.getElementById('variableFilter').value : '';
+          const vVarOb = document.getElementById('variantFilter') ? document.getElementById('variantFilter').value : '';
+          lastSearchedTerm = sText || vVarOb || vVar || '';
+          
+          speakAssistant(`Vaia! Non atopamos termos para esta busca. Preme en min para enviarnos a túa suxestión no formulario!`, false);
+        } else if (currentSearchTab === 'dialecto') {
+          showToast('Non se atoparon termos para esta área lingüística');
+          speakAssistant(`Vaia! Non atopamos termos rexistrados para esta área lingüística.`, false);
+        } else if (currentSearchTab === 'lugar') {
+          showToast('Non se atoparon termos para esta localidade/concello');
+          speakAssistant(`Vaia! Non atopamos termos rexistrados para este concello ou localidade.`, false);
+        }
       } else {
         hideToast();
       }
@@ -1603,41 +1639,63 @@
       const selectedConcello = concelloEl ? concelloEl.value : '';
       locSelect.innerHTML = '<option value="">-- Tódalas localidades --</option>';
 
-      let relevantData = allData;
-      if (selectedConcello) {
-        relevantData = allData.filter(r => r['Concello'] === selectedConcello);
+      let listaLocalidades = [];
+      if (selectedConcello && mapaLocalidadesPorConcello[selectedConcello]) {
+        listaLocalidades = mapaLocalidadesPorConcello[selectedConcello];
+      } else {
+        const todasMapeadas = Object.values(mapaLocalidadesPorConcello).flat();
+        const todasCSV = allData.map(r => r['Localidade']).filter(Boolean);
+        listaLocalidades = [...new Set([...todasMapeadas, ...todasCSV])];
       }
 
-      const localidades = [...new Set(relevantData.map(r => r['Localidade']).filter(Boolean))].sort();
-      localidades.forEach(l => locSelect.add(new Option(l, l)));
+      listaLocalidades.sort().forEach(l => locSelect.add(new Option(l, l)));
     }
 
+    // POBOACIÓN COMPLETA DOS DESPRAZABLES DE ÁREA LINGÜÍSTICA E LUGAR
     function populateFilters() {
-      // 1. Variables en orde alfabética
+      // 1. Variables
       const variables = [...new Set(allData.map(r => r['Variable']).filter(Boolean))].sort();
       const varSelect = document.getElementById('variableFilter');
       if (varSelect) {
         variables.forEach(v => varSelect.add(new Option(v, v)));
       }
 
-      // 2. Bloque, Área e Subárea
-      const bloques = [...new Set(allData.map(r => r['Bloque']).filter(Boolean))].sort();
-      const areas = [...new Set(allData.map(r => r['Área']).filter(Boolean))].sort();
-      const subareas = [...new Set(allData.map(r => r['Subárea']).filter(Boolean))].sort();
+      // 2. Bloque, Área e Subárea completos
+      const bloquesCompletos = ["Bloque Occidental", "Bloque Central", "Bloque Oriental"];
+      const areasCompletas = [
+        "Área de Bergantiños (IA)", "Área Fisterrá (IB)", "Área de Pontevedra (IC)", 
+        "Área da Baixa Limia (IN)", "Área Mindoniense (IID)", "Área Lucu-auriensis (IIE)", 
+        "Área Central de Transición (IIF)", "Área Oriental de Transición (IIG)", 
+        "Área Asturiana (IIIH)", "Área dos Ancares (III I)", "Área de Zamora (IIIJ)", 
+        "Área Central Oriental (IIIM)"
+      ];
+      const subareasCompletas = [
+        "Bergantiñá", "Subárea do Xallas (IB-1)", "Subárea do Tambre (IB-2)", 
+        "Subárea de Bembibre (IB-3)", "Subárea de Santiago (IB-4)", "Fisterra-Soneira", 
+        "Subárea Ulla e Umia (IC-1)", "Subárea Verdugo e Miño (IC-2)", "Baixa Limia", 
+        "Mindoniense Occidental (IID-1)", "Mindoniense Oriental (IID-2)", "Lucense-Ourensá", 
+        "Transición Central", "Oímbra e Vilardevós (IIG-1)", "Eo-Navia (IIIH-1)", 
+        "Ancares", "Lubián e A Mezquita (IIIJ-2)", "Fonsagrada, Courel e Valdeorras (IIIM-1)", "Central"
+      ];
 
       const bloqueSelect = document.getElementById('bloqueFilter');
-      if (bloqueSelect) bloques.forEach(b => bloqueSelect.add(new Option(b, b)));
+      if (bloqueSelect) bloquesCompletos.sort().forEach(b => bloqueSelect.add(new Option(b, b)));
 
       const areaSelect = document.getElementById('areaFilter');
-      if (areaSelect) areas.forEach(a => areaSelect.add(new Option(a, a)));
+      if (areaSelect) areasCompletas.sort().forEach(a => areaSelect.add(new Option(a, a)));
 
       const subareaSelect = document.getElementById('subareaFilter');
-      if (subareaSelect) subareas.forEach(s => subareaSelect.add(new Option(s, s)));
+      if (subareaSelect) subareasCompletas.sort().forEach(s => subareaSelect.add(new Option(s, s)));
 
-      // 3. Concellos e Localidades
-      const concellos = [...new Set(allData.map(r => r['Concello']).filter(Boolean))].sort();
-      const concSelect = document.getElementById('concelloFilter');
-      if (concSelect) concellos.forEach(c => concSelect.add(new Option(c, c)));
+      // 3. Concellos completos (extraídos do select do test)
+      const concelloSurvey = document.getElementById('surveyConcello');
+      const concelloSelect = document.getElementById('concelloFilter');
+      if (concelloSurvey && concelloSelect) {
+        const concellosCompletos = Array.from(concelloSurvey.options)
+          .map(opt => opt.value)
+          .filter(Boolean);
+        concellosCompletos.sort().forEach(c => concelloSelect.add(new Option(c, c)));
+      }
 
       updateVariantDropdown();
       updateLocalidadeFilterDropdown();
@@ -1657,7 +1715,7 @@
     }
     if (variantFilter) variantFilter.addEventListener('change', renderMap);
 
-    // Escoitadores do Apartado 2: Dialecto
+    // Escoitadores do Apartado 2: Área lingüística
     const bloqueFilter = document.getElementById('bloqueFilter');
     const areaFilter = document.getElementById('areaFilter');
     const subareaFilter = document.getElementById('subareaFilter');
