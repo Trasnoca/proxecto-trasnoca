@@ -353,7 +353,7 @@
     .social-link .social-name { font-weight: 700; font-size: 0.9rem; }
     .social-link .social-handle { font-weight: 400; font-size: 0.8rem; opacity: 0.85; }
 
-    /* Formulario de Contacto (Formspree orixinal) */
+    /* Formulario de Contacto */
     .contact-form {
       display: flex;
       flex-direction: column;
@@ -782,7 +782,7 @@
         </div>
       </div>
 
-      <!-- PASO 2: TARXETA DO TEST CON IMAXE (SEN NOME DE VARIABLE) -->
+      <!-- PASO 2: TARXETA DO TEST CON IMAXE -->
       <div id="surveyStep2" style="display: none;">
         <button type="button" class="btn-back-link" onclick="backToCategories()">&larr; Cambiar de sección</button>
 
@@ -954,7 +954,7 @@
           { variable: "Chuchamel", file: "chuchamel.png" }
         ]
       },
-      "Construción": {
+      "Construcións": {
         items: [
           { variable: "Cabazo", file: "cabazo.png" },
           { variable: "Fonte", file: "fonte.png" },
@@ -984,9 +984,6 @@
     const surveyStep1 = document.getElementById('surveyStep1');
     const surveyStep2 = document.getElementById('surveyStep2');
     const surveyStep3 = document.getElementById('surveyStep3');
-    const catButtonsGrid = document.getElementById('catButtonsGrid');
-    const catSelectionTitle = document.getElementById('catSelectionTitle');
-    const btnBackToMainCats = document.getElementById('btnBackToMainCats');
 
     // Elementos da Mascota
     const assistantBubble = document.getElementById('assistantBubble');
@@ -1002,7 +999,7 @@
     let currentItemList = [];
     let currentItemIndex = 0;
     
-    // VARIABLE DE SESIÓN DO INFORMANTE (Mantense activa durante toda a navegación do test)
+    // SESIÓN ÚNICA DO INFORMANTE
     let sessionInformanteId = null;
 
     function toggleMenu() {
@@ -1024,13 +1021,19 @@
     function closeSurveyView() {
       sidebarSurveyView.style.display = 'none';
       sidebarMainView.style.display = 'block';
-      sessionInformanteId = null; // Resétase o informante se sae do test por completo
+      sessionInformanteId = null;
       resetToCategories();
     }
 
     function renderMainCategories() {
-      catSelectionTitle.textContent = "Escolle unha sección para comezar:";
-      btnBackToMainCats.style.display = 'none';
+      const catSelectionTitle = document.getElementById('catSelectionTitle');
+      const btnBackToMainCats = document.getElementById('btnBackToMainCats');
+      const catButtonsGrid = document.getElementById('catButtonsGrid');
+
+      if (catSelectionTitle) catSelectionTitle.textContent = "Escolle unha sección para comezar:";
+      if (btnBackToMainCats) btnBackToMainCats.style.display = 'none';
+      if (!catButtonsGrid) return;
+
       catButtonsGrid.innerHTML = '';
 
       Object.keys(surveyData).forEach(catName => {
@@ -1038,86 +1041,110 @@
         btn.type = 'button';
         btn.className = 'btn-cat-card';
         btn.innerHTML = `<span>${catName}</span> <span>&rarr;</span>`;
-        btn.onclick = () => selectMainCategory(catName);
+        btn.onclick = function() { selectMainCategory(catName); };
         catButtonsGrid.appendChild(btn);
       });
     }
 
     function selectMainCategory(catName) {
       const catObj = surveyData[catName];
+      if (!catObj) return;
+
+      const catSelectionTitle = document.getElementById('catSelectionTitle');
+      const btnBackToMainCats = document.getElementById('btnBackToMainCats');
+      const catButtonsGrid = document.getElementById('catButtonsGrid');
 
       if (catObj.subcategories) {
-        catSelectionTitle.textContent = `Escolle o tipo dentro de ${catName}:`;
-        btnBackToMainCats.style.display = 'inline-flex';
-        catButtonsGrid.innerHTML = '';
-
-        Object.keys(catObj.subcategories).forEach(subName => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'btn-cat-card';
-          btn.innerHTML = `<span>${subName}</span> <span>&rarr;</span>`;
-          btn.onclick = () => validateAndStartTest(`${catName} (${subName})`, catObj.subcategories[subName]);
-          catButtonsGrid.appendChild(btn);
-        });
-      } else {
+        if (catSelectionTitle) catSelectionTitle.textContent = `Escolle o tipo dentro de ${catName}:`;
+        if (btnBackToMainCats) btnBackToMainCats.style.display = 'inline-flex';
+        if (catButtonsGrid) {
+          catButtonsGrid.innerHTML = '';
+          Object.keys(catObj.subcategories).forEach(subName => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn-cat-card';
+            btn.innerHTML = `<span>${subName}</span> <span>&rarr;</span>`;
+            btn.onclick = function() {
+              validateAndStartTest(`${catName} (${subName})`, catObj.subcategories[subName]);
+            };
+            catButtonsGrid.appendChild(btn);
+          });
+        }
+      } else if (catObj.items) {
         validateAndStartTest(catName, catObj.items);
       }
     }
 
     function validateAndStartTest(categoryLabel, itemList) {
-      const concello = document.getElementById('surveyConcello').value.trim();
-      const localidade = document.getElementById('surveyLocalidade').value.trim();
-      const xenero = document.getElementById('surveyXenero').value;
-      const idade = document.getElementById('surveyIdade').value;
+      const concelloEl = document.getElementById('surveyConcello');
+      const localidadeEl = document.getElementById('surveyLocalidade');
+      const xeneroEl = document.getElementById('surveyXenero');
+      const idadeEl = document.getElementById('surveyIdade');
+
+      const concello = concelloEl ? concelloEl.value.trim() : '';
+      const localidade = localidadeEl ? localidadeEl.value.trim() : '';
+      const xenero = xeneroEl ? xeneroEl.value : '';
+      const idade = idadeEl ? idadeEl.value : '';
 
       if (!xenero || !idade || !concello || !localidade) {
         alert('Por favor, cobre os datos de xénero, idade, concello e localidade antes de comezar o test.');
         return;
       }
 
-      // Se é a primeira sección que fai o usuario, xeramos un ID de sesión único
       if (!sessionInformanteId) {
-        sessionInformanteId = 'INF-' + Math.floor(1000 + Math.random() * 9000);
+        sessionInformanteId = 'SES-' + Date.now() + '-' + Math.floor(Math.random() * 1000);
       }
 
       currentCategoryName = categoryLabel;
-      currentItemList = itemList;
+      currentItemList = itemList || [];
       currentItemIndex = 0;
 
-      surveyStep1.style.display = 'none';
-      surveyStep2.style.display = 'block';
-      surveyStep3.style.display = 'none';
+      if (surveyStep1) surveyStep1.style.display = 'none';
+      if (surveyStep2) surveyStep2.style.display = 'block';
+      if (surveyStep3) surveyStep3.style.display = 'none';
 
       loadCurrentTerm();
     }
 
     function loadCurrentTerm() {
       if (!currentItemList || currentItemIndex >= currentItemList.length) {
-        surveyStep2.style.display = 'none';
-        surveyStep3.style.display = 'block';
+        if (surveyStep2) surveyStep2.style.display = 'none';
+        if (surveyStep3) surveyStep3.style.display = 'block';
         return;
       }
 
       const item = currentItemList[currentItemIndex];
-      document.getElementById('surveyProgressBadge').textContent = `${currentCategoryName} • Termo ${currentItemIndex + 1} de ${currentItemList.length}`;
+      const badge = document.getElementById('surveyProgressBadge');
+      if (badge) {
+        badge.textContent = `${currentCategoryName} • Termo ${currentItemIndex + 1} de ${currentItemList.length}`;
+      }
       
-      document.getElementById('surveyImage').src = item.file;
+      const img = document.getElementById('surveyImage');
+      if (img && item) {
+        img.src = item.file || '';
+      }
       
-      document.getElementById('surveyAnswerInput').value = '';
-      document.getElementById('surveyAnswerInput').focus();
+      const input = document.getElementById('surveyAnswerInput');
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
     }
 
     function submitCurrentTerm() {
-      const varianteText = document.getElementById('surveyAnswerInput').value.trim();
+      const input = document.getElementById('surveyAnswerInput');
+      const varianteText = input ? input.value.trim() : '';
+
       if (!varianteText) {
         alert('Por favor, indica como lle chamades na túa zona.');
         return;
       }
 
       const currentItem = currentItemList[currentItemIndex];
+      if (!currentItem) return;
 
       const payload = {
-        id_informante: sessionInformanteId, // Envía o mesmo ID durante toda a sesión
+        id_informante: sessionInformanteId,
         categoria: currentCategoryName,
         xenero: document.getElementById('surveyXenero').value,
         idade: document.getElementById('surveyIdade').value,
@@ -1142,30 +1169,33 @@
     }
 
     function backToCategories() {
-      surveyStep2.style.display = 'none';
-      surveyStep3.style.display = 'none';
-      surveyStep1.style.display = 'block';
+      if (surveyStep2) surveyStep2.style.display = 'none';
+      if (surveyStep3) surveyStep3.style.display = 'none';
+      if (surveyStep1) surveyStep1.style.display = 'block';
       renderMainCategories();
     }
 
     function resetToCategories() {
-      surveyStep2.style.display = 'none';
-      surveyStep3.style.display = 'none';
-      surveyStep1.style.display = 'block';
+      if (surveyStep2) surveyStep2.style.display = 'none';
+      if (surveyStep3) surveyStep3.style.display = 'none';
+      if (surveyStep1) surveyStep1.style.display = 'block';
       renderMainCategories();
     }
 
     function showToast(msg) {
-      toast.textContent = msg;
-      toast.classList.add('show');
+      if (toast) {
+        toast.textContent = msg;
+        toast.classList.add('show');
+      }
     }
 
     function hideToast() {
-      toast.classList.remove('show');
+      if (toast) toast.classList.remove('show');
     }
 
     // Lóxica da Mascota (Pandeireta)
     function speakAssistant(text, showBtns = false, autoHideMs = 0) {
+      if (!assistantText || !assistantBubble || !assistantButtons) return;
       assistantText.innerHTML = text;
       assistantBubble.style.display = 'block';
       assistantButtons.style.display = showBtns ? 'flex' : 'none';
@@ -1177,28 +1207,36 @@
       }
     }
 
-    assistantClose.addEventListener('click', () => {
-      assistantBubble.style.display = 'none';
-    });
+    if (assistantClose) {
+      assistantClose.addEventListener('click', () => {
+        if (assistantBubble) assistantBubble.style.display = 'none';
+      });
+    }
 
-    btnYes.addEventListener('click', () => {
-      speakAssistant("Trasnoca é un proxecto colaborativo! Os datos do mapa xorden das enquisas que facemos en Instagram e da propia comunidade. Podes navegar polo mapa ou participar no noso test no menú!", false, 9000);
-    });
+    if (btnYes) {
+      btnYes.addEventListener('click', () => {
+        speakAssistant("Trasnoca é un proxecto colaborativo! Os datos do mapa xorden das enquisas que facemos en Instagram e da propia comunidade. Podes navegar polo mapa ou participar no noso test no menú!", false, 9000);
+      });
+    }
 
-    btnNo.addEventListener('click', () => {
-      speakAssistant("Entón, adiante!", false, 3000);
-    });
+    if (btnNo) {
+      btnNo.addEventListener('click', () => {
+        speakAssistant("Entón, adiante!", false, 3000);
+      });
+    }
 
-    assistantAvatar.addEventListener('click', () => {
-      if (currentAction === 'suggest') {
-        if (!sidebar.classList.contains('open')) {
-          toggleMenu();
+    if (assistantAvatar) {
+      assistantAvatar.addEventListener('click', () => {
+        if (currentAction === 'suggest') {
+          if (!sidebar.classList.contains('open')) {
+            toggleMenu();
+          }
+          openSurveyView();
+        } else {
+          speakAssistant("Lembra que podes filtrar por termo, variable ou concello para explorar a nosa lingua!", false, 4000);
         }
-        openSurveyView();
-      } else {
-        speakAssistant("Lembra que podes filtrar por termo, variable ou concello para explorar a nosa lingua!", false, 4000);
-      }
-    });
+      });
+    }
 
     const hotLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
       maxZoom: 19, attribution: '&copy; OpenStreetMap'
@@ -1230,10 +1268,15 @@
       variantColorMap = {};
       currentAction = null;
 
-      const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
-      const selectedVariable = document.getElementById('variableFilter').value;
-      const selectedVariant = document.getElementById('variantFilter').value;
-      const selectedConcello = document.getElementById('concelloFilter').value;
+      const searchEl = document.getElementById('searchInput');
+      const varEl = document.getElementById('variableFilter');
+      const variantEl = document.getElementById('variantFilter');
+      const concelloEl = document.getElementById('concelloFilter');
+
+      const searchText = searchEl ? searchEl.value.toLowerCase().trim() : '';
+      const selectedVariable = varEl ? varEl.value : '';
+      const selectedVariant = variantEl ? variantEl.value : '';
+      const selectedConcello = concelloEl ? concelloEl.value : '';
 
       const isFilterActive = searchText || selectedVariable || selectedVariant || selectedConcello;
 
@@ -1317,6 +1360,8 @@
 
     function updateLegend() {
       const legendDiv = document.getElementById('legend');
+      if (!legendDiv) return;
+
       const variants = Object.keys(variantColorMap);
       
       if (variants.length === 0) {
@@ -1337,8 +1382,11 @@
     }
 
     function updateVariantDropdown() {
-      const selectedVariable = document.getElementById('variableFilter').value;
+      const varEl = document.getElementById('variableFilter');
       const variantSelect = document.getElementById('variantFilter');
+      if (!variantSelect) return;
+
+      const selectedVariable = varEl ? varEl.value : '';
       variantSelect.innerHTML = '<option value="">-- Tódalas variantes --</option>';
 
       let relevantData = allData;
@@ -1355,21 +1403,32 @@
       const concellos = [...new Set(allData.map(r => r['Concello']).filter(Boolean))].sort();
 
       const varSelect = document.getElementById('variableFilter');
-      variables.forEach(v => varSelect.add(new Option(v, v)));
+      if (varSelect) {
+        variables.forEach(v => varSelect.add(new Option(v, v)));
+      }
 
       const concSelect = document.getElementById('concelloFilter');
-      concellos.forEach(c => concSelect.add(new Option(c, c)));
+      if (concSelect) {
+        concellos.forEach(c => concSelect.add(new Option(c, c)));
+      }
 
       updateVariantDropdown();
     }
 
-    document.getElementById('searchInput').addEventListener('input', renderMap);
-    document.getElementById('variableFilter').addEventListener('change', () => {
-      updateVariantDropdown();
-      renderMap();
-    });
-    document.getElementById('variantFilter').addEventListener('change', renderMap);
-    document.getElementById('concelloFilter').addEventListener('change', renderMap);
+    const searchInput = document.getElementById('searchInput');
+    const variableFilter = document.getElementById('variableFilter');
+    const variantFilter = document.getElementById('variantFilter');
+    const concelloFilter = document.getElementById('concelloFilter');
+
+    if (searchInput) searchInput.addEventListener('input', renderMap);
+    if (variableFilter) {
+      variableFilter.addEventListener('change', () => {
+        updateVariantDropdown();
+        renderMap();
+      });
+    }
+    if (variantFilter) variantFilter.addEventListener('change', renderMap);
+    if (concelloFilter) concelloFilter.addEventListener('change', renderMap);
 
     window.addEventListener('load', () => {
       speakAssistant("Douche a benvida a Trasnoca! É a túa primeira vez na páxina?", true);
