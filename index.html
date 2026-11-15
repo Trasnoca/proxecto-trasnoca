@@ -851,7 +851,7 @@
         <button id="btnNo" class="assistant-btn">Non</button>
       </div>
     </div>
-    <img id="assistantAvatar" src="pandeireta_normal.png" alt="Mascota Proxecto Trasnoca" class="assistant-avatar" onerror="this.style.display='none'">
+    <img id="assistantAvatar" src="pandeireta_normal.png" alt="Mascota Proxecto Trasnoca" class="assistant-avatar">
   </div>
 
   <div id="map-container">
@@ -951,10 +951,15 @@
     const URL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSM7J-V4z8IRqX5Fr6qdodnNq_PWXJjVspePhH3xIb0wqz8CjBZETB-6JRLPcaMk1xMq-7X1DGgxt3O/pub?gid=0&single=true&output=csv';                 
     // =========================================================================
 
-    // 1. IMAXES DA MASCOTA
+    // 1. IMAXES DA MASCOTA E PRECARGA EN MEMORIA
     const IMG_NORMAL = 'pandeireta_normal.png';
     const IMG_FALA_PECHADA = 'pandeireta_fala_pechada.png';
     const IMG_FALA_ABERTA = 'pandeireta_fala_aberta.png';
+
+    [IMG_NORMAL, IMG_FALA_PECHADA, IMG_FALA_ABERTA].forEach(src => {
+      const img = new Image();
+      img.src = src;
+    });
 
     // 2. ELEMENTOS DO DOM
     const sidebar = document.getElementById('sidebar');
@@ -1005,13 +1010,16 @@
       const numCiclos = Math.max(1, linasPorSaltos, linasPorLonxitude);
 
       let ciclosRealizados = 0;
+      let isMouthOpen = false;
       assistantAvatar.src = IMG_FALA_PECHADA;
 
       talkInterval = setInterval(() => {
-        if (assistantAvatar.src.includes(IMG_FALA_PECHADA)) {
+        if (!isMouthOpen) {
           assistantAvatar.src = IMG_FALA_ABERTA;
+          isMouthOpen = true;
         } else {
           assistantAvatar.src = IMG_FALA_PECHADA;
+          isMouthOpen = false;
           ciclosRealizados++;
           
           if (ciclosRealizados >= numCiclos) {
@@ -1126,7 +1134,7 @@
           speakAssistant("Lembra que podes explorar a nosa lingua de 3 xeitos: buscando por <strong>termo</strong>, por <strong>área lingüística</strong> ou por <strong>lugar</strong> no buscador da esquerda!", false, 9000, true);
         } else {
           assistantText.innerHTML = "Aínda non participaches? Axúdanos a completar o mapa dicíndonos como lle chamas ás cousas na túa zona!";
-          assistantButtons.innerHTML = `<button class="assistant-btn" onclick="irAEnquisaDesdeAsistente()">Ir á enquisa</button>`;
+          assistantButtons.innerHTML = `<button class="assistant-btn" onclick="irAEnquisaDesdeAsistente()">Ir á enquisa :)</button>`;
           assistantButtons.style.display = 'flex';
           if (assistantClose) assistantClose.style.display = 'block';
           assistantBubble.style.display = 'block';
